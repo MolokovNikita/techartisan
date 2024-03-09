@@ -1,0 +1,77 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    width: 100%;
+    background-color: rgb(109, 148, 137);
+    height: 120px;
+    display: flex;
+    flex-direction: row;
+}
+
+.Ref, .Menu {
+    display: flex;
+    list-style: none;
+    align-items: baseline;
+}
+
+.Ref li {
+    margin-right: 20px;
+    font-size: 20px;
+    padding-bottom: 50px;
+}
+
+.Menu li {
+    display: inline-block;
+    font-size: 20px;
+    padding-right: 40px;
+}
+
+.Auth {
+    margin-left: 520px;
+    padding-right: 0;
+}
+
+a {
+    color: white !important;
+    text-decoration: none !important;
+    font-weight: normal !important;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.logo {
+    padding-top: 10px;
+    scale: 70%;
+}
+
+.NavHead {
+    display: inline-block;
+    align-items: flex-end;
+    padding-bottom: 15px;
+}
+
+.Media {
+    display: flex;
+    flex-direction: column;
+}
+
+.Vkontakte, .Telegram {
+    padding-top: 10px;
+}
+
+.Telegram {
+    margin-left: 800px;
+}
+
+.Vkontakte img, .Telegram img {
+    vertical-align: middle;
+    margin-bottom: 2px;
+    margin-right: -3px;
+}
+
+.Telegram img {
+    margin-bottom: 3px;
+    margin-right: -2px;
+}
