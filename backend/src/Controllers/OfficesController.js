@@ -2,11 +2,11 @@ const pool = require('../Config/ormconfig');
 
 class OfficeController{
     async create(req, res) {
-        const { id, adressofice } = req.body;
+        const { id, adress } = req.body;
         const now = new Date().toISOString(); // Преобразование даты в строку в формате ISO
-        const sql_insert = `INSERT INTO offices (id, adressofice) VALUES
+        const sql_insert = `INSERT INTO offices (id, adress) VALUES
         ($1, $2)`;  // INSERT INTO offices (id, adressofice) VALUES (6, 'Gokfg');
-        const values = [id, adressofice];
+        const values = [id, adress];
         pool.query(sql_insert, values, (err, result) => {
             if (err) {
                 if (err.code === '23505') { // код ошибки 23505 обозначает конфликт уникальности
@@ -81,7 +81,7 @@ class OfficeController{
         });
     }
     async update(req, res) {
-        const {  id, adressofice } = req.body;
+        const {  id, adress } = req.body;
         // Проверяем, есть ли клиент с указанным id
         const sql_exist = `SELECT id FROM offices WHERE id = $1`;
         pool.query(sql_exist, [id], (err, result) => {
@@ -93,8 +93,8 @@ class OfficeController{
                 return res.status(400).send("Error: Office not found!");
             }
             // Обновляем запись клиента
-            const sql_update = `UPDATE positions SET adressofice = $2  WHERE id = $1`;
-            pool.query(sql_update, [id, adressofice], (err, result) => {
+            const sql_update = `UPDATE offices SET adress = $2  WHERE id = $1`;
+            pool.query(sql_update, [id, adress], (err, result) => {
                 if (err) {
                     console.error(err.message);
                     return res.status(400).send("Error: Failed to update office record! " + err.message);

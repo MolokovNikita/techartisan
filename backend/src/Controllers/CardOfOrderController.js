@@ -9,7 +9,7 @@ class CardOfOrderController {
         const sql_insert = `INSERT INTO cardoforder (id, price, description, ended, client_id, created) VALUES ($1, $2, $3, $4, $5, $6)`;
         const values = [id, price, description, ended, client_id, created];
         try {
-            const result = await pool.query(sql_insert, values);
+            await pool.query(sql_insert, values);
             res.send("Data inserted successfully!");
         } catch (err) {
             if (err.code === '23505') { // Код ошибки 23505 обозначает конфликт уникальности
