@@ -42,43 +42,35 @@ class StatusOfOrderToCardController{
         });
     }
     async deleteAll(req, res) {
-        const sql_count = "SELECT COUNT(*) FROM statusofordertocard"; 
-        pool.query(sql_count, (err, result) => {
-            if (err) {
-                return console.error(err.message);
-            }
-            const rowCount = result.rows[0].count; // Получить количество записей из результата запроса
+        try {
+            const result = await pool.query("SELECT COUNT(*) FROM statusofordertocard");
+            const rowCount = result.rows[0].count;
             if (rowCount === '0') {
                 return res.status(400).send("Error: Table is empty!");
             }
-            const sql_delete = "DELETE FROM statusofordertocard"; 
-            pool.query(sql_delete, (err, result) => {
-                if (err) {
-                    return console.error(err.message);
-                }
-                res.send("All records deleted successfully!");
-            });
-        });
+            await pool.query("DELETE FROM statusofordertocard");
+            res.send("All records deleted successfully!");
+        } catch (err) {
+            console.error(err.message);
+            return res.status(400).send("Error: Failed to delete all records! " + err.message);
+        }
     }
+    
     async deleteOne(req, res) {
         const cardoforder_id = req.params.id;
-        const sql_exist = `SELECT cardoforder_id FROM statusofordertocard WHERE cardoforder_id = $1`;
-        pool.query(sql_exist, [cardoforder_id], (err, result) => {
-            if (err) {
-                return res.status(400).send("Error " + err.message);
-            }
+        try {
+            const result = await pool.query(`SELECT cardoforder_id FROM statusofordertocard WHERE cardoforder_id = $1`, [cardoforder_id]);
             if (result.rows.length === 0) {
                 return res.status(400).send("Error: Relation not found!");
             }
-            const sql_delete = `DELETE FROM statusofordertocard WHERE cardoforder_id = $1`;
-            pool.query(sql_delete, [cardoforder_id], (err, result) => {
-                if (err) {
-                    return console.error(err.message);
-                }
-                res.send("Your record was deleted successfully!");
-            });
-        });
+            await pool.query(`DELETE FROM statusofordertocard WHERE cardoforder_id = $1`, [cardoforder_id]);
+            res.send("Your record was deleted successfully!");
+        } catch (err) {
+            console.error(err.message);
+            return res.status(400).send("Error: Failed to delete the record! " + err.message);
+        }
     }
+    
     async deleteOneStatus(req, res) {
         const { cardoforder_id, statusoforder_id } = req.body;
         const sql_exist = `SELECT * FROM statusofordertocard WHERE cardoforder_id = $1 AND statusoforder_id = $2 `;

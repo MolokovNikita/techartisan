@@ -22,21 +22,21 @@ const PORT = process.env.PORT || 5002;
 app.use(express.json());
 
 //  CRUD ROUTERS
-app.use('/clients', clientRouter);
-app.use('/staff', staffRouter); 
-app.use('/positions', positionRouter);
-app.use('/offices', officeRouter);
-app.use('/services', serviceRouter);
-app.use('/statuses', orderStatusRouter);
-app.use('/devices',devicesRouter);
-app.use('/order-card',cardOfOrderRouter);
+app.use('/clients', clientRouter); // id, f_name, l_name, login, pass, email, created, deleted
+app.use('/staff', staffRouter);  // id , f_name, l_name, login, pass, hired, dismissed
+app.use('/positions', positionRouter); // id, position
+app.use('/offices', officeRouter); // id, adress
+app.use('/services', serviceRouter); //id, price, name
+app.use('/statuses', orderStatusRouter); // id, orderstatus 
+app.use('/devices',devicesRouter); // id, name
+app.use('/order-card',cardOfOrderRouter); // id, price, description, created, ended, client_id
 // M : M entities
-app.use('/positions-staff',positionToStaffRouter)
-app.use('/devices-order', devicesToCardRouter) 
-app.use('/services-order',serviceToCardRouter)
-app.use('/offices-order', officesToCardRouter)
-app.use('/staff-order', staffToCardRouter)
-app.use('/status-order',statusOfOrderToCardRouter)
+app.use('/positions-staff',positionToStaffRouter) // staff_id, positions_id
+app.use('/devices-order', devicesToCardRouter) //cardoforder_id, devices_id
+app.use('/services-order',serviceToCardRouter) // cardoforder_id, services_id
+app.use('/offices-order', officesToCardRouter) //cardoforder_id, offices_id
+app.use('/staff-order', staffToCardRouter) // cardoforder_id, staff_id
+app.use('/status-order',statusOfOrderToCardRouter) // cardoforder_id, statusoforder_id
 
 app.use((err, req, res, next) => {
     console.error(err.stack);

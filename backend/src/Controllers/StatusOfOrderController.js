@@ -43,43 +43,35 @@ class StatusOfOrderController{
         });
     }
     async deleteAll(req, res) {
-        const sql_count = "SELECT COUNT(*) FROM statusoforder"; // Подсчитать количество записей в таблице client
-        pool.query(sql_count, (err, result) => {
-            if (err) {
-                return console.error(err.message);
-            }
-            const rowCount = result.rows[0].count; // Получить количество записей из результата запроса
+        try {
+            const result = await pool.query("SELECT COUNT(*) FROM statusoforder");
+            const rowCount = result.rows[0].count;
             if (rowCount === '0') {
                 return res.status(400).send("Error: Table is empty!");
             }
-            const sql_delete = "DELETE FROM statusoforder"; // Удалить все записи из таблицы client
-            pool.query(sql_delete, (err, result) => {
-                if (err) {
-                    return console.error(err.message);
-                }
-                res.send("All records deleted successfully!");
-            });
-        });
+            await pool.query("DELETE FROM statusoforder");
+            res.send("All records deleted successfully!");
+        } catch (err) {
+            console.error(err.message);
+            return res.status(400).send("Error: Failed to delete all records! " + err.message);
+        }
     }
+    
     async deleteOne(req, res) {
         const id = req.params.id;
-        const sql_exist = `SELECT id FROM statusoforder WHERE id = $1`;
-        pool.query(sql_exist, [id], (err, result) => {
-            if (err) {
-                return res.status(400).send("Error " + err.message);
-            }
+        try {
+            const result = await pool.query(`SELECT id FROM statusoforder WHERE id = $1`, [id]);
             if (result.rows.length === 0) {
                 return res.status(400).send("Error: Order-status not found!");
             }
-            const sql_delete = `DELETE FROM statusoforder WHERE id = $1`;
-            pool.query(sql_delete, [id], (err, result) => {
-                if (err) {
-                    return console.error(err.message);
-                }
-                res.send("Your record was deleted successfully!");
-            });
-        });
+            await pool.query(`DELETE FROM statusoforder WHERE id = $1`, [id]);
+            res.send("Your record was deleted successfully!");
+        } catch (err) {
+            console.error(err.message);
+            return res.status(400).send("Error: Failed to delete the record! " + err.message);
+        }
     }
+    
     async update(req, res) {
         const { id, orderstatus } = req.body;
         // Проверяем, есть ли клиент с указанным id

@@ -27,7 +27,7 @@ class ClientController {
             // Преобразование даты и времени в нужный часовой пояс
             const formattedData = result.rows.map(row => ({
                 ...row,
-                created: new Date(row.created).toLocaleString('en-US', { timeZone: 'Europe/Moscow' }) // Замените 'Europe/Moscow' на ваш часовой пояс
+                created: row.created ? new Date(row.created).toLocaleString('en-US', { timeZone: 'Europe/Moscow' }) : null // Замените 'Europe/Moscow' на ваш часовой пояс
             }));
 
             res.json(formattedData);
@@ -49,50 +49,42 @@ class ClientController {
             // Преобразование даты и времени в нужный часовой пояс
             const formattedData = {
                 ...result.rows[0],
-                created: new Date(result.rows[0].created).toLocaleString('en-US', { timeZone: 'Europe/Moscow' }) // Замените 'Europe/Moscow' на ваш часовой пояс
+                created: row.created ? new Date(result.rows[0].created).toLocaleString('en-US', { timeZone: 'Europe/Moscow' }) : null// Замените 'Europe/Moscow' на ваш часовой пояс
             };
             res.json(formattedData); // Отправка данных пользователя в формате JSON
         });
     }
     
     async deleteAll(req, res) {
-        const sql_count = "SELECT COUNT(*) FROM client"; // Подсчитать количество записей в таблице client
-        pool.query(sql_count, (err, result) => {
-            if (err) {
-                return console.error(err.message);
-            }
-            const rowCount = result.rows[0].count; // Получить количество записей из результата запроса
+        try {
+            const result = await pool.query("SELECT COUNT(*) FROM client");
+            const rowCount = result.rows[0].count;
             if (rowCount === '0') {
                 return res.status(400).send("Error: Table is empty!");
             }
-            const sql_delete = "DELETE FROM client"; // Удалить все записи из таблицы client
-            pool.query(sql_delete, (err, result) => {
-                if (err) {
-                    return console.error(err.message);
-                }
-                res.send("All records deleted successfully!");
-            });
-        });
+            await pool.query("DELETE FROM client");
+            res.send("All records deleted successfully!");
+        } catch (err) {
+            console.error(err.message);
+            return res.status(400).send("Error: Failed to delete all records! " + err.message);
+        }
     }
+    
     async deleteOne(req, res) {
         const id = req.params.id;
-        const sql_exist = `SELECT id FROM client WHERE id = $1`;
-        pool.query(sql_exist, [id], (err, result) => {
-            if (err) {
-                return res.status(400).send("Error " + err.message);
-            }
+        try {
+            const result = await pool.query(`SELECT id FROM client WHERE id = $1`, [id]);
             if (result.rows.length === 0) {
                 return res.status(400).send("Error: Client not found!");
             }
-            const sql_delete = `DELETE FROM client WHERE id = $1`;
-            pool.query(sql_delete, [id], (err, result) => {
-                if (err) {
-                    return console.error(err.message);
-                }
-                res.send("Your record was deleted successfully!");
-            });
-        });
+            await pool.query(`DELETE FROM client WHERE id = $1`, [id]);
+            res.send("Your record was deleted successfully!");
+        } catch (err) {
+            console.error(err.message);
+            return res.status(400).send("Error: Failed to delete the record! " + err.message);
+        }
     }
+    
     async update(req, res) {
         const { f_name, l_name, login, pass, email, created, deleted, id } = req.body;
         // Проверяем, есть ли клиент с указанным id
