@@ -1,0 +1,138 @@
+.AuthModal_background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.AuthModal_card {
+  font-family: "Inter", sans-serif;
+  font-weight:lighter;
+  font-size: 1.5rem;
+  background-color: white;
+  padding: 25px;
+  width: 400px;
+  border-radius: 20px;
+}
+.Login {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Inter", sans-serif;
+  font-weight:lighter;
+  font-size: 2rem;
+}
+.Login_area_container{
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Login_area { 
+  font-family: "Inter", sans-serif;
+  font-weight:lighter;
+  font-size: 1.2rem;
+  border: none;
+  width: 300px;
+  transition: all 0.2s;
+  border-bottom: 1px solid black;
+}
+.Login_area:focus{
+  outline: none;
+  border-bottom: 1px solid green;
+
+}
+.Password_area_container{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.Password_area{
+  font-family: "Inter", sans-serif;
+  font-weight:lighter;
+  font-size: 1.2rem;
+  width: 300px;
+  border: none;
+  transition: all 0.3s;
+  border-bottom: 1px solid black;
+}
+.Password_area:focus {
+  outline: none;
+  border-bottom: 1px solid green;
+}
+
+.close{ 
+  display: flex;
+  justify-content: end;
+}
+.closeImage{
+  height: 1.5rem;
+  cursor: pointer;
+}
+.closeButton{
+  background: none repeat scroll 0 0 transparent;
+  border: medium none;
+  border-spacing: 0;
+  color: #26589F;
+  font-family: 'PT Sans Narrow',sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.42rem;
+  list-style: none outside none;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+  text-decoration: none;
+  text-indent: 0;
+  cursor: pointer;
+}
+.FortgotPass_container{
+  font-family: "Inter", sans-serif;
+  font-weight:lighter;
+  font-size: 1rem;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.FortgotPass_container > a { 
+  margin-left: 50px;
+  color: rgba(46, 98, 46, 0.7);
+  
+}
+.FortgotPass_container > a:hover { 
+  color: rgb(116, 197, 116);
+}
+.auth_container{
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.auth_container > button { 
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  background: none;
+  border: none;
+  padding: 5px 100px;
+  font-size: 1.5rem;
+  background-color: rgba(136,226,139,0.4);
+  border-radius: 1em;
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.auth_container > button:hover{
+  background-color: rgba(136,226,139,0.8);  
+}
+.auth_container > button:active{
+  background-color: rgba(136,226,139,1);  
+}
+

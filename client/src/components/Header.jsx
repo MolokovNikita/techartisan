@@ -1,6 +1,10 @@
-import styles from '../App.module.css';
+import { useState } from 'react';
+import styles from '../style.module.css';
 //import geologo from ''
-export default function Header() {
+export default function Header({setIsOpen}) {
+  const handleClick = () => {
+    setIsOpen(prev => !prev);
+  };
   return (
     <>
  <div class = "top-header">
@@ -47,7 +51,7 @@ export default function Header() {
     </ol>
   </div>
     <div class = "Auth-container">
-      <a href="#">  Войти </a>
+      <a onClick={handleClick} href="#">  Войти </a>
     </div>
   </div>
     </>

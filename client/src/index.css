@@ -161,14 +161,10 @@ a:hover {
   transition: all 0.3s;
 }
 .SignUp-container > ol > li > button:hover{
-  background-color: rgba(136,226,139,1);   
+  background-color: rgba(136,226,139,0.8);   
 }
 .SignUp-container > ol > li > button:active { 
-  transform: scale(0.98); 
-  /* Scaling button to 0.98 to its original size */ 
-  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24); 
-  /* Lowering the shadow */ 
-  transform: translateY(4px); 
+  background-color: rgba(136,226,139,1);  
 }
 .SignUp-container > ol > li > img { 
   width: 60%;
@@ -264,14 +260,11 @@ align-items: center;
   transition: all 0.3s;
 }
 .Services-button-container > button:hover{
-  background-color: rgba(136,226,139,1);   
+  background-color: rgba(136,226,139,0.8);   
 }
 .Services-button-container > button:active { 
-  transform: scale(0.98); 
-  /* Scaling button to 0.98 to its original size */ 
-  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24); 
-  /* Lowering the shadow */ 
-  transform: translateY(4px); 
+  background-color: rgba(136,226,139,1);  
+
 }
 /* Contacts */
 .Contacts{
@@ -342,14 +335,11 @@ margin: 13px 0;
     transition: all 0.3s;
   }
   .block-info > button:hover{
-    background-color: rgba(136,226,139,1);   
+    background-color: rgba(136,226,139,0.8);   
   }
   .block-info  > button:active { 
-    transform: scale(0.98); 
-    /* Scaling button to 0.98 to its original size */ 
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24); 
-    /* Lowering the shadow */ 
-    transform: translateY(4px); 
+    background-color: rgba(136,226,139,1);  
+
   }
 .social-logo-list > ul > li > img {
   width: 1.7rem;
@@ -393,15 +383,12 @@ margin-right: 5px;
     transition: all 0.3s;
 }
 .find-container > a > button:hover { 
-  background-color: rgb(245, 96, 91); 
+  background-color: rgb(245, 96, 91,0.6); 
 }
 .find-container > a > button:active
   { 
-    transform: scale(0.98); 
-    /* Scaling button to 0.98 to its original size */ 
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24); 
-    /* Lowering the shadow */ 
-    transform: translateY(4px); 
+    background-color: rgb(245, 96, 91, 1); 
+
   }
 .footer-container {
   font-family: "Inter", sans-serif;
