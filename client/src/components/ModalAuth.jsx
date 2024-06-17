@@ -89,6 +89,9 @@ export default function ModalAuth(props) {
             <div className={style.Password_area_container}>
               <input className={style.Password_area} type="password" placeholder='Пароль' />
             </div>
+            <div className={style.FortgotPass_container}>
+            <a>Забыли пароль ?</a>
+            </div>
             <div className = {style.LoginBtn_container}>
               <button class>Войти</button>
             </div>

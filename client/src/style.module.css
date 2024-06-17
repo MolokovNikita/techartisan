@@ -131,9 +131,6 @@
   background-color: rgba(136,226,139,0.4);
   border-radius: 1em;
   cursor: pointer;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
 }
 .RegisterBtn_container>button{
   font-family: "Inter", sans-serif;
@@ -145,9 +142,6 @@
   background-color: rgba(136,226,139,0.4);
   border-radius: 1em;
   cursor: pointer;
-  -webkit-transition: all 0.3s;
-  -moz-transition: all 0.3s;
-  transition: all 0.3s;
 }
 .LoginBtn_container > button:hover,.RegisterBtn_container > button:hover{
   background-color: rgba(136,226,139,0.8);  
