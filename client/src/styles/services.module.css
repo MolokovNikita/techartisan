@@ -1,0 +1,65 @@
+.Services_card {
+  display: flex;
+  justify-content: center;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 3rem;
+  margin-bottom: 150px;
+}
+
+.Services {
+  margin-top: 10em;
+}
+
+.MostPopularServices {
+  display: flex;
+  justify-content: center;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.Services_card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.Services_contaiener_1 {
+  background-color: rgba(217, 217, 217, 0.4);
+  width: 25rem;
+  padding: 1.5rem;
+  border-radius: 15%;
+  margin: 2rem;
+}
+
+.Services_contaiener_2 {
+  background-color: rgba(217, 217, 217, 0.4);
+  padding: 1.5rem;
+  width: 25rem;
+  border-radius: 15%;
+  margin: 2rem;
+}
+
+.Services_list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  display: block;
+}
+
+.Services_list li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border-bottom: 0.5px solid black;
+}
+
+.Services_list li:last-child {
+  border-bottom: 0px;
+}

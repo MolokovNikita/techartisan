@@ -1,6 +1,7 @@
-a{
+a {
   cursor: pointer;
 }
+
 .AuthModal_background {
   position: fixed;
   top: 0;
@@ -17,73 +18,89 @@ a{
 
 .AuthModal_card {
   font-family: "Inter", sans-serif;
-  font-weight:lighter;
+  font-weight: lighter;
   font-size: 1.5rem;
   background-color: white;
   padding: 25px;
   width: 400px;
   border-radius: 20px;
 }
-.LoginRegisterToggle{
+
+.LoginRegisterToggle {
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Inter", sans-serif;
-  font-weight:lighter;
+  font-weight: lighter;
   font-size: 2rem;
   color: grey;
 
 }
-.LoginRegisterToggle > a { 
+
+.LoginRegisterToggle>a {
   cursor: pointer;
   transition: all 0.2s;
 }
-.LoginRegisterToggle >a:hover{
+
+.LoginRegisterToggle>a:hover {
   color: black;
 }
-.selected{
-  color:black;
+
+.selected {
+  color: black;
 }
-.Name_area_container { 
+
+.Name_area_container {
   margin-top: 40px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.Login_area_container ,.Password_area_container{
+
+.Login_area_container,
+.Password_area_container {
   margin-top: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.Login_area,.Name_area,.Password_area { 
+
+.Login_area,
+.Name_area,
+.Password_area {
   font-family: "Inter", sans-serif;
-  font-weight:lighter;
+  font-weight: lighter;
   font-size: 1.2rem;
   border: none;
   width: 300px;
   transition: all 0.2s;
   border-bottom: 1px solid black;
 }
-.Login_area:focus ,.Name_area:focus,.Password_area:focus{
+
+.Login_area:focus,
+.Name_area:focus,
+.Password_area:focus {
   outline: none;
   border-bottom: 1px solid green;
 
 }
-.close{ 
+
+.close {
   display: flex;
   justify-content: end;
 }
-.closeImage{
+
+.closeImage {
   height: 1.5rem;
   cursor: pointer;
 }
-.closeButton{
+
+.closeButton {
   background: none repeat scroll 0 0 transparent;
   border: medium none;
   border-spacing: 0;
   color: #26589F;
-  font-family: 'PT Sans Narrow',sans-serif;
+  font-family: 'PT Sans Narrow', sans-serif;
   font-size: 16px;
   font-weight: normal;
   line-height: 1.42rem;
@@ -95,61 +112,74 @@ a{
   text-indent: 0;
   cursor: pointer;
 }
-.FortgotPass_container{
+
+.FortgotPass_container {
   font-family: "Inter", sans-serif;
-  font-weight:lighter;
+  font-weight: lighter;
   font-size: 1rem;
   margin-top: 20px;
   cursor: pointer;
 }
-.FortgotPass_container > a { 
+
+.FortgotPass_container>a {
   margin-left: 50px;
   color: rgba(46, 98, 46, 0.7);
-  
+
 }
-.FortgotPass_container > a:hover { 
+
+.FortgotPass_container>a:hover {
   color: rgb(116, 197, 116);
 }
-.LoginBtn_container > button { 
+
+.LoginBtn_container>button {
   font-family: "Inter", sans-serif;
   font-weight: lighter;
   background: none;
   border: none;
   padding: 5px 100px;
   font-size: 1.5rem;
-  background-color: rgba(136,226,139,0.4);
+  background-color: rgba(136, 226, 139, 0.4);
   border-radius: 1em;
   cursor: pointer;
 }
-.RegisterBtn_container>button{
+
+.RegisterBtn_container>button {
   font-family: "Inter", sans-serif;
   font-weight: lighter;
   background: none;
   border: none;
   padding: 5px 40px;
   font-size: 1.5rem;
-  background-color: rgba(136,226,139,0.4);
+  background-color: rgba(136, 226, 139, 0.4);
   border-radius: 1em;
   cursor: pointer;
 }
-.LoginBtn_container > button:hover,.RegisterBtn_container > button:hover{
-  background-color: rgba(136,226,139,0.8);  
+
+.LoginBtn_container>button:hover,
+.RegisterBtn_container>button:hover {
+  background-color: rgba(136, 226, 139, 0.8);
 }
-.LoginBtn_container > button:active,.RegisterBtn_container > button:active{
-  background-color: rgba(136,226,139,1);  
+
+.LoginBtn_container>button:active,
+.RegisterBtn_container>button:active {
+  background-color: rgba(136, 226, 139, 1);
 }
-.LoginBtn_container,.RegisterBtn_container{
+
+.LoginBtn_container,
+.RegisterBtn_container {
   margin-top: 30px;
   display: flex;
   justify-content: center;
 }
-.Registration_container{
+
+.Registration_container {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
 }
-.RegisterPoliticy{
+
+.RegisterPoliticy {
   display: inline-block;
   justify-content: center;
   align-items: center;
@@ -160,9 +190,11 @@ a{
   color: grey;
   width: 300px;
 }
-.RegisterPoliticy > a {
+
+.RegisterPoliticy>a {
   color: blue;
 }
-.RegisterPoliticy > a:hover { 
+
+.RegisterPoliticy>a:hover {
   color: green;
 }

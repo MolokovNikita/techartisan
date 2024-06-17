@@ -1,381 +1,380 @@
 * {
-    margin: 0;
-    padding: 0;
-  }
-  
-  /* Navigation CSS */
-  
-  a:visited,
-  a:link,
-  a:active {
-    text-decoration: none;
-    color: black;
-  }
-  
-  a:hover {
-    color: rgba(48, 48, 48, 0.474);
-  }
-  
-  /* Topic */
-  .topic_container {
-    justify-content: center;
-    display: flex;
-    margin-top: 4em;
-  }
-  
-  .topic {
-    display: flex;
-    flex-direction: row;
-    border-radius: 3em;
-    background-color: rgba(217, 217, 217, 0.4);
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    font-size: 1.4rem;
-    padding: 2em;
-  }
-  
-  .topic_list {
-    display: block;
-    padding: 0;
-    margin: 0;
-    padding-right: 2em;
-  }
-  
-  .topic_list li {
-    margin-top: 2em;
-    margin-bottom: 1.5em;
-  }
-  
-  .SignUp_container {
-    display: flex;
-    justify-content: center;
-    margin-left: 0px;
-    margin-bottom: 0;
-  }
-  
-  .SignUp {
-    font-weight: bolder;
-    background-color: rgba(136, 226, 139, 0.4);
-    padding: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-radius: 1em;
-    margin-right: 5em;
-  }
-  
-  .topic_arrow {
-    margin-left: 2em;
-    margin-top: 4em;
-  }
-  
-  .arrow_list {
-    display: block;
-    padding: 0;
-    margin: 0;
-  }
-  
-  .arrow_list img {
-    scale: 70%;
-  }
-  
-  .arrow_list li {
-    margin-bottom: 1em;
-  }
-  
-  .topic_text {
-    padding: 0;
-    margin: 0;
-    margin-top: 2em;
-    margin-left: 0.5em;
-  }
-  
-  .arrow_list .second_arrow {
-    margin-top: 1.2em;
-    margin-bottom: 0.8em;
-  }
-  
-  .SignUp_container>ol>li>button {
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    background-color: rgba(136, 226, 139, 0.4);
-    padding: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-radius: 1em;
-    margin-right: 5em;
-    cursor: pointer;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-  }
-  
-  .SignUp_container>ol>li>button:hover {
-    background-color: rgba(136, 226, 139, 0.8);
-  }
-  
-  .SignUp_container>ol>li>button:active {
-    background-color: rgba(136, 226, 139, 1);
-  }
-  
-  .SignUp_container>ol>li>img {
-    width: 60%;
-  }
-  
-  .SignUpButton {
-    margin-top: 2em;
-  }
-  
-  .topic_list>li>div>img {
-    margin-top: -2em;
-    width: 15%;
-  }
-  
-  .notebook_container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  
-  /* ServicesBlock */
-  .Services_container {
-    display: flex;
-    justify-content: center;
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    font-size: 3rem;
-  }
-  
-  .Services {
-    margin-top: 10em;
-  }
-  
-  .MostPopularServices {
-    display: flex;
-    justify-content: center;
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    font-size: 1.5rem;
-    margin-top: 1.5rem;
-  }
-  
-  .Services_card {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-  }
-  
-  .Services_contaiener_1 {
-    background-color: rgba(217, 217, 217, 0.4);
-    width: 25rem;
-    padding: 1.5rem;
-    border-radius: 15%;
-    margin: 2rem;
-  }
-  
-  .Services_contaiener_2 {
-    background-color: rgba(217, 217, 217, 0.4);
-    padding: 1.5rem;
-    width: 25rem;
-    border-radius: 15%;
-    margin: 2rem;
-  }
-  
-  .Services_list {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    font-size: 1.5rem;
-    display: block;
-  }
-  
-  .Services_list li {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-    border-bottom: 0.5px solid black;
-  }
-  
-  .Services_list li:last-child {
-    border-bottom: 0px;
-  }
-  
-  .Services_button_container {
-    margin-top: 2rem;
-    display: flex;
-    justify-content: center;
-  }
-  
-  .Services_button_container>button {
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    background-color: rgba(136, 226, 139, 0.4);
-    padding: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-radius: 1em;
-    cursor: pointer;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-  }
-  
-  .Services_button_container>button:hover {
-    background-color: rgba(136, 226, 139, 0.8);
-  }
-  
-  .Services_button_container>button:active {
-    background-color: rgba(136, 226, 139, 1);
-  }
-  
-  /* Contacts */
-  .Contacts {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-  }
-  
-  .Contacts_text_container {
-    display: flex;
-    justify-content: center;
-    margin: 50px 0;
-  }
-  
-  .Contacts_text {
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    font-size: 3rem;
-  }
-  
-  .Contacts_block_container {
-    display: flex;
-    justify-content: center;
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    font-size: 1.5rem;
-  }
-  
-  .Contacts_block {
-    display: flex;
-    flex-direction: row;
-    padding: 1rem 6rem;
-    background-color: rgba(217, 217, 217, 0.4);
-    border-radius: 3rem;
-  }
-  
-  .block_info {
-    display: flex;
-    flex-direction: column;
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    font-size: 1.5rem;
-  }
-  
-  .block_info>ul,
-  .social_logo_list>ul {
-    list-style: none;
-  }
-  
-  .social_logo_list {
-    margin-top: 45px;
-    margin-right: 5px;
-  }
-  
-  .block_info>ul {
-    margin: 13px 0;
-  }
-  
-  .block_info>ul>li {
-    margin: 5px 0;
-  }
-  
-  .block_info>button {
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    background-color: rgba(136, 226, 139, 0.4);
-    padding: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-radius: 1em;
-    cursor: pointer;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-  }
-  
-  .block_info>button:hover {
-    background-color: rgba(136, 226, 139, 0.8);
-  }
-  
-  .block_info>button:active {
-    background-color: rgba(136, 226, 139, 1);
-  }
-  
-  .social_logo_list>ul>li>img {
-    width: 1.7rem;
-  }
-  
-  .telephone_number {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .tellogo_body {
-    height: 1.4rem;
-    margin-right: 5px;
-  }
-  
-  .find_container {
-    margin-top: 3rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 10rem;
-  }
-  
-  .find_text {
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    font-size: 1.5rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .find_container>a>button {
-    background: none;
-    border: none;
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    font-size: 1.5rem;
-    background-color: rgba(217, 217, 217, 0.4);
-    padding: 1rem 5rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-radius: 1em;
-    cursor: pointer;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
-  }
-  
-  .find_container>a>button:hover {
-    background-color: rgb(245, 96, 91, 0.6);
-  }
-  
-  .find_container>a>button:active {
-    background-color: rgb(245, 96, 91, 1);
-  }
-  
+  margin: 0;
+  padding: 0;
+}
+
+/* Navigation CSS */
+
+a:visited,
+a:link,
+a:active {
+  text-decoration: none;
+  color: black;
+}
+
+a:hover {
+  color: rgba(48, 48, 48, 0.474);
+}
+
+/* Topic */
+.topic_container {
+  justify-content: center;
+  display: flex;
+  margin-top: 4em;
+}
+
+.topic {
+  display: flex;
+  flex-direction: row;
+  border-radius: 3em;
+  background-color: rgba(217, 217, 217, 0.4);
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.4rem;
+  padding: 2em;
+}
+
+.topic_list {
+  display: block;
+  padding: 0;
+  margin: 0;
+  padding-right: 2em;
+}
+
+.topic_list li {
+  margin-top: 2em;
+  margin-bottom: 1.5em;
+}
+
+.SignUp_container {
+  display: flex;
+  justify-content: center;
+  margin-left: 0px;
+  margin-bottom: 0;
+}
+
+.SignUp {
+  font-weight: bolder;
+  background-color: rgba(136, 226, 139, 0.4);
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 1em;
+  margin-right: 5em;
+}
+
+.topic_arrow {
+  margin-left: 2em;
+  margin-top: 4em;
+}
+
+.arrow_list {
+  display: block;
+  padding: 0;
+  margin: 0;
+}
+
+.arrow_list img {
+  scale: 70%;
+}
+
+.arrow_list li {
+  margin-bottom: 1em;
+}
+
+.topic_text {
+  padding: 0;
+  margin: 0;
+  margin-top: 2em;
+  margin-left: 0.5em;
+}
+
+.arrow_list .second_arrow {
+  margin-top: 1.2em;
+  margin-bottom: 0.8em;
+}
+
+.SignUp_container>ol>li>button {
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  background-color: rgba(136, 226, 139, 0.4);
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 1em;
+  margin-right: 5em;
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.SignUp_container>ol>li>button:hover {
+  background-color: rgba(136, 226, 139, 0.8);
+}
+
+.SignUp_container>ol>li>button:active {
+  background-color: rgba(136, 226, 139, 1);
+}
+
+.SignUp_container>ol>li>img {
+  width: 60%;
+}
+
+.SignUpButton {
+  margin-top: 2em;
+}
+
+.topic_list>li>div>img {
+  margin-top: -2em;
+  width: 15%;
+}
+
+.notebook_container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+/* ServicesBlock */
+.Services_container {
+  display: flex;
+  justify-content: center;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 3rem;
+}
+
+.Services {
+  margin-top: 10em;
+}
+
+.MostPopularServices {
+  display: flex;
+  justify-content: center;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.Services_card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.Services_contaiener_1 {
+  background-color: rgba(217, 217, 217, 0.4);
+  width: 25rem;
+  padding: 1.5rem;
+  border-radius: 15%;
+  margin: 2rem;
+}
+
+.Services_contaiener_2 {
+  background-color: rgba(217, 217, 217, 0.4);
+  padding: 1.5rem;
+  width: 25rem;
+  border-radius: 15%;
+  margin: 2rem;
+}
+
+.Services_list {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  display: block;
+}
+
+.Services_list li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border-bottom: 0.5px solid black;
+}
+
+.Services_list li:last-child {
+  border-bottom: 0px;
+}
+
+.Services_button_container {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.Services_button_container>button {
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  background-color: rgba(136, 226, 139, 0.4);
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 1em;
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.Services_button_container>button:hover {
+  background-color: rgba(136, 226, 139, 0.8);
+}
+
+.Services_button_container>button:active {
+  background-color: rgba(136, 226, 139, 1);
+}
+
+/* Contacts */
+.Contacts {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.Contacts_text_container {
+  display: flex;
+  justify-content: center;
+  margin: 50px 0;
+}
+
+.Contacts_text {
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 3rem;
+}
+
+.Contacts_block_container {
+  display: flex;
+  justify-content: center;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+}
+
+.Contacts_block {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem 6rem;
+  background-color: rgba(217, 217, 217, 0.4);
+  border-radius: 3rem;
+}
+
+.block_info {
+  display: flex;
+  flex-direction: column;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+}
+
+.block_info>ul,
+.social_logo_list>ul {
+  list-style: none;
+}
+
+.social_logo_list {
+  margin-top: 45px;
+  margin-right: 5px;
+}
+
+.block_info>ul {
+  margin: 13px 0;
+}
+
+.block_info>ul>li {
+  margin: 5px 0;
+}
+
+.block_info>button {
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  background-color: rgba(136, 226, 139, 0.4);
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 1em;
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.block_info>button:hover {
+  background-color: rgba(136, 226, 139, 0.8);
+}
+
+.block_info>button:active {
+  background-color: rgba(136, 226, 139, 1);
+}
+
+.social_logo_list>ul>li>img {
+  width: 1.7rem;
+}
+
+.telephone_number {
+  display: flex;
+  justify-content: center;
+}
+
+.tellogo_body {
+  height: 1.4rem;
+  margin-right: 5px;
+}
+
+.find_container {
+  margin-top: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10rem;
+}
+
+.find_text {
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.find_container>a>button {
+  background: none;
+  border: none;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  background-color: rgba(217, 217, 217, 0.4);
+  padding: 1rem 5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 1em;
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.find_container>a>button:hover {
+  background-color: rgb(245, 96, 91, 0.6);
+}
+
+.find_container>a>button:active {
+  background-color: rgb(245, 96, 91, 1);
+}

@@ -93,7 +93,7 @@ export default function ModalAuth(props) {
                             <a>Забыли пароль ?</a>
                         </div>
                         <div className={style.LoginBtn_container}>
-                            <button class>Войти</button>
+                            <button>Войти</button>
                         </div>
                     </div>
                 ) : (

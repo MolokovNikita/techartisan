@@ -39,7 +39,7 @@ export default function Body() {
                     </div>
                 </div>
             </div>
-            <div className={styles.Services}>
+            <div   id = "services_anchor"  className={styles.Services}>
                 <div className={styles.Services_container}>
                     <p>Услуги</p>
                 </div>
@@ -94,7 +94,7 @@ export default function Body() {
                                     +7-999-999-99-99
                                 </a>
                             </div>
-                            <ul>
+                            <ul id = "contacts_anchor" >
                                 <li><a href="#">mail - techartisan@mail.ru</a></li>
                                 <li><a href="#">telegram - @TechArtisan</a></li>
                                 <li><a href="#">vkontakte - vk.com/techartisan</a></li>
@@ -108,7 +108,7 @@ export default function Body() {
             </div>
             <div className={styles.find_container}>
                 <p className={styles.find_text}>Как нас найти?</p>
-                <a href="https://yandex.ru/maps/213/moscow/house/krasnokazarmennaya_ulitsa_13/Z04YcQdlTUYAQFtvfXt0dn5kZw==/?ll=37.705436%2C55.757273&z=16.86" target="_blank">
+                <a href="https://yandex.ru/maps/213/moscow/house/krasnokazarmennaya_ulitsa_17/Z04YcQdoSE0CQFtvfXt0dXRkYw==/?ll=37.706910%2C55.755936&z=17.17" target="_blank">
                     <button>Яндекс карты</button>
                 </a>
             </div>
