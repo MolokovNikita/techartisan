@@ -211,7 +211,7 @@ a:hover {
   justify-content: center;
 }
 
-.Services_button_container>button {
+.Services_button_container > a >button {
   font-family: "Inter", sans-serif;
   font-weight: lighter;
   background: none;
@@ -228,11 +228,11 @@ a:hover {
   transition: all 0.3s;
 }
 
-.Services_button_container>button:hover {
+.Services_button_container > a >button:hover {
   background-color: rgba(136, 226, 139, 0.8);
 }
 
-.Services_button_container>button:active {
+.Services_button_container > a > button:active {
   background-color: rgba(136, 226, 139, 1);
 }
 

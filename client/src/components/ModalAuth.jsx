@@ -77,7 +77,7 @@ export default function ModalAuth(props) {
                     </button>
                 </div>
                 <div className={style.LoginRegisterToggle}>
-                    <a className={isLoginSelected ? style.selected : ''} onClick={() => setIsLoginSelected(true)}>Логин&nbsp;</a>
+                    <a className={isLoginSelected ? style.selected : ''} onClick={() => setIsLoginSelected(true)}>Войти&nbsp;</a>
                     <p> / </p>
                     <a className={!isLoginSelected ? style.selected : ''} onClick={() => setIsLoginSelected(false)}>&nbsp;Регистрация</a>
                 </div>

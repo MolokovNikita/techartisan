@@ -1,5 +1,5 @@
 import styles from "../styles/body.module.css";
-
+import {Link} from "react-router-dom"
 export default function Body() {
     return (
         <>
@@ -69,7 +69,7 @@ export default function Body() {
                     </div>
                 </div>
                 <div className={styles.Services_button_container}>
-                    <button>Показать все услуги</button>
+                    <Link to='/services' ><button>Показать все услуги</button></Link>
                 </div>
             </div>
             <hr className={styles.Vertical_line} style={{ width: "65%", margin: "auto", marginTop: "30px" }}></hr>
