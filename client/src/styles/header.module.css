@@ -1,0 +1,94 @@
+.social_nav {
+    align-items: center;
+}
+
+.location_nav {
+    align-items: center;
+    margin-left: 200px;
+}
+
+.location_nav>li {
+    margin-right: 30px;
+}
+
+.social_nav {
+    margin-right: 100px;
+}
+
+.social_nav>li {
+    margin-left: 15px;
+}
+
+.social_nav>li:first-child {
+    margin-right: 50px;
+}
+
+.top_header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: rgb(199, 223, 195);
+    height: 3em;
+    font-family: "Inter", sans-serif;
+    font-weight: medium;
+    text-align: end;
+}
+
+.bottom_header {
+    display: flex;
+    justify-content: space-between;
+    font-family: "Inter", sans-serif;
+    font-weight: lighter;
+    font-size: 1.5rem;
+}
+
+ol {
+    display: flex;
+    list-style: none;
+}
+
+.logo {
+    height: 120px;
+}
+
+.tellogo,
+.geologo {
+    height: 15px;
+    margin-right: 5px;
+
+}
+
+.tglogo,
+.vklogo,
+.wapplogo {
+    height: 35px;
+}
+
+.main_nav {
+    display: flex;
+    margin-top: 40px;
+}
+
+.main_nav>li {
+    margin-left: 80px;
+}
+
+.Auth_container {
+    margin-top: 40px;
+    margin-right: 40px;
+}
+
+a:visited,
+a:link,
+a:active {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover {
+    color: rgba(48, 48, 48, 0.474);
+}
+
+.bottom_header_left {
+    display: flex;
+}

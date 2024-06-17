@@ -1,10 +1,11 @@
-import styles from '../style.module.css';
+import styles from '../styles/footer.module.css';
 
 export default function Footer() {
   return (
     <>
-    <div class = 'footer-container'>
-        <div class = 'footer-text'>
+    <footer>
+    <div className = {styles.footer_container}>
+        <div className = {styles.footer_text}>
         <ul>
         <li>
         © 2024 TechArtisan. Все права защищены.
@@ -20,6 +21,7 @@ export default function Footer() {
         </li>
     </ul>
     </div>
+    </footer>
     </>
   );
 }
