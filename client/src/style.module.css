@@ -21,13 +21,25 @@
   width: 400px;
   border-radius: 20px;
 }
-.Login {
+.LoginRegisterToggle{
   display: flex;
   justify-content: center;
   align-items: center;
   font-family: "Inter", sans-serif;
   font-weight:lighter;
   font-size: 2rem;
+  color: grey;
+
+}
+.LoginRegisterToggle > a { 
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.LoginRegisterToggle >a:hover{
+  color: black;
+}
+.selected{
+  color:black;
 }
 .Login_area_container{
   margin-top: 40px;
@@ -109,13 +121,7 @@
 .FortgotPass_container > a:hover { 
   color: rgb(116, 197, 116);
 }
-.auth_container{
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.auth_container > button { 
+.LoginBtn_container > button { 
   font-family: "Inter", sans-serif;
   font-weight: lighter;
   background: none;
@@ -129,10 +135,28 @@
   -moz-transition: all 0.3s;
   transition: all 0.3s;
 }
-.auth_container > button:hover{
+.RegisterBtn_container>button{
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  background: none;
+  border: none;
+  padding: 5px 40px;
+  font-size: 1.5rem;
+  background-color: rgba(136,226,139,0.4);
+  border-radius: 1em;
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.LoginBtn_container > button:hover,.RegisterBtn_container > button:hover{
   background-color: rgba(136,226,139,0.8);  
 }
-.auth_container > button:active{
+.LoginBtn_container > button:active,.RegisterBtn_container > button:active{
   background-color: rgba(136,226,139,1);  
 }
-
+.LoginBtn_container,.RegisterBtn_container{
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}

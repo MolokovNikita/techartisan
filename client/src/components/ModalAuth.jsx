@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { createPortal } from 'react-dom';
 import style from "../style.module.css";
 
 const ModalRootElement = document.querySelector('#ModalAuth');
-
 export default function ModalAuth(props) {
   const { isOpen, onClose } = props;
+  const [isLoginSelected, setIsLoginSelected] = useState(true);
   const element = useMemo(() => document.createElement("div"), []);
   const modalRef = useRef(null);
 
@@ -71,27 +71,44 @@ export default function ModalAuth(props) {
   return createPortal(
     <div className={style.AuthModal_background} onClick={handleBackgroundClick}>
       <div className={style.AuthModal_card} onClick={handleCardClick} ref={modalRef} tabIndex="-1">
-        {props.children}
         <div className={style.close}>
           <button className={style.closeButton} onClick={handleBackgroundClick}>
-            <img src="/close.png" alt="kk" className={style.closeImage} />
+            <img src="/close.png" alt="close" className={style.closeImage} />
           </button>
         </div>
-        <div className={style.Login}>
-          Вход / Регистрация
+        <div className={style.LoginRegisterToggle}>
+          <a className={isLoginSelected ? style.selected : ''} onClick={() => setIsLoginSelected(true)}>Логин&nbsp;</a>
+          <p> / </p> 
+          <a className={!isLoginSelected ? style.selected : ''} onClick={() => setIsLoginSelected(false)}>&nbsp;Регистрация</a>
         </div>
-        <div className={style.Login_area_container}>
-          <input className={style.Login_area} type="text" placeholder='Email или телефон' />
-        </div> 
-        <div className={style.Password_area_container}>
-          <input className={style.Password_area} type="password" placeholder='Пароль' />
-        </div>
-        <div className={style.FortgotPass_container}>
-            <a>Забыли пароль?</a>
-        </div>
-        <div className={style.auth_container}>
-          <button>Войти</button>
-        </div>
+        {isLoginSelected ? (
+          <div>
+            <div className={style.Login_area_container}>
+              <input className={style.Login_area} type="text" placeholder='Email или телефон' />
+            </div>
+            <div className={style.Password_area_container}>
+              <input className={style.Password_area} type="password" placeholder='Пароль' />
+            </div>
+            <div className = {style.LoginBtn_container}>
+              <button class>Войти</button>
+            </div>
+          </div>
+        ) : (
+          <div>
+            <div className={style.Login_area_container}>
+              <input className={style.Login_area} type="text" placeholder='Email или телефон' />
+            </div>
+            <div className={style.Password_area_container}>
+              <input className={style.Password_area} type="password" placeholder='Пароль' />
+            </div>
+            <div className={style.Password_area_container}>
+              <input className={style.Password_area} type="password" placeholder='Подтвердите пароль' />
+            </div>
+            <div className={style.RegisterBtn_container}>
+              <button>Зарегистрироваться</button>
+            </div>
+          </div>
+        )}
       </div>
     </div>,
     element
