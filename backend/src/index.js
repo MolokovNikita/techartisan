@@ -1,5 +1,6 @@
 const express = require("express");
 const pool = require('../src/Config/ormconfig');
+
 const clientRouter = require('../src/Routers/clientRouter');
 const staffRouter = require('../src/Routers/staffRouter');
 const positionRouter = require('../src/Routers/positionRouter');
@@ -12,14 +13,30 @@ const devicesToCardRouter = require('../src/Routers/devicesToCardRouter');
 const officesToCardRouter = require('../src/Routers/officesToCardRouter');
 const positionToStaffRouter = require('../src/Routers/positionToStaffRouter');
 const serviceToCardRouter = require('../src/Routers/serviceToCardRouter');
-const staffToCardRouter = require('../src/Routers/staffToCardRouter')
-const statusOfOrderToCardRouter = require('../src/Routers/statusOfOrderToCardRouter')
+const staffToCardRouter = require('../src/Routers/staffToCardRouter');
+const statusOfOrderToCardRouter = require('../src/Routers/statusOfOrderToCardRouter');
+
+const cors = require("cors");
+const dotenv = require("dotenv");
+const Fingerprint = require("express-fingerprint");
+const AuthRootRouter = require('../src/Routers/AuthRouter.js');
+const TokenService = require('../src/Services/Token.js');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 const PORT = process.env.PORT || 5002;
 
 //User Json Parser
+app.use(cookieParser());
 app.use(express.json());
+app.use(cors({ credentials: true, origin:'http://localhost:5173' }));
+
+app.use(
+    Fingerprint({
+      parameters: [Fingerprint.useragent, Fingerprint.acceptHeaders],
+    })
+  );
+app.use("/auth", AuthRootRouter);  
 
 //  CRUD ROUTERS
 app.use('/clients', clientRouter); // id, f_name, l_name, login, pass, email, created, deleted

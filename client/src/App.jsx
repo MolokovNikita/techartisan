@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MainPage from './pages/MainPage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import Services from './pages/Services.jsx';
@@ -7,6 +7,7 @@ import AboutUs from './pages/AboutUsPage.jsx';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import ModalAuth from './components/ModalAuth';
+import axios from "axios";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -17,7 +18,21 @@ function App() {
   };
 
   const routesWithHeaderFooter = ['/main', '/services', '/aboutus'];
+  useEffect(() => {  
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:5002/clients');
+        response.data.forEach((cleint)=>console.log(cleint))
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
 
+    fetchData();
+
+  }, []);
+
+  
   return (
     <>
       <ModalAuth isOpen={isOpen} onClose={handleModalClose} />

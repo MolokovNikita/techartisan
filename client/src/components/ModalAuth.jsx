@@ -1,10 +1,15 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState,useContext } from "react";
 import { createPortal } from 'react-dom';
 import style from "../styles/style.module.css";
+import { AuthContext } from '../context/AuthContext'; // Предположим, что AuthProvider в том же каталоге
+import axios from "axios";
 
 const ModalRootElement = document.querySelector('#ModalAuth');
+
 export default function ModalAuth(props) {
     const { isOpen, onClose } = props;
+    const { handleSignIn, handleSignUp } = useContext(AuthContext);
+
     const [isLoginSelected, setIsLoginSelected] = useState(true);
     const element = useMemo(() => document.createElement("div"), []);
     const modalRef = useRef(null);
@@ -77,7 +82,7 @@ export default function ModalAuth(props) {
                     </button>
                 </div>
                 <div className={style.LoginRegisterToggle}>
-                    <a className={isLoginSelected ? style.selected : ''} onClick={() => setIsLoginSelected(true)}>Войти&nbsp;</a>
+                    <a className={isLoginSelected ? style.selected : ''} onClick={() => setIsLoginSelected(true)}>Логин&nbsp;</a>
                     <p> / </p>
                     <a className={!isLoginSelected ? style.selected : ''} onClick={() => setIsLoginSelected(false)}>&nbsp;Регистрация</a>
                 </div>
@@ -93,7 +98,7 @@ export default function ModalAuth(props) {
                             <a>Забыли пароль ?</a>
                         </div>
                         <div className={style.LoginBtn_container}>
-                            <button>Войти</button>
+                            <button> Войти</button>
                         </div>
                     </div>
                 ) : (
@@ -111,7 +116,7 @@ export default function ModalAuth(props) {
                             <input className={style.Password_area} type="password" placeholder='Подтвердите пароль' />
                         </div>
                         <div className={style.RegisterBtn_container}>
-                            <button>Зарегистрироваться</button>
+                            <button onClick={{}}>Зарегистрироваться</button>
                         </div>
                         <div className={style.RegisterPoliticy}>Нажимая кнопку «Зарегистрироваться», я даю свое согласие на сбор и обработку моих персональных данных в соответствии с <br /> <a src='#'>Политикой</a> и принимаю условия <a src='#'>Пользовательского соглашения</a></div>
                     </div>

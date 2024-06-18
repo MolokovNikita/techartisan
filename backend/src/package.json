@@ -11,10 +11,16 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "ejs": "^3.1.9",
     "express": "^4.19.2",
-    "pg": "^8.11.5"
+    "express-fingerprint": "^1.2.2",
+    "jsonwebtoken": "^9.0.2",
+    "pg": "^8.11.5",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "nodemon": "^3.1.0"

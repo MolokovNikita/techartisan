@@ -77,7 +77,7 @@ export default function Header({ setIsOpen }) {
             </ol>
           </div>
           <div className={styles.Auth_container}>
-            <a onClick={handleClick} href="#">Войти</a>
+            <a onClick={handleClick}>Войти</a>
           </div>
         </div>
       </header>
