@@ -14,13 +14,13 @@ module.exports = signInSchema = Yup.object({
 
 module.exports = signUpSchema = Yup.object({
   body: Yup.object({
-    userName: Yup.string()
+    f_name: Yup.string()
     .required("Поле обязательно!")
     .max(45, "Максимальная длина - 45 символов"),
     email: Yup.string()
       .required("Поле обязательно!")
       .max(45, "Максимальная длина - 45 символов"),
-    password: Yup.string()
+    pass: Yup.string()
       .required("Поле обязательно!")
       .min(3, "Пароль слишком короткий - минимум 3 символа")
       .max(50, "Максимальная длина - 50 символов"),
@@ -39,6 +39,7 @@ class AuthValidator {
   }
 
   static async signUp(req, res, next) {
+    
     return validateRequest(req, res, next, signUpSchema);
   }
 
@@ -47,6 +48,7 @@ class AuthValidator {
   }
 
   static async refresh(req, res, next) {
+
     return validateRequest(req, res, next);
   }
 }

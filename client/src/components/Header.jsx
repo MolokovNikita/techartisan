@@ -1,13 +1,18 @@
+import { useContext } from 'react';
 import styles from '../styles/header.module.css';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import { AuthContext } from '../context/AuthContext';
 export default function Header({ setIsOpen }) {
+
   const location = useLocation();
   const navigate = useNavigate();
-
+  const {handleLogOut} = useContext(AuthContext);
+  const {isAuth} = useContext(AuthContext);
+  
   const handleClick = () => {
     setIsOpen(true);
   };
+
 
   const handleNavigation = (path, hash) => {
     if (location.pathname !== path) {
@@ -27,7 +32,6 @@ export default function Header({ setIsOpen }) {
       }
     }
   };
-
   return (
     <>
       <header>
@@ -77,7 +81,12 @@ export default function Header({ setIsOpen }) {
             </ol>
           </div>
           <div className={styles.Auth_container}>
-            <a onClick={handleClick}>Войти</a>
+          {!isAuth ? (<a onClick={handleClick}>Войти</a>) : 
+          (
+            <>
+          <a onClick={handleLogOut}>Добро пожаловать!</a>
+          </>
+          )}
           </div>
         </div>
       </header>

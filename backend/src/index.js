@@ -36,7 +36,11 @@ app.use(
       parameters: [Fingerprint.useragent, Fingerprint.acceptHeaders],
     })
   );
-app.use("/auth", AuthRootRouter);  
+app.use("/auth", AuthRootRouter);
+// router.post("/sign-in", AuthValidator.signIn, AuthController.signIn);
+// router.post("/sign-up", AuthValidator.signUp, AuthController.signUp);
+// router.post("/logout", AuthValidator.logOut, AuthController.logOut);
+// router.post("/refresh", AuthValidator.refresh, AuthController.refresh); routes
 
 //  CRUD ROUTERS
 app.use('/clients', clientRouter); // id, f_name, l_name, login, pass, email, created, deleted

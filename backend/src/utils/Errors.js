@@ -12,7 +12,7 @@ class WebError {
   }
   
   module.exports = class Conflict extends WebError {
-    constructor(error) {
+      constructor(error) {
       super(409, error);
     }
   }

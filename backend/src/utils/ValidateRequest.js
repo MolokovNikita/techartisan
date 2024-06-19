@@ -1,16 +1,9 @@
-const ErrorUtils = require("./Errors.js") ;
-const { Unprocessable }  = require("./Errors.js") ;
-
 module.exports = async (req, res, next, schema) => {
   try {
     if (schema) {
       await schema.validate(req);
     }
     return next();
-  } catch ({ path, errors }) {
-    return ErrorUtils.catchError(
-      res,
-      new Unprocessable(JSON.stringify({ path, errors }))
-    );
-  }
+  } catch (err) { 
+  return res.status(400).send("Bad request - " + err.message);}
 };

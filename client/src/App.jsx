@@ -18,19 +18,19 @@ function App() {
   };
 
   const routesWithHeaderFooter = ['/main', '/services', '/aboutus'];
-  useEffect(() => {  
-    const fetchData = async () => {
-      try {
-        const response = await axios.get('http://localhost:5002/clients');
-        response.data.forEach((cleint)=>console.log(cleint))
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+  // useEffect(() => {  
+  //   const fetchData = async () => {
+  //     try {
+  //       const response = await axios.get('http://localhost:5002/clients');
+  //       response.data.forEach((cleint)=>console.log(cleint))
+  //     } catch (error) {
+  //       console.log('Error fetching data:', error);
+  //     }
+  //   };
 
-    fetchData();
+  //   fetchData();
 
-  }, []);
+  // }, []);
 
   
   return (
