@@ -84,7 +84,8 @@ export default function Header({ setIsOpen }) {
           {!isAuth ? (<a onClick={handleClick}>Войти</a>) : 
           (
             <>
-          <a onClick={handleLogOut}>Добро пожаловать!</a>
+          <span className = {styles.auth_greeting} onClick={console.log('To Do всплывающее меню')}>Привет!, {localStorage.getItem('userName')}</span>
+          <a className = {styles.logout_bth} onClick={handleLogOut}>Выйти</a>
           </>
           )}
           </div>

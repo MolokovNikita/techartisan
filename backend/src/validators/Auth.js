@@ -5,7 +5,7 @@ module.exports = signInSchema = Yup.object({
     email: Yup.string()
       .required("Поле обязательно!")
       .max(45, "Максимальная длина - 45 символов"),
-    password: Yup.string()
+    pass: Yup.string()
       .required("Поле обязательно!")
       .min(3, "Пароль слишком короткий - минимум 3 символа")
       .max(50, "Максимальная длина - 50 символов"),

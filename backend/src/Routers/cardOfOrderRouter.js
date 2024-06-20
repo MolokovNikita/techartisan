@@ -1,6 +1,5 @@
 const { Router } = require('express');
 const router = new Router();
-const pool = require('../Config/ormconfig');
 const CardOfOrderController = require('../Controllers/CardOfOrderController');
 //post one Card
 router.post('', CardOfOrderController.create);

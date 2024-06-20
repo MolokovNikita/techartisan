@@ -1,7 +1,7 @@
-import { useEffect, useMemo, useRef, useState,useContext } from "react";
+import { useEffect, useMemo, useRef, useState, useContext } from "react";
 import { createPortal } from 'react-dom';
 import style from "../styles/style.module.css";
-import { AuthContext } from '../context/AuthContext'; // Предположим, что AuthProvider в том же каталоге
+import { AuthContext } from '../context/AuthContext'; 
 import axios from "axios";
 
 const ModalRootElement = document.querySelector('#ModalAuth');
@@ -74,12 +74,14 @@ export default function ModalAuth(props) {
     const handleCardClick = (event) => {
         event.stopPropagation();
     };
-const handleRegistration = () => { 
-    handleSignUp({f_name:f_name.current.value, email:email.current.value, pass:pass.current.value})
-    console.log(isAuth)
-    // isAuth ? onClose() : console.log('Что то пошло не так :{')
-    
-}
+
+    const handleRegistration = () => { 
+        handleSignUp([{ f_name: f_name.current.value, email: email.current.value, pass: pass.current.value }, onClose]);
+    };
+    const handleLogin = () => {
+        handleSignIn([{email:email.current.value, pass: pass.current.value}, onClose]);
+    }
+
     return createPortal(
         <div className={style.AuthModal_background} onClick={handleBackgroundClick}>
             <div className={style.AuthModal_card} onClick={handleCardClick} ref={modalRef} tabIndex="-1">
@@ -96,28 +98,28 @@ const handleRegistration = () => {
                 {isLoginSelected ? (
                     <div>
                         <div className={style.Login_area_container}>
-                            <input className={style.Login_area} type="text" placeholder='Email или телефон' />
+                            <input ref ={email} className={style.Login_area}  type="text" placeholder='Email или телефон' />
                         </div>
                         <div className={style.Password_area_container}>
-                            <input className={style.Password_area} type="password" placeholder='Пароль' />
+                            <input ref ={pass} className={style.Password_area} type="password" placeholder='Пароль' />
                         </div>
                         <div className={style.FortgotPass_container}>
                             <a>Забыли пароль ?</a>
                         </div>
                         <div className={style.LoginBtn_container}>
-                            <button> Войти</button>
+                            <button onClick={handleLogin} > Войти</button>
                         </div>
                     </div>
                 ) : (
                     <div className={style.Registration_container}>
                         <div className={style.Name_area_container}>
-                            <input ref ={f_name} className={style.Name_area} type="text" placeholder='Ваше имя' />
+                            <input ref={f_name} className={style.Name_area} type="text" placeholder='Ваше имя' />
                         </div>
                         <div className={style.Login_area_container}>
-                            <input ref ={email} className={style.Login_area} type="text" placeholder='Email или телефон' />
+                            <input ref={email} className={style.Login_area} type="text" placeholder='Email или телефон' />
                         </div>
                         <div className={style.Password_area_container}>
-                            <input ref = {pass}className={style.Password_area} type="password" placeholder='Пароль' />
+                            <input ref={pass} className={style.Password_area} type="password" placeholder='Пароль' />
                         </div>
                         <div className={style.Password_area_container}>
                             <input className={style.Password_area} type="password" placeholder='Подтвердите пароль' />
@@ -125,7 +127,7 @@ const handleRegistration = () => {
                         <div className={style.RegisterBtn_container}>
                             <button onClick={handleRegistration}>Зарегистрироваться</button>
                         </div>
-                        <div className={style.RegisterPoliticy}>Нажимая кнопку «Зарегистрироваться», я даю свое согласие на сбор и обработку моих персональных данных в соответствии с <br /> <a src='#'>Политикой</a> и принимаю условия <a src='#'>Пользовательского соглашения</a></div>
+                        <div className={style.RegisterPoliticy}>Нажимая кнопку «Зарегистрироваться», я даю свое согласие на сбор и обработку моих персональных данных в соответствии с <br /> <a href="#">Политикой</a> и принимаю условия <a href="#">Пользовательского соглашения</a></div>
                     </div>
                 )}
             </div>

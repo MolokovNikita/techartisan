@@ -1,27 +1,29 @@
-const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
-const TokenService = require('./Token.js')
-const {NotFound,
-  Forbidden,
-  Unauthorized} = require('../utils/Errors.js')
-const Conflict = require('../utils/Errors.js')
-const UserRepository = require('../repositories/User.js')
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
+const TokenService = require("./Token.js");
+// import {
+//   NotFound,
+//   Forbidden,
+//   Conflict,
+//   Unauthorized,
+// } from "../utils/Errors.js";
+const RefreshSessionRepository =require ("../repositories/RefreshSession.js");
+const UserRepository = require("../repositories/User.js");
 const ACCESS_TOKEN_EXPIRATION = 18e5;
+
 class AuthService {
-  static async signIn({ email, password, fingerprint }) {
+  static async signIn({ email, pass, fingerprint }) {
+    console.log(pass, email);
     const userData = await UserRepository.getUserData(email);
     if (!userData) {
-      throw new NotFound("Пользователь не найден");
+      throw new Error("Пользователь не найден");
     }
 
-    const isPasswordValid = bcrypt.compareSync(password, userData.password);
-
+    const isPasswordValid = bcrypt.compareSync(pass, userData.pass);
     if (!isPasswordValid) {
-      throw new Forbidden("Неверный email или пароль");
+      throw new Error("Неверный email или пароль");
     }
-
-    const payload = {id: userData.id, email };
-
+    const payload = { id: userData.id, email };
     const accessToken = await TokenService.generateAccessToken(payload);
     const refreshToken = await TokenService.generateRefreshToken(payload);
 
@@ -30,22 +32,21 @@ class AuthService {
       refreshToken,
       fingerprint,
     });
-
+    console.log(userData.id, refreshToken, fingerprint)
     return {
       accessToken,
       refreshToken,
       accessTokenExpiration: ACCESS_TOKEN_EXPIRATION,
+      id: userData.id,
+      f_name: userData.f_name
     };
   }
 
   static async signUp({ f_name, pass, email, fingerprint }) {
-    console.log('inAuthService - ', f_name, email, pass, fingerprint )
     const userData = await UserRepository.getUserData(email);
-    console.log(userData);
     if (userData) {
       throw new Error("Пользователь с таким email уже существует");
     }
-
     const hashedPassword = bcrypt.hashSync(pass, 8);
     const { id } = await UserRepository.createUser({
       f_name,
@@ -53,16 +54,19 @@ class AuthService {
       email,
     });
 
-    console.log('userCreated');
-    const payload = { f_name, email, id };
-
+    const payload = { email, id };
     const accessToken = await TokenService.generateAccessToken(payload);
     const refreshToken = await TokenService.generateRefreshToken(payload);
-
+    await RefreshSessionRepository.createRefreshSession({
+      id,
+      refreshToken,
+      fingerprint,
+    });
     return {
       accessToken,
       refreshToken,
       accessTokenExpiration: ACCESS_TOKEN_EXPIRATION,
+      id, 
     };
   }
 
@@ -72,7 +76,7 @@ class AuthService {
 
   static async refresh({ fingerprint, currentRefreshToken }) {
     if (!currentRefreshToken) {
-      throw new Unauthorized();
+      throw new Error('Unauthorized');
     }
 
     const refreshSession = await RefreshSessionRepository.getRefreshSession(
@@ -80,12 +84,12 @@ class AuthService {
     );
 
     if (!refreshSession) {
-      throw new Unauthorized();
+      throw new Error('Unauthorized');
     }
 
     if (refreshSession.finger_print !== fingerprint.hash) {
       console.log("Попытка несанкционированного обновления токенов");
-      throw new Forbidden();
+      throw new Error("Попытка несанкционированного обновления токенов");
     }
 
     await RefreshSessionRepository.deleteRefreshSession(currentRefreshToken);

@@ -6,11 +6,9 @@ dotenv.config();
 
 class TokenService {
   static async generateAccessToken(payload) {
-    console.log('payload in generateAccessToken -',payload);
     const JWTToken = await jwt.sign(payload,'access_abracadabra', {
       expiresIn: "30m",
     });
-    //console.log('jACcesToken - ', JWTToken)
     return JWTToken;
   }
 
@@ -38,10 +36,8 @@ class TokenService {
 
     try {
       req.user = await TokenService.verifyAccessToken(token);
-      console.log(req.user);
     } catch (error) {
-      console.log(error);
-      return next(new Forbidden(error));
+      return next(new Error(error));
     }
 
     next();

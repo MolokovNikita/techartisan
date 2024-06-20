@@ -198,3 +198,6 @@ a {
 .RegisterPoliticy>a:hover {
   color: green;
 }
+.AuthModal_card:focus {
+  outline: none;
+}
