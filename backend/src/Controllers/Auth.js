@@ -19,10 +19,9 @@ class AuthController {
           pass,
           fingerprint,
         });
-        console.log(refreshToken, COOKIE_SETTINGS.REFRESH_TOKEN)
       res.cookie("refreshToken", refreshToken, COOKIE_SETTINGS.REFRESH_TOKEN);
 
-      return res.status(200).json({ accessToken, accessTokenExpiration, id, f_name});
+      return res.status(200).json({ accessToken, accessTokenExpiration, id, f_name, email});
     } catch (err) {
       return res.status(400).send("Bad request - " + err.message);
     }
@@ -53,26 +52,23 @@ class AuthController {
       res.clearCookie("refreshToken");
       return res.sendStatus(200);
     } catch (err) {
-      return ErrorsUtils.catchError(res, err);
+      return res.status(400).send("Bad request - " + err.message);
     }
   }
 
   static async refresh(req, res) {
     const { fingerprint } = req;
     const currentRefreshToken = req.cookies.refreshToken;
-
     try {
-      const { accessToken, refreshToken, accessTokenExpiration } =
+      const { accessToken, refreshToken, accessTokenExpiration, id, f_name, email } =
         await AuthService.refresh({
           currentRefreshToken,
           fingerprint,
         });
-
       res.cookie("refreshToken", refreshToken, COOKIE_SETTINGS.REFRESH_TOKEN);
-
-      return res.status(200).json({ accessToken, accessTokenExpiration });
+      return res.status(200).json({ accessToken, accessTokenExpiration,id, f_name, email });
     } catch (err) {
-      return ErrorsUtils.catchError(res, err);
+      return res.status(400).send("Bad request - " + err.message);
     }
   }
 }

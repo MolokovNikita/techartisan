@@ -13,7 +13,6 @@ const ACCESS_TOKEN_EXPIRATION = 18e5;
 
 class AuthService {
   static async signIn({ email, pass, fingerprint }) {
-    console.log(pass, email);
     const userData = await UserRepository.getUserData(email);
     if (!userData) {
       throw new Error("Пользователь не найден");
@@ -32,13 +31,13 @@ class AuthService {
       refreshToken,
       fingerprint,
     });
-    console.log(userData.id, refreshToken, fingerprint)
     return {
       accessToken,
       refreshToken,
       accessTokenExpiration: ACCESS_TOKEN_EXPIRATION,
       id: userData.id,
-      f_name: userData.f_name
+      f_name: userData.f_name,
+      email: userData.email
     };
   }
 
@@ -53,7 +52,6 @@ class AuthService {
       hashedPassword,
       email,
     });
-
     const payload = { email, id };
     const accessToken = await TokenService.generateAccessToken(payload);
     const refreshToken = await TokenService.generateRefreshToken(payload);
@@ -66,7 +64,9 @@ class AuthService {
       accessToken,
       refreshToken,
       accessTokenExpiration: ACCESS_TOKEN_EXPIRATION,
-      id, 
+      id,
+      f_name,
+      email 
     };
   }
 
@@ -78,7 +78,6 @@ class AuthService {
     if (!currentRefreshToken) {
       throw new Error('Unauthorized');
     }
-
     const refreshSession = await RefreshSessionRepository.getRefreshSession(
       currentRefreshToken
     );
@@ -93,21 +92,20 @@ class AuthService {
     }
 
     await RefreshSessionRepository.deleteRefreshSession(currentRefreshToken);
-
     let payload;
     try {
       payload = await TokenService.verifyRefreshToken(currentRefreshToken);
     } catch (error) {
-      throw new Forbidden(error);
+      throw new Error(error);
     }
 
     const {
+      email,
       id,
-      role,
-      name: userName,
-    } = await UserRepository.getUserData(payload.userName);
+      f_name
+    } = await UserRepository.getUserData(payload.email);
 
-    const actualPayload = { id, userName, role };
+    const actualPayload = { email, id };
 
     const accessToken = await TokenService.generateAccessToken(actualPayload);
     const refreshToken = await TokenService.generateRefreshToken(actualPayload);
@@ -122,6 +120,9 @@ class AuthService {
       accessToken,
       refreshToken,
       accessTokenExpiration: ACCESS_TOKEN_EXPIRATION,
+      email,
+      id,
+      f_name
     };
   }
 }

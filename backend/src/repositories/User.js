@@ -17,7 +17,6 @@ class UserRepository {
     if (!response.rows.length) {
       return null;
     } 
-
     return response.rows[0];
   }
 }

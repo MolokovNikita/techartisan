@@ -1,29 +1,26 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import config from "../config";
 import { AuthClient, AuthContext } from "../context/AuthContext";
 
-const inMemoryJWTService = () => {
-  let inMemoryJWT = null;
+const useInMemoryJWT = () => {
+  const { userData, setUserData } = useContext(AuthContext);
+  const [inMemoryJWT, setInMemoryJWT] = useState(null);
   let refreshTimeoutId = null;
 
   const refreshToken = (expiration) => {
-    console.log(expiration);
     const timeoutTrigger = expiration - 10000;
-    const {userData, setUserData} = useContext(AuthContext);
+
     refreshTimeoutId = setTimeout(() => {
       AuthClient.post("/refresh")
         .then((res) => {
-        const { accessToken, accessTokenExpiration } = res.data;
-        setUserData(
-          {
-          ...userData,
-          id : res.data.id, 
-          f_name : res.data.f_name,
-          email : res.data.email
-          }
-        )
-        sessionStorage.setItem('userId', res.data.id);
-        sessionStorage.setItem('userName',  res.data.f_name);
+          const { accessToken, accessTokenExpiration } = res.data;
+          setUserData({
+            ...userData,
+            id: res.data.id,
+            f_name: res.data.f_name,
+            email: res.data.email
+          });
+          sessionStorage.setItem('userId', res.data.id);
           setToken(accessToken, accessTokenExpiration);
         })
         .catch(console.error);
@@ -39,15 +36,21 @@ const inMemoryJWTService = () => {
   const getToken = () => inMemoryJWT;
 
   const setToken = (token, tokenExpiration) => {
-    inMemoryJWT = token;
+    setInMemoryJWT(token);
     refreshToken(tokenExpiration);
   };
 
   const deleteToken = () => {
-    inMemoryJWT = null;
+    setInMemoryJWT(null);
     abortRefreshToken();
-    localStorage.setItem(config.LOGOUT_STORAGE_KEY, Date.now());//LOGOUT_STORAGE_KEY: "logout",
+    localStorage.setItem(config.LOGOUT_STORAGE_KEY, Date.now());
   };
+
+  useEffect(() => {
+    return () => {
+      abortRefreshToken();
+    };
+  }, []);
 
   return {
     getToken,
@@ -56,4 +59,4 @@ const inMemoryJWTService = () => {
   };
 };
 
-export default inMemoryJWTService();
+export default useInMemoryJWT;

@@ -6,14 +6,14 @@ export default function Header({ setIsOpen }) {
 
   const location = useLocation();
   const navigate = useNavigate();
-  const {handleLogOut} = useContext(AuthContext);
-  const {isAuth} = useContext(AuthContext);
-  
+  const {handleLogOut, isAuth, userData, setUserData} = useContext(AuthContext);
   const handleClick = () => {
     setIsOpen(true);
   };
 
-
+const handlePopUp = () => { 
+  console.log(userData);
+}
   const handleNavigation = (path, hash) => {
     if (location.pathname !== path) {
       navigate(path);
@@ -49,7 +49,7 @@ export default function Header({ setIsOpen }) {
               <a href="tel:+79999999999">+7-999-999-99-99</a>
             </li>
             <li>
-              <a href="#"><img className={styles.tglogo} src="/tg.png" alt="tglogo" /></a>
+              <a onClick={handlePopUp} href="#"><img className={styles.tglogo} src="/tg.png" alt="tglogo" /></a>
             </li>
             <li>
               <a href="#"><img className={styles.vklogo} src="/vk.png" alt="vklogo" /></a>
@@ -84,7 +84,7 @@ export default function Header({ setIsOpen }) {
           {!isAuth ? (<a onClick={handleClick}>Войти</a>) : 
           (
             <>
-          <span className = {styles.auth_greeting} onClick={console.log('To Do всплывающее меню')}>Привет!, {localStorage.getItem('userName')}</span>
+          <span className = {styles.auth_greeting} onClick={handlePopUp}>Привет!, {userData.f_name}</span>
           <a className = {styles.logout_bth} onClick={handleLogOut}>Выйти</a>
           </>
           )}
