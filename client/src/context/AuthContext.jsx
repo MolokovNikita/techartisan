@@ -1,6 +1,5 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Circle } from "react-preloaders"; // loader TO DO
 import config from "../config.js";
 import useInMemoryJWT from "../hooks/inMemoryJWT.js";
 
@@ -36,31 +35,30 @@ const AuthProvider = ({ children }) => {
         console.log(e);
       });
   };
+
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await AuthClient.post("/refresh");
-        const { accessToken, accessTokenExpiration } = response.data;
+    AuthClient.post("/refresh")
+      .then((res) => {
+        const { accessToken, accessTokenExpiration } = res.data;
         setToken(accessToken, accessTokenExpiration);
         setUserData({
-          id: response.data.id,
-          f_name: response.data.f_name,
-          email: response.data.email
+          ...userData,
+          id: res.data.id,
+          f_name: res.data.f_name,
+          email: res.data.email
         });
         setisAuth(true);
-      } catch (error) {
-        console.log(error.response.data);
+      })
+      .catch((e) => {
+        console.log(e.response.data);
         setisAuth(false);
-      } finally {
+      })
+      .finally(() => {
         setIsLoading(false);
-      }
-    };
-  
-    // Выполнять запрос только при первой загрузке (isLoading === true)
-    if (isLoading) {
-      fetchData();
-    }
-  }, [isLoading]); // Зависимость от isLoading
+      })
+      
+  }, []);
+
 
   const handleLogOut = () => {
     AuthClient.post("/logout")

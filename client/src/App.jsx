@@ -9,12 +9,12 @@ import Footer from './components/Footer';
 import ModalAuth from './components/ModalAuth';
 import { AuthContext } from './context/AuthContext';
 import axios from "axios";
+import style from './styles/app.module.css'
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const {isLoading} = useContext(AuthContext)
   const location = useLocation();
-  console.log(isLoading);
   const handleModalClose = () => {
     setIsOpen(false);
   };
@@ -23,7 +23,9 @@ function App() {
   return (
     <>
       {isLoading ? (
-        <a>loading</a> 
+       <div className={style.loader_container}>
+       <div className={style.spinner}></div>
+   </div>
       ) : (
         <>
           <ModalAuth isOpen={isOpen} onClose={handleModalClose} />

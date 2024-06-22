@@ -143,25 +143,12 @@ a {
   cursor: pointer;
 }
 
-.RegisterBtn_container>button {
-  font-family: "Inter", sans-serif;
-  font-weight: lighter;
-  background: none;
-  border: none;
-  padding: 5px 40px;
-  font-size: 1.5rem;
-  background-color: rgba(136, 226, 139, 0.4);
-  border-radius: 1em;
-  cursor: pointer;
-}
 
-.LoginBtn_container>button:hover,
-.RegisterBtn_container>button:hover {
+.LoginBtn_container>button:hover {
   background-color: rgba(136, 226, 139, 0.8);
 }
 
-.LoginBtn_container>button:active,
-.RegisterBtn_container>button:active {
+.LoginBtn_container>button:active{
   background-color: rgba(136, 226, 139, 1);
 }
 
@@ -200,4 +187,43 @@ a {
 }
 .AuthModal_card:focus {
   outline: none;
+}
+.Error_area{
+  font-size: 10px;
+  color: red;
+}
+.buttonEnabled {
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  background: none;
+  border: none;
+  padding: 5px 40px;
+  font-size: 1.5rem;
+  background-color: rgba(136, 226, 139, 0.4);
+  border-radius: 1em;
+  cursor: pointer;
+  cursor: pointer;
+  background-color: rgba(136, 226, 139, 0.4);
+  transition: background-color 0.3s; /* Плавный переход цвета */
+}
+
+.buttonEnabled:hover {
+  background-color: rgba(136, 226, 139, 0.8);
+}
+.buttonEnabled:active{
+  background-color: rgba(136, 226, 139, 1);
+
+}
+.buttonDisabled {
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  background: none;
+  border: none;
+  padding: 5px 40px;
+  font-size: 1.5rem;
+  background-color: rgba(136, 226, 139, 0.4);
+  border-radius: 1em;
+  cursor: pointer;
+  cursor: not-allowed !important;
+  background-color: #ccc; /* Неактивная кнопка */
 }
