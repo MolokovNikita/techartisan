@@ -1,277 +1,335 @@
 import { useEffect, useMemo, useRef, useState, useContext } from "react";
-import { createPortal } from 'react-dom';
+import { createPortal } from "react-dom";
 import style from "../styles/style.module.css";
-import { AuthContext } from '../context/AuthContext';
+import { AuthContext } from "../context/AuthContext";
 import { PiEye, PiEyeClosed } from "react-icons/pi";
-import { useLoginValidation } from '../hooks/useLoginValidation';
-import { useValidation } from '../hooks/useValidation';
+import { useLoginValidation } from "../hooks/useLoginValidation";
+import { useValidation } from "../hooks/useValidation";
 
-const ModalRootElement = document.querySelector('#ModalAuth');
+const ModalRootElement = document.querySelector("#ModalAuth");
 
 export default function ModalAuth(props) {
-    const { isOpen, onClose } = props;
-    const { handleSignIn, handleSignUp } = useContext(AuthContext);
-    const [isLoginSelected, setIsLoginSelected] = useState(true);
-    const element = useMemo(() => document.createElement("div"), []);
-    const modalRef = useRef(null);
+  const { isOpen, onClose } = props;
+  const { handleSignIn, handleSignUp } = useContext(AuthContext);
+  const [isLoginSelected, setIsLoginSelected] = useState(true);
+  const element = useMemo(() => document.createElement("div"), []);
+  const modalRef = useRef(null);
 
-    const {
-        name,
-        email,
-        password,
-        passwordMatch,
-        nameDirty,
-        emailDirty,
-        passwordDirty,
-        passwordMatchDirty,
-        nameError,
-        emailError,
-        passwordError,
-        passwordMatchError,
-        formValid,
-        nameHandler,
-        emailHandler,
-        passwordHandler,
-        passwordMatchHandler,
-        blurHandler,
-    } = useValidation();
+  const {
+    name,
+    email,
+    password,
+    passwordMatch,
+    nameDirty,
+    emailDirty,
+    passwordDirty,
+    passwordMatchDirty,
+    nameError,
+    emailError,
+    passwordError,
+    passwordMatchError,
+    formValid,
+    nameHandler,
+    emailHandler,
+    passwordHandler,
+    passwordMatchHandler,
+    blurHandler,
+  } = useValidation();
 
-    const {
-        loginEmail,
-        loginPassword,
-        loginEmailDirty,
-        loginPasswordDirty,
-        loginEmailError,
-        loginPasswordError,
-        loginFormValid,
-        loginEmailHandler,
-        loginPasswordHandler,
-        blurHandler: loginBlurHandler,
-    } = useLoginValidation();
+  const {
+    loginEmail,
+    loginPassword,
+    loginEmailDirty,
+    loginPasswordDirty,
+    loginEmailError,
+    loginPasswordError,
+    loginFormValid,
+    loginEmailHandler,
+    loginPasswordHandler,
+    blurHandler: loginBlurHandler,
+  } = useLoginValidation();
 
-    const [isEyeOpen, setIsEyeOpen] = useState(false);
+  const [isEyeOpen, setIsEyeOpen] = useState(false);
 
-    useEffect(() => {
-        if (ModalRootElement) {
-            ModalRootElement.appendChild(element);
-            return () => {
-                ModalRootElement.removeChild(element);
-            };
-        }
-    }, [element]);
+  useEffect(() => {
+    if (ModalRootElement) {
+      ModalRootElement.appendChild(element);
+      return () => {
+        ModalRootElement.removeChild(element);
+      };
+    }
+  }, [element]);
 
-    useEffect(() => {
-        const handleKeyDown = (e) => {
-            if (e.key === "Tab" && isOpen) {
-                const focusableElements = modalRef.current.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-                const firstElement = focusableElements[0];
-                const lastElement = focusableElements[focusableElements.length - 1];
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Tab" && isOpen) {
+        const focusableElements = modalRef.current.querySelectorAll(
+          'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
 
-                if (e.shiftKey) { // Shift + Tab
-                    if (document.activeElement === firstElement) {
-                        e.preventDefault();
-                        lastElement.focus();
-                    }
-                } else { // Tab
-                    if (document.activeElement === lastElement) {
-                        e.preventDefault();
-                        firstElement.focus();
-                    }
-                }
-            }
-
-            // Закрытие модального окна при нажатии на Esc
-            if (e.key === "Escape" && isOpen) {
-                onClose();
-            }
-        };
-
-        if (isOpen) {
-            document.body.style.overflow = 'hidden';
-            document.addEventListener('keydown', handleKeyDown);
-            modalRef.current.focus();
+        if (e.shiftKey) {
+          // Shift + Tab
+          if (document.activeElement === firstElement) {
+            e.preventDefault();
+            lastElement.focus();
+          }
         } else {
-            document.body.style.overflow = '';
+          // Tab
+          if (document.activeElement === lastElement) {
+            e.preventDefault();
+            firstElement.focus();
+          }
         }
+      }
 
-        return () => {
-            document.body.style.overflow = '';
-            document.removeEventListener('keydown', handleKeyDown);
-        };
-    }, [isOpen, onClose]);
-
-    if (!isOpen) return null;
-
-    const handleRegistration = () => {
-        if (nameError || emailError || passwordError || passwordMatchError) {
-            return;
-        } else {
-            const f_name = name;
-            const pass = password;
-            handleSignUp([{ f_name, email, pass }, onClose]);
-        }
-    };
-
-    const handleLogin = () => {
-        if (loginEmailError || loginPasswordError) {
-            return;
-        } else {
-            const email = loginEmail;
-            const pass = loginPassword;
-            handleSignIn([{ email, pass }, onClose]);
-        }
-    };
-
-    const handleBackgroundClick = () => {
+      // Закрытие модального окна при нажатии на Esc
+      if (e.key === "Escape" && isOpen) {
         onClose();
+      }
     };
 
-    const handleCardClick = (event) => {
-        event.stopPropagation();
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      document.addEventListener("keydown", handleKeyDown);
+      modalRef.current.focus();
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      document.removeEventListener("keydown", handleKeyDown);
     };
+  }, [isOpen, onClose]);
 
-    return createPortal(
-        <div className={style.AuthModal_background} onClick={handleBackgroundClick}>
-            <div className={style.AuthModal_card} onClick={handleCardClick} ref={modalRef} tabIndex="-1">
-                <div className={style.close}>
-                    <button className={style.closeButton} onClick={handleBackgroundClick}>
-                        <img src="/close.png" alt="close" className={style.closeImage} />
-                    </button>
-                </div>
-                <div className={style.LoginRegisterToggle}>
-                    <a className={isLoginSelected ? style.selected : ''} onClick={() => setIsLoginSelected(true)}>Логин&nbsp;</a>
-                    <p> / </p>
-                    <a className={!isLoginSelected ? style.selected : ''} onClick={() => setIsLoginSelected(false)}>&nbsp;Регистрация</a>
-                </div>
-                {isLoginSelected ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                        <div className={style.Email_area_container}>
-                            <div className={style.inputWrapper}>
-                                <input
-                                    onChange={loginEmailHandler}
-                                    value={loginEmail}
-                                    onBlur={loginBlurHandler}
-                                    name='loginEmail'
-                                    className={style.Email_area}
-                                    type="text"
-                                    placeholder=' '
-                                />
-                                <label className={style.placeholderLabel}>Email</label>
-                            </div>
-                        </div>
-                        {(loginEmailDirty && loginEmailError) && <div className={style.Error_area}>{loginEmailError}</div>}
+  if (!isOpen) return null;
 
-                        <div className={style.Password_area_container}>
-                            <div className={style.inputWrapper}>
-                                <input
-                                    onChange={loginPasswordHandler}
-                                    value={loginPassword}
-                                    onBlur={loginBlurHandler}
-                                    name='loginPassword'
-                                    className={style.Password_area}
-                                    type="password"
-                                    placeholder=' '
-                                />
-                                <label className={style.placeholderLabel}>Пароль</label>
-                            </div>
-                        </div>
-                        {(loginPasswordDirty && loginPasswordError) && <div className={style.Error_area}>{loginPasswordError}</div>}
-                        <div className={style.FortgotPass_container}>
-                            <a>Забыли пароль ?</a>
-                        </div>
-                        <div className={style.LoginBtn_container}>
-                            <button
-                                disabled={!loginFormValid}
-                                className={loginFormValid ? style.buttonEnabled : style.buttonDisabled}
-                                onClick={handleLogin}
-                            >
-                                Войти
-                            </button>
-                        </div>
-                    </div>
-                ) : (
-                    <div className={style.Registration_container}>
-                        <div className={style.Name_area_container}>
-                            <div className={style.inputWrapper}>
-                                <input
-                                    onChange={nameHandler}
-                                    value={name}
-                                    onBlur={blurHandler}
-                                    name='name'
-                                    className={style.Name_area}
-                                    type="text"
-                                    placeholder=' '
-                                />
-                                <label className={style.placeholderLabel}>Ваше имя</label>
-                            </div>
-                        </div>
-                        {(nameDirty && nameError) && <p className={style.Error_area}>{nameError}</p>}
+  const handleRegistration = () => {
+    if (nameError || emailError || passwordError || passwordMatchError) {
+      return;
+    } else {
+      const f_name = name;
+      const pass = password;
+      handleSignUp([{ f_name, email, pass }, onClose]);
+    }
+  };
 
-                        <div className={style.Email_area_container}>
-                            <div className={style.inputWrapper}>
-                                <input
-                                    onChange={emailHandler}
-                                    value={email}
-                                    onBlur={blurHandler}
-                                    name='email'
-                                    className={style.Email_area}
-                                    type="text"
-                                    placeholder=' '
-                                />
-                                <label className={style.placeholderLabel}>Email</label>
-                            </div>
-                        </div>
-                        {(emailDirty && emailError) && <div className={style.Error_area}>{emailError}</div>}
+  const handleLogin = () => {
+    if (loginEmailError || loginPasswordError) {
+      return;
+    } else {
+      const email = loginEmail;
+      const pass = loginPassword;
+      handleSignIn([{ email, pass }, onClose]);
+    }
+  };
 
-                        <div className={style.Password_area_container}>
-                            <div className={style.inputWrapper}>
-                                <input
-                                    onChange={passwordHandler}
-                                    value={password}
-                                    onBlur={blurHandler}
-                                    name='password'
-                                    className={style.Password_area}
-                                    type={isEyeOpen ? "text" : "password"}
-                                    placeholder=' '
-                                />
-                                <label className={style.placeholderLabel}>Придумайте пароль</label>
-                                <a type="button" className={style.eyeButton} onClick={() => setIsEyeOpen(!isEyeOpen)}>
-                                    {isEyeOpen ? <PiEye /> : <PiEyeClosed />}
-                                </a>
-                            </div>
-                        </div>
-                        {(passwordDirty && passwordError) && <div className={style.Error_area}>{passwordError}</div>}
-                        <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '300px' }}>
-                            <div style={{ fontSize: '15px' }}>Минимум 6 символов (букв или цифр)</div>
-                        </div>
-                        <div className={style.Password_area_container}>
-                            <div className={style.inputWrapper}>
-                                <input
-                                    onChange={passwordMatchHandler}
-                                    value={passwordMatch}
-                                    onBlur={blurHandler}
-                                    name='passwordMatch'
-                                    className={style.Password_area}
-                                    type="password"
-                                    placeholder=' '
-                                />
-                                <label className={style.placeholderLabel}>Подтвердите пароль</label>
-                            </div>
-                        </div>
-                        {(passwordMatchDirty && passwordMatchError) && <div className={style.Error_area}>{passwordMatchError}</div>}
-                        <div className={style.RegisterBtn_container}>
-                            <button
-                                disabled={!formValid}
-                                className={formValid ? style.buttonEnabled : style.buttonDisabled}
-                                onClick={handleRegistration}
-                            >
-                                Зарегистрироваться
-                            </button>
-                        </div>
-                    </div>
-                )}
+  const handleBackgroundClick = () => {
+    onClose();
+  };
+
+  const handleCardClick = (event) => {
+    event.stopPropagation();
+  };
+
+  return createPortal(
+    <div className={style.AuthModal_background} onClick={handleBackgroundClick}>
+      <div
+        className={style.AuthModal_card}
+        onClick={handleCardClick}
+        ref={modalRef}
+        tabIndex="-1"
+      >
+        <div className={style.close}>
+          <button className={style.closeButton} onClick={handleBackgroundClick}>
+            <img src="/close.png" alt="close" className={style.closeImage} />
+          </button>
+        </div>
+        <div className={style.LoginRegisterToggle}>
+          <a
+            className={isLoginSelected ? style.selected : ""}
+            onClick={() => setIsLoginSelected(true)}
+          >
+            Логин&nbsp;
+          </a>
+          <p> / </p>
+          <a
+            className={!isLoginSelected ? style.selected : ""}
+            onClick={() => setIsLoginSelected(false)}
+          >
+            &nbsp;Регистрация
+          </a>
+        </div>
+        {isLoginSelected ? (
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <div className={style.Email_area_container}>
+              <div className={style.inputWrapper}>
+                <input
+                  onChange={loginEmailHandler}
+                  value={loginEmail}
+                  onBlur={loginBlurHandler}
+                  name="loginEmail"
+                  className={style.Email_area}
+                  type="text"
+                  placeholder=" "
+                />
+                <label className={style.placeholderLabel}>Email</label>
+              </div>
             </div>
-        </div>,
-        element
-    );
+            {loginEmailDirty && loginEmailError && (
+              <div className={style.Error_area}>{loginEmailError}</div>
+            )}
+
+            <div className={style.Password_area_container}>
+              <div className={style.inputWrapper}>
+                <input
+                  onChange={loginPasswordHandler}
+                  value={loginPassword}
+                  onBlur={loginBlurHandler}
+                  name="loginPassword"
+                  className={style.Password_area}
+                  type="password"
+                  placeholder=" "
+                />
+                <label className={style.placeholderLabel}>Пароль</label>
+              </div>
+            </div>
+            {loginPasswordDirty && loginPasswordError && (
+              <div className={style.Error_area}>{loginPasswordError}</div>
+            )}
+            <div className={style.FortgotPass_container}>
+              <a>Забыли пароль ?</a>
+            </div>
+            <div className={style.LoginBtn_container}>
+              <button
+                disabled={!loginFormValid}
+                className={
+                  loginFormValid ? style.buttonEnabled : style.buttonDisabled
+                }
+                onClick={handleLogin}
+              >
+                Войти
+              </button>
+            </div>
+          </div>
+        ) : (
+          <div className={style.Registration_container}>
+            <div className={style.Name_area_container}>
+              <div className={style.inputWrapper}>
+                <input
+                  onChange={nameHandler}
+                  value={name}
+                  onBlur={blurHandler}
+                  name="name"
+                  className={style.Name_area}
+                  type="text"
+                  placeholder=" "
+                />
+                <label className={style.placeholderLabel}>Ваше имя</label>
+              </div>
+            </div>
+            {nameDirty && nameError && (
+              <p className={style.Error_area}>{nameError}</p>
+            )}
+
+            <div className={style.Email_area_container}>
+              <div className={style.inputWrapper}>
+                <input
+                  onChange={emailHandler}
+                  value={email}
+                  onBlur={blurHandler}
+                  name="email"
+                  className={style.Email_area}
+                  type="text"
+                  placeholder=" "
+                />
+                <label className={style.placeholderLabel}>Email</label>
+              </div>
+            </div>
+            {emailDirty && emailError && (
+              <div className={style.Error_area}>{emailError}</div>
+            )}
+
+            <div className={style.Password_area_container}>
+              <div className={style.inputWrapper}>
+                <input
+                  onChange={passwordHandler}
+                  value={password}
+                  onBlur={blurHandler}
+                  name="password"
+                  className={style.Password_area}
+                  type={isEyeOpen ? "text" : "password"}
+                  placeholder=" "
+                />
+                <label className={style.placeholderLabel}>
+                  Придумайте пароль
+                </label>
+                <a
+                  type="button"
+                  className={style.eyeButton}
+                  onClick={() => setIsEyeOpen(!isEyeOpen)}
+                >
+                  {isEyeOpen ? <PiEye /> : <PiEyeClosed />}
+                </a>
+              </div>
+            </div>
+            {passwordDirty && passwordError && (
+              <div className={style.Error_area}>{passwordError}</div>
+            )}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                maxWidth: "300px",
+              }}
+            >
+              <div style={{ fontSize: "15px" }}>
+                Минимум 6 символов (букв или цифр)
+              </div>
+            </div>
+            <div className={style.Password_area_container}>
+              <div className={style.inputWrapper}>
+                <input
+                  onChange={passwordMatchHandler}
+                  value={passwordMatch}
+                  onBlur={blurHandler}
+                  name="passwordMatch"
+                  className={style.Password_area}
+                  type="password"
+                  placeholder=" "
+                />
+                <label className={style.placeholderLabel}>
+                  Подтвердите пароль
+                </label>
+              </div>
+            </div>
+            {passwordMatchDirty && passwordMatchError && (
+              <div className={style.Error_area}>{passwordMatchError}</div>
+            )}
+            <div className={style.RegisterBtn_container}>
+              <button
+                disabled={!formValid}
+                className={
+                  formValid ? style.buttonEnabled : style.buttonDisabled
+                }
+                onClick={handleRegistration}
+              >
+                Зарегистрироваться
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>,
+    element,
+  );
 }

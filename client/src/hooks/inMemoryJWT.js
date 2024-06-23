@@ -18,9 +18,9 @@ const useInMemoryJWT = () => {
             ...userData,
             id: res.data.id,
             f_name: res.data.f_name,
-            email: res.data.email
+            email: res.data.email,
           });
-          sessionStorage.setItem('userId', res.data.id);
+          sessionStorage.setItem("userId", res.data.id);
           setToken(accessToken, accessTokenExpiration);
         })
         .catch(console.error);

@@ -1,8 +1,8 @@
-*{
+* {
   margin: 0;
   padding: 0;
 }
-html { 
+html {
   scroll-behavior: smooth;
   scrollbar-width: none;
 }

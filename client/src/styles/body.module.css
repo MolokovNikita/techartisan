@@ -94,7 +94,7 @@ a:hover {
   margin-bottom: 0.8em;
 }
 
-.SignUp_container>ol>li>button {
+.SignUp_container > ol > li > button {
   font-family: "Inter", sans-serif;
   font-weight: lighter;
   background: none;
@@ -112,15 +112,15 @@ a:hover {
   transition: all 0.3s;
 }
 
-.SignUp_container>ol>li>button:hover {
+.SignUp_container > ol > li > button:hover {
   background-color: rgba(136, 226, 139, 0.8);
 }
 
-.SignUp_container>ol>li>button:active {
+.SignUp_container > ol > li > button:active {
   background-color: rgba(136, 226, 139, 1);
 }
 
-.SignUp_container>ol>li>img {
+.SignUp_container > ol > li > img {
   width: 60%;
 }
 
@@ -128,7 +128,7 @@ a:hover {
   margin-top: 2em;
 }
 
-.topic_list>li>div>img {
+.topic_list > li > div > img {
   margin-top: -2em;
   width: 15%;
 }
@@ -211,7 +211,7 @@ a:hover {
   justify-content: center;
 }
 
-.Services_button_container > a >button {
+.Services_button_container > a > button {
   font-family: "Inter", sans-serif;
   font-weight: lighter;
   background: none;
@@ -228,7 +228,7 @@ a:hover {
   transition: all 0.3s;
 }
 
-.Services_button_container > a >button:hover {
+.Services_button_container > a > button:hover {
   background-color: rgba(136, 226, 139, 0.8);
 }
 
@@ -279,8 +279,8 @@ a:hover {
   font-size: 1.5rem;
 }
 
-.block_info>ul,
-.social_logo_list>ul {
+.block_info > ul,
+.social_logo_list > ul {
   list-style: none;
 }
 
@@ -289,15 +289,15 @@ a:hover {
   margin-right: 5px;
 }
 
-.block_info>ul {
+.block_info > ul {
   margin: 13px 0;
 }
 
-.block_info>ul>li {
+.block_info > ul > li {
   margin: 5px 0;
 }
 
-.block_info>button {
+.block_info > button {
   font-family: "Inter", sans-serif;
   font-weight: lighter;
   margin-top: 20px;
@@ -316,15 +316,15 @@ a:hover {
   transition: all 0.3s;
 }
 
-.block_info>button:hover {
+.block_info > button:hover {
   background-color: rgba(136, 226, 139, 0.8);
 }
 
-.block_info>button:active {
+.block_info > button:active {
   background-color: rgba(136, 226, 139, 1);
 }
 
-.social_logo_list>ul>li>img {
+.social_logo_list > ul > li > img {
   width: 1.7rem;
 }
 
@@ -354,7 +354,7 @@ a:hover {
   margin-bottom: 1.5rem;
 }
 
-.find_container>a>button {
+.find_container > a > button {
   background: none;
   border: none;
   font-family: "Inter", sans-serif;
@@ -371,10 +371,10 @@ a:hover {
   transition: all 0.3s;
 }
 
-.find_container>a>button:hover {
+.find_container > a > button:hover {
   background-color: rgb(245, 96, 91, 0.6);
 }
 
-.find_container>a>button:active {
+.find_container > a > button:active {
   background-color: rgb(245, 96, 91, 1);
 }

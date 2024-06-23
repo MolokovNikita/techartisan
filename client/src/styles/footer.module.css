@@ -8,12 +8,12 @@
   background-color: rgb(199, 223, 195);
 }
 
-.footer_container>ul {
+.footer_container > ul {
   align-items: center;
   justify-content: center;
   list-style: none;
 }
 
-.footer_text>ul {
+.footer_text > ul {
   list-style: none;
 }

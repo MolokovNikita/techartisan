@@ -1,275 +1,277 @@
-*{
-    margin: 0;
-    padding: 0;
-
+* {
+  margin: 0;
+  padding: 0;
 }
 /* Navigation CSS */
-.social-nav{
-align-items: center;
+.social-nav {
+  align-items: center;
 }
-.location-nav{
-align-items: center;
-margin-left: 200px;
+.location-nav {
+  align-items: center;
+  margin-left: 200px;
 }
-.location-nav>li{
-    margin-right: 30px;
+.location-nav > li {
+  margin-right: 30px;
 }
-.social-nav{
-    margin-right: 100px;
+.social-nav {
+  margin-right: 100px;
 }
-.social-nav>li{
-    margin-left: 15px;
+.social-nav > li {
+  margin-left: 15px;
 }
-.social-nav>li:first-child{
-    margin-right: 50px;
+.social-nav > li:first-child {
+  margin-right: 50px;
 }
-.top-header { 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: rgb(199,223,195);
-    height: 3em;
-    font-family: "Inter", sans-serif;
-    font-weight:medium;
-    text-align: end;
+.top-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: rgb(199, 223, 195);
+  height: 3em;
+  font-family: "Inter", sans-serif;
+  font-weight: medium;
+  text-align: end;
 }
-.bottom-header{ 
-    display: flex;
-    justify-content: space-between;
-    font-family: "Inter", sans-serif;
-    font-weight:lighter;
-    font-size: 1.5rem;
+.bottom-header {
+  display: flex;
+  justify-content: space-between;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
 }
-ol{ 
-    display:flex;  
-    list-style:none;
+ol {
+  display: flex;
+  list-style: none;
 }
-.logo { 
-    height: 120px;
+.logo {
+  height: 120px;
 }
-.tellogo, .geologo { 
-    height: 15px;
+.tellogo,
+.geologo {
+  height: 15px;
 }
-.tglogo, .vklogo, .wapplogo { 
-    height: 35px;
+.tglogo,
+.vklogo,
+.wapplogo {
+  height: 35px;
 }
-.main-nav{
-    display: flex;
-    margin-top: 40px;
+.main-nav {
+  display: flex;
+  margin-top: 40px;
 }
-.main-nav>li{
-    margin-left:80px;
+.main-nav > li {
+  margin-left: 80px;
 }
-.Auth-container{
-    margin-top: 40px;
-    margin-right:40px;
+.Auth-container {
+  margin-top: 40px;
+  margin-right: 40px;
 }
-a:visited, a:link, a:active
-{
-    text-decoration: none;
-    color: black;
+a:visited,
+a:link,
+a:active {
+  text-decoration: none;
+  color: black;
 }
 a:hover {
-    color: violet;
+  color: violet;
 }
-.bottom-header-left{
-    display: flex;
+.bottom-header-left {
+  display: flex;
 }
 /* Topic */
-.topic-container{
-    justify-content: center;
-    display: flex;
-    margin-top: 4em;
+.topic-container {
+  justify-content: center;
+  display: flex;
+  margin-top: 4em;
 }
-.topic{
-    display: flex;
-    flex-direction: row;
-    border-radius: 3em;
-    background-color: rgba(217,217,217,0.4);
-    font-family: "Inter", sans-serif;
-    font-weight:lighter;
-    font-size: 1.4rem;
-    padding: 2em;
+.topic {
+  display: flex;
+  flex-direction: row;
+  border-radius: 3em;
+  background-color: rgba(217, 217, 217, 0.4);
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.4rem;
+  padding: 2em;
 }
-.topic-list{
-    display:block;  
-    padding: 0;
-    margin: 0;
-    padding-right: 2em;
+.topic-list {
+  display: block;
+  padding: 0;
+  margin: 0;
+  padding-right: 2em;
 }
-.topic-list li { 
-    margin-top: 2em;
-    margin-bottom: 1.5em;
+.topic-list li {
+  margin-top: 2em;
+  margin-bottom: 1.5em;
 }
-.SignUp-container{
-    display: flex;
-    justify-content: center;
-    margin-left: 0px;
-    margin-bottom: 0;
+.SignUp-container {
+  display: flex;
+  justify-content: center;
+  margin-left: 0px;
+  margin-bottom: 0;
 }
-.SignUp{
-    font-weight: bolder;
-    background-color: rgba(136,226,139,0.4);
-    padding: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-radius: 1em;
-    margin-right: 5em;
+.SignUp {
+  font-weight: bolder;
+  background-color: rgba(136, 226, 139, 0.4);
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 1em;
+  margin-right: 5em;
 }
-.topic-arrow{
-    margin-left:2em;
-    margin-top: 4em;
+.topic-arrow {
+  margin-left: 2em;
+  margin-top: 4em;
 }
-.arrow-list{
-    display:block;  
-    padding: 0;
-    margin: 0;
+.arrow-list {
+  display: block;
+  padding: 0;
+  margin: 0;
 }
-.arrow-list img{
-    scale: 70%;
+.arrow-list img {
+  scale: 70%;
 }
 .arrow-list li {
-    margin-bottom: 1em;
+  margin-bottom: 1em;
 }
-.topic-text{
-    padding: 0;
-    margin: 0;
-    margin-top: 2em;
-    margin-left: 0.5em;
+.topic-text {
+  padding: 0;
+  margin: 0;
+  margin-top: 2em;
+  margin-left: 0.5em;
 }
-.arrow-list .second-arrow { 
-    margin-top: 1.2em;
-    margin-bottom: 0.8em;
+.arrow-list .second-arrow {
+  margin-top: 1.2em;
+  margin-bottom: 0.8em;
 }
 .SignUp-container > ol > li > button {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    background-color: rgba(136,226,139,0.4);
-    padding: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-radius: 1em;
-    margin-right: 5em;
-    cursor: pointer;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  background-color: rgba(136, 226, 139, 0.4);
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 1em;
+  margin-right: 5em;
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
 }
-.SignUp-container > ol > li > button:hover{
-    background-color: rgba(136,226,139,1);   
+.SignUp-container > ol > li > button:hover {
+  background-color: rgba(136, 226, 139, 1);
 }
-.SignUp-container > ol > li > button:active { 
-    transform: scale(0.98); 
-    /* Scaling button to 0.98 to its original size */ 
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24); 
-    /* Lowering the shadow */ 
-    transform: translateY(4px); 
+.SignUp-container > ol > li > button:active {
+  transform: scale(0.98);
+  /* Scaling button to 0.98 to its original size */
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  /* Lowering the shadow */
+  transform: translateY(4px);
 }
-.SignUp-container > ol > li > img { 
-    width: 60%;
+.SignUp-container > ol > li > img {
+  width: 60%;
 }
-.SignUpButton{ 
-    margin-top: 2em;
+.SignUpButton {
+  margin-top: 2em;
 }
-.topic-list > li > div > img { 
-    margin-top: -2em;
-    width: 15%;
+.topic-list > li > div > img {
+  margin-top: -2em;
+  width: 15%;
 }
-.notebook-container{
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+.notebook-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 /* ServicesBlock */
-.Services-container{ 
-    display: flex;
-    justify-content: center;
-    font-family: "Inter", sans-serif;
-    font-weight:lighter;
-    font-size: 3rem;
+.Services-container {
+  display: flex;
+  justify-content: center;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 3rem;
 }
-.Services{ 
-    margin-top: 10em;
+.Services {
+  margin-top: 10em;
 }
-.MostPopularServices{
-    display: flex;
-    justify-content: center;
-    font-family: "Inter", sans-serif;
-    font-weight:lighter;
-    font-size: 1.5rem;
-    margin-top: 1.5rem;
+.MostPopularServices {
+  display: flex;
+  justify-content: center;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  margin-top: 1.5rem;
 }
-.Services-card{
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
+.Services-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
-.Services-contaiener-1{
-    background-color: rgba(217, 217, 217, 0.4);
-    width: 25rem;
-    padding: 1.5rem;
-    border-radius: 15%;
-    margin: 2rem;
+.Services-contaiener-1 {
+  background-color: rgba(217, 217, 217, 0.4);
+  width: 25rem;
+  padding: 1.5rem;
+  border-radius: 15%;
+  margin: 2rem;
 }
-.Services-contaiener-2{
-    background-color: rgba(217, 217, 217, 0.4);
-    padding: 1.5rem;
-    width: 25rem;
-    border-radius: 15%;
-    margin: 2rem;
+.Services-contaiener-2 {
+  background-color: rgba(217, 217, 217, 0.4);
+  padding: 1.5rem;
+  width: 25rem;
+  border-radius: 15%;
+  margin: 2rem;
 }
-.Services-list{
-    display: flex;
+.Services-list {
+  display: flex;
   justify-content: center;
   align-items: center;
-    font-family: "Inter", sans-serif;
-    font-weight:lighter;
-    font-size: 1.5rem;
-    display: block;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  display: block;
 }
-.Services-list li { 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 1rem;
-    border-bottom: 0.5px solid black;
+.Services-list li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  border-bottom: 0.5px solid black;
 }
-.Services-list li:last-child{
-    border-bottom: 0px;
+.Services-list li:last-child {
+  border-bottom: 0px;
 }
-.Services-button-container{
-    margin-top: 2rem;
-    display: flex;
-    justify-content: center;
+.Services-button-container {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
 }
 .Services-button-container > button {
-    background: none;
-    border: none;
-    font-size: 1.5rem;
-    background-color: rgba(136,226,139,0.4);
-    padding: 1rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    border-radius: 1em;
-    cursor: pointer;
-    -webkit-transition: all 0.3s;
-    -moz-transition: all 0.3s;
-    transition: all 0.3s;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  background-color: rgba(136, 226, 139, 0.4);
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 1em;
+  cursor: pointer;
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  transition: all 0.3s;
 }
-.Services-button-container > button:hover{
-    background-color: rgba(136,226,139,1);   
+.Services-button-container > button:hover {
+  background-color: rgba(136, 226, 139, 1);
 }
-.Services-button-container > button:active { 
-    transform: scale(0.98); 
-    /* Scaling button to 0.98 to its original size */ 
-    box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24); 
-    /* Lowering the shadow */ 
-    transform: translateY(4px); 
+.Services-button-container > button:active {
+  transform: scale(0.98);
+  /* Scaling button to 0.98 to its original size */
+  box-shadow: 3px 2px 22px 1px rgba(0, 0, 0, 0.24);
+  /* Lowering the shadow */
+  transform: translateY(4px);
 }
 /* Contacts */
-.Contacts-text-container{
-    display: flex;
-    justify-content: center;
+.Contacts-text-container {
+  display: flex;
+  justify-content: center;
 }
-.Contacts-text

@@ -9,7 +9,7 @@ export const AuthClient = axios.create({
 });
 
 const ResourceClient = axios.create({
-  baseURL: `${config.API_URL}/clients`
+  baseURL: `${config.API_URL}/clients`,
 });
 
 export const AuthContext = createContext({});
@@ -20,18 +20,19 @@ const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const [userData, setUserData] = useState({
-    id: '',
-    f_name: '',
-    l_name: '',
-    email: '',
-    phone_number: '',
+    id: "",
+    f_name: "",
+    l_name: "",
+    email: "",
+    phone_number: "",
   });
 
   const handleFetchProtected = () => {
     ResourceClient.get("/clients")
       .then((res) => {
         console.log(res);
-      }).catch((e) => {
+      })
+      .catch((e) => {
         console.log(e);
       });
   };
@@ -45,7 +46,7 @@ const AuthProvider = ({ children }) => {
           ...userData,
           id: res.data.id,
           f_name: res.data.f_name,
-          email: res.data.email
+          email: res.data.email,
         });
         setisAuth(true);
       })
@@ -55,10 +56,8 @@ const AuthProvider = ({ children }) => {
       })
       .finally(() => {
         setIsLoading(false);
-      })
-      
+      });
   }, []);
-
 
   const handleLogOut = () => {
     AuthClient.post("/logout")
@@ -68,11 +67,11 @@ const AuthProvider = ({ children }) => {
         localStorage.clear();
         deleteToken();
         setUserData({
-          id: '',
-          f_name: '',
-          l_name: '',
-          email: '',
-          phone_number: '',
+          id: "",
+          f_name: "",
+          l_name: "",
+          email: "",
+          phone_number: "",
         });
       })
       .catch((e) => {
@@ -89,9 +88,9 @@ const AuthProvider = ({ children }) => {
           ...userData,
           id: res.data.id,
           f_name: data[0].f_name,
-          email: data[0].email
+          email: data[0].email,
         });
-        sessionStorage.setItem('userId', res.data.id);
+        sessionStorage.setItem("userId", res.data.id);
         data[1]();
         setisAuth(true);
       })
@@ -110,9 +109,9 @@ const AuthProvider = ({ children }) => {
           ...userData,
           id: res.data.id,
           f_name: res.data.f_name,
-          email: res.data.email
+          email: res.data.email,
         });
-        sessionStorage.setItem('userId', res.data.id);
+        sessionStorage.setItem("userId", res.data.id);
         data[1]();
         setisAuth(true);
       })
@@ -121,20 +120,20 @@ const AuthProvider = ({ children }) => {
       });
   };
 
-    // useEffect(() => {
-    //   const handlePersistedLogOut = (event) => {
-    //     if (event.key === "logout") { 
-    //       deleteToken();
-    //       setisAuth(false);
-    //     }
-    //   };
+  // useEffect(() => {
+  //   const handlePersistedLogOut = (event) => {
+  //     if (event.key === "logout") {
+  //       deleteToken();
+  //       setisAuth(false);
+  //     }
+  //   };
 
-    //   window.addEventListener("storage", handlePersistedLogOut);
+  //   window.addEventListener("storage", handlePersistedLogOut);
 
-    //   return () => {
-    //     window.removeEventListener("storage", handlePersistedLogOut);
-    //   };
-    // }, []);
+  //   return () => {
+  //     window.removeEventListener("storage", handlePersistedLogOut);
+  //   };
+  // }, []);
 
   return (
     <AuthContext.Provider
@@ -147,7 +146,7 @@ const AuthProvider = ({ children }) => {
         handleSignIn,
         handleLogOut,
         setUserData,
-        handleFetchProtected
+        handleFetchProtected,
       }}
     >
       {children}

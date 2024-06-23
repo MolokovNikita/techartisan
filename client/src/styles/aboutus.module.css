@@ -1,59 +1,60 @@
-ul{
-    list-style: none;
+ul {
+  list-style: none;
 }
 body {
-    
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: white;
-  }
-  
-  .top_text_container, .bottom_text_container  {
-    justify-content: center;
-    display: flex;
-    margin-top: 4em;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: white;
+}
 
-  }
-  
-  .top_text_card,.bottomp_text_card {
-    display: flex;
-    flex-direction: row;
-    border-radius: 3em;
-    background-color: rgba(217, 217, 217, 0.4);
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    font-size: 1.4rem;
-    padding: 2em;
-    font-family: "Inter", sans-serif;
-    font-weight: lighter;
-    font-size: 1.4rem;
-  }
-  
-  .top_text_card > ul > li, .bottomp_text_card > ul > li  {
-    margin-bottom: 20px;
-  }
-.slider_grid{
-    margin-top: 50px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 20px;
-    align-items: center;
-    justify-content: end;
-    justify-items: center;
+.top_text_container,
+.bottom_text_container {
+  justify-content: center;
+  display: flex;
+  margin-top: 4em;
 }
-.slide img { 
-    width: 500px;
-    border-radius: 30px;
+
+.top_text_card,
+.bottomp_text_card {
+  display: flex;
+  flex-direction: row;
+  border-radius: 3em;
+  background-color: rgba(217, 217, 217, 0.4);
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.4rem;
+  padding: 2em;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.4rem;
 }
-.bottomp_text_card li:first-child{
-display: flex;
-justify-content: center;
+
+.top_text_card > ul > li,
+.bottomp_text_card > ul > li {
+  margin-bottom: 20px;
 }
-.bottomp_text_card li:last-child{
+.slider_grid {
+  margin-top: 50px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 20px;
+  align-items: center;
+  justify-content: end;
+  justify-items: center;
+}
+.slide img {
+  width: 500px;
+  border-radius: 30px;
+}
+.bottomp_text_card li:first-child {
   display: flex;
   justify-content: center;
-  }
-.bottom_text_container{
-margin-bottom: 100px;
+}
+.bottomp_text_card li:last-child {
+  display: flex;
+  justify-content: center;
+}
+.bottom_text_container {
+  margin-bottom: 100px;
 }

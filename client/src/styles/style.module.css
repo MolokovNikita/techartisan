@@ -34,15 +34,14 @@ a {
   font-weight: lighter;
   font-size: 2rem;
   color: grey;
-
 }
 
-.LoginRegisterToggle>a {
+.LoginRegisterToggle > a {
   cursor: pointer;
   transition: all 0.2s;
 }
 
-.LoginRegisterToggle>a:hover {
+.LoginRegisterToggle > a:hover {
   color: black;
 }
 
@@ -50,20 +49,15 @@ a {
   color: black;
 }
 
-
-
 .Email_area_container,
 .Password_area_container,
-.Name_area_container
- {
+.Name_area_container {
   margin-top: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 300px;
   font-size: 1rem;
-
-
 }
 
 .inputWrapper {
@@ -75,8 +69,7 @@ a {
 
 .Email_area,
 .Name_area,
-.Password_area
- {
+.Password_area {
   font-family: "Inter", sans-serif;
   font-weight: lighter;
   font-size: 1rem;
@@ -87,9 +80,8 @@ a {
   background: none;
   border-bottom: 1px solid black;
 }
-.Password_area { 
-  padding-right: 30px; 
-
+.Password_area {
+  padding-right: 30px;
 }
 
 .placeholderLabel {
@@ -101,7 +93,6 @@ a {
   color: grey;
   transition: all 0.2s;
   pointer-events: none;
-  
 }
 
 .eyeButton {
@@ -129,8 +120,7 @@ a {
 .Name_area:focus + .placeholderLabel,
 .Name_area:not(:placeholder-shown) + .placeholderLabel,
 .Password_area:focus + .placeholderLabel,
-.Password_area:not(:placeholder-shown) + .placeholderLabel
- {
+.Password_area:not(:placeholder-shown) + .placeholderLabel {
   top: 0;
   font-size: 0.8rem;
   color: green;
@@ -138,8 +128,6 @@ a {
 .Password_area:focus ~ .eyeButton {
   color: green;
 }
-
-
 
 .close {
   display: flex;
@@ -155,8 +143,8 @@ a {
   background: none repeat scroll 0 0 transparent;
   border: medium none;
   border-spacing: 0;
-  color: #26589F;
-  font-family: 'PT Sans Narrow', sans-serif;
+  color: #26589f;
+  font-family: "PT Sans Narrow", sans-serif;
   font-size: 16px;
   font-weight: normal;
   line-height: 1.42rem;
@@ -177,12 +165,11 @@ a {
   cursor: pointer;
 }
 
-.FortgotPass_container>a {
+.FortgotPass_container > a {
   color: rgba(46, 98, 46, 0.7);
-
 }
 
-.FortgotPass_container>a:hover {
+.FortgotPass_container > a:hover {
   color: rgb(116, 197, 116);
 }
 
@@ -212,17 +199,17 @@ a {
   width: 300px;
 }
 
-.RegisterPoliticy>a {
+.RegisterPoliticy > a {
   color: blue;
 }
 
-.RegisterPoliticy>a:hover {
+.RegisterPoliticy > a:hover {
   color: green;
 }
 .AuthModal_card:focus {
   outline: none;
 }
-.Error_area{
+.Error_area {
   font-size: 10px;
   color: red;
 }
@@ -239,15 +226,14 @@ a {
   cursor: pointer;
   cursor: pointer;
   background-color: rgba(136, 226, 139, 0.4);
-  transition: background-color 0.3s; 
+  transition: background-color 0.3s;
 }
 
 .buttonEnabled:hover {
   background-color: rgba(136, 226, 139, 0.8);
 }
-.buttonEnabled:active{
+.buttonEnabled:active {
   background-color: rgba(136, 226, 139, 1);
-
 }
 .buttonDisabled {
   width: 300px;
@@ -259,6 +245,6 @@ a {
   font-size: 1.5rem;
   border-radius: 1em;
   cursor: pointer;
-  cursor: not-allowed ;
+  cursor: not-allowed;
   background-color: #ccc !important;
 }
