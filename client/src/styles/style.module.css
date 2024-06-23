@@ -50,40 +50,96 @@ a {
   color: black;
 }
 
-.Name_area_container {
-  margin-top: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
 
-.Login_area_container,
-.Password_area_container {
+
+.Email_area_container,
+.Password_area_container,
+.Name_area_container
+ {
   margin-top: 30px;
   display: flex;
   justify-content: center;
   align-items: center;
+  width: 300px;
+  font-size: 1rem;
+
+
 }
 
-.Login_area,
+.inputWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.Email_area,
 .Name_area,
-.Password_area {
+.Password_area
+ {
   font-family: "Inter", sans-serif;
   font-weight: lighter;
-  font-size: 1.2rem;
+  font-size: 1rem;
   border: none;
-  width: 300px;
+  width: 100%;
+  padding: 10px 0;
   transition: all 0.2s;
+  background: none;
   border-bottom: 1px solid black;
 }
+.Password_area { 
+  padding-right: 30px; 
 
-.Login_area:focus,
+}
+
+.placeholderLabel {
+  font-size: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  color: grey;
+  transition: all 0.2s;
+  pointer-events: none;
+  
+}
+
+.eyeButton {
+  cursor: pointer;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scale: 120%;
+}
+
+.Email_area:focus,
 .Name_area:focus,
 .Password_area:focus {
   outline: none;
   border-bottom: 1px solid green;
-
 }
+
+.Email_area:focus + .placeholderLabel,
+.Email_area:not(:placeholder-shown) + .placeholderLabel,
+.Name_area:focus + .placeholderLabel,
+.Name_area:not(:placeholder-shown) + .placeholderLabel,
+.Password_area:focus + .placeholderLabel,
+.Password_area:not(:placeholder-shown) + .placeholderLabel
+ {
+  top: 0;
+  font-size: 0.8rem;
+  color: green;
+}
+.Password_area:focus ~ .eyeButton {
+  color: green;
+}
+
+
 
 .close {
   display: flex;
@@ -122,34 +178,12 @@ a {
 }
 
 .FortgotPass_container>a {
-  margin-left: 50px;
   color: rgba(46, 98, 46, 0.7);
 
 }
 
 .FortgotPass_container>a:hover {
   color: rgb(116, 197, 116);
-}
-
-.LoginBtn_container>button {
-  font-family: "Inter", sans-serif;
-  font-weight: lighter;
-  background: none;
-  border: none;
-  padding: 5px 100px;
-  font-size: 1.5rem;
-  background-color: rgba(136, 226, 139, 0.4);
-  border-radius: 1em;
-  cursor: pointer;
-}
-
-
-.LoginBtn_container>button:hover {
-  background-color: rgba(136, 226, 139, 0.8);
-}
-
-.LoginBtn_container>button:active{
-  background-color: rgba(136, 226, 139, 1);
 }
 
 .LoginBtn_container,
@@ -193,6 +227,7 @@ a {
   color: red;
 }
 .buttonEnabled {
+  width: 300px;
   font-family: "Inter", sans-serif;
   font-weight: lighter;
   background: none;
@@ -204,7 +239,7 @@ a {
   cursor: pointer;
   cursor: pointer;
   background-color: rgba(136, 226, 139, 0.4);
-  transition: background-color 0.3s; /* Плавный переход цвета */
+  transition: background-color 0.3s; 
 }
 
 .buttonEnabled:hover {
@@ -215,15 +250,15 @@ a {
 
 }
 .buttonDisabled {
+  width: 300px;
   font-family: "Inter", sans-serif;
   font-weight: lighter;
   background: none;
   border: none;
   padding: 5px 40px;
   font-size: 1.5rem;
-  background-color: rgba(136, 226, 139, 0.4);
   border-radius: 1em;
   cursor: pointer;
-  cursor: not-allowed !important;
-  background-color: #ccc; /* Неактивная кнопка */
+  cursor: not-allowed ;
+  background-color: #ccc !important;
 }

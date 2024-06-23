@@ -6,7 +6,6 @@ class RefreshSessionRepository {
       "SELECT * FROM refresh_sessions_clients WHERE refresh_token=$1",
       [refreshToken]
     );
-    console.log('refreshToken - ',refreshToken);
     if (!response.rows.length) {
       return null;
     }

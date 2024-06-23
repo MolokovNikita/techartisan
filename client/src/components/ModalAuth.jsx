@@ -2,31 +2,54 @@ import { useEffect, useMemo, useRef, useState, useContext } from "react";
 import { createPortal } from 'react-dom';
 import style from "../styles/style.module.css";
 import { AuthContext } from '../context/AuthContext';
-import axios from "axios";
+import { PiEye, PiEyeClosed } from "react-icons/pi";
+import { useLoginValidation } from '../hooks/useLoginValidation';
+import { useValidation } from '../hooks/useValidation';
 
 const ModalRootElement = document.querySelector('#ModalAuth');
 
 export default function ModalAuth(props) {
     const { isOpen, onClose } = props;
-    const { isAuth, setisAuth, handleSignIn, handleSignUp } = useContext(AuthContext);
+    const { handleSignIn, handleSignUp } = useContext(AuthContext);
     const [isLoginSelected, setIsLoginSelected] = useState(true);
     const element = useMemo(() => document.createElement("div"), []);
     const modalRef = useRef(null);
 
-    //Validation
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [nameDirty, setNameDirty] = useState(false);
-    const [emailDirty, setEmailDirty] = useState(false);
-    const [passwordDirty, setPasswordDirty] = useState(false);
-    const [passwordMatchDirty, setPasswordMatchDirty] = useState(false);
-    const [nameError, setNameError] = useState('*Данное поле не можеть быть пустым');
-    const [emailError, setEmailError] = useState('*Данное поле не можеть быть пустым');
-    const [passwordError, setPasswordError] = useState('*Данное поле не можеть быть пустым');
-    const [passwordMatch, setPasswordMatch] = useState('');
-    const [passwordMatchEror, setPasswordMatchEror] = useState('*Данное поле не можеть быть пустым')
-    const [formValid, setFormValid] = useState(false)
+    const {
+        name,
+        email,
+        password,
+        passwordMatch,
+        nameDirty,
+        emailDirty,
+        passwordDirty,
+        passwordMatchDirty,
+        nameError,
+        emailError,
+        passwordError,
+        passwordMatchError,
+        formValid,
+        nameHandler,
+        emailHandler,
+        passwordHandler,
+        passwordMatchHandler,
+        blurHandler,
+    } = useValidation();
+
+    const {
+        loginEmail,
+        loginPassword,
+        loginEmailDirty,
+        loginPasswordDirty,
+        loginEmailError,
+        loginPasswordError,
+        loginFormValid,
+        loginEmailHandler,
+        loginPasswordHandler,
+        blurHandler: loginBlurHandler,
+    } = useLoginValidation();
+
+    const [isEyeOpen, setIsEyeOpen] = useState(false);
 
     useEffect(() => {
         if (ModalRootElement) {
@@ -66,7 +89,7 @@ export default function ModalAuth(props) {
         if (isOpen) {
             document.body.style.overflow = 'hidden';
             document.addEventListener('keydown', handleKeyDown);
-            modalRef.current.focus(); // Установить фокус на модальное окно при открытии
+            modalRef.current.focus();
         } else {
             document.body.style.overflow = '';
         }
@@ -77,13 +100,27 @@ export default function ModalAuth(props) {
         };
     }, [isOpen, onClose]);
 
-    useEffect(() => {
-        if (emailError || nameError || passwordError || passwordMatchEror) {
-            setFormValid(false);
+    if (!isOpen) return null;
+
+    const handleRegistration = () => {
+        if (nameError || emailError || passwordError || passwordMatchError) {
+            return;
         } else {
-            setFormValid(true);
+            const f_name = name;
+            const pass = password;
+            handleSignUp([{ f_name, email, pass }, onClose]);
         }
-    }, [emailError, nameError, passwordError, passwordMatchEror]);
+    };
+
+    const handleLogin = () => {
+        if (loginEmailError || loginPasswordError) {
+            return;
+        } else {
+            const email = loginEmail;
+            const pass = loginPassword;
+            handleSignIn([{ email, pass }, onClose]);
+        }
+    };
 
     const handleBackgroundClick = () => {
         onClose();
@@ -92,73 +129,6 @@ export default function ModalAuth(props) {
     const handleCardClick = (event) => {
         event.stopPropagation();
     };
-
-    const nameHandler = (e) => {
-        const value = e.target.value;
-        setName(value);
-        if (!value) {
-            setNameError('*Данное поле не можеть быть пустым');
-        } else if (!/^[а-яА-Я ]+$/.test(value.toLowerCase())) {
-            setNameError('*Неккоректное имя (Пример : Иван)');
-        } else {
-            setNameError('');
-        }
-    };
-
-    const emailHandler = (e) => {
-        const value = e.target.value;
-        setEmail(value);
-        if (!value) {
-            setEmailError('*Данное поле не можеть быть пустым');
-        } else if (!/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/.test(value.toLowerCase())) {
-            setEmailError('*Неккоректный email, Пример: mail@example.ru');
-        } else {
-            setEmailError('');
-        }
-    };
-
-    const passwordHandler = (e) => {
-        const value = e.target.value;
-        setPassword(value);
-        if (!value) {
-            setPasswordError('*Данное поле не можеть быть пустым');
-        } else if (!/^[A-Za-z0-9]\w{5,30}$/.test(value)) {
-            setPasswordError('*Неккоректный формат пароля');
-        } else {
-            setPasswordError('');
-        }
-    };
-    const passwordMatchHandler = (e)=>{
-        const value = e.target.value;
-        setPasswordMatch(value);
-        if (!value) {
-            setPasswordMatchEror('*Данное поле не можеть быть пустым');
-        }
-        else if (value !== password) {
-            setPasswordMatchEror('*Пароль не совпадает');
-        }
-        else {
-            setPasswordMatchEror('');
-        }
-    }
-    const blurHandler = (e) => {
-        switch (e.target.name) {
-            case 'name':
-                setNameDirty(true);
-                break;
-            case 'email':
-                setEmailDirty(true);
-                break;
-            case 'password':
-                setPasswordDirty(true);
-                break;
-            case 'passwordMatch':
-             setPasswordMatchDirty(true);
-             break;
-        }
-    };
-
-    if (!isOpen) return null;
 
     return createPortal(
         <div className={style.AuthModal_background} onClick={handleBackgroundClick}>
@@ -174,52 +144,130 @@ export default function ModalAuth(props) {
                     <a className={!isLoginSelected ? style.selected : ''} onClick={() => setIsLoginSelected(false)}>&nbsp;Регистрация</a>
                 </div>
                 {isLoginSelected ? (
-                    <div>
-                        <div className={style.Login_area_container}>
-                            <input className={style.Login_area} type="text" placeholder='Email или телефон' />
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
+                        <div className={style.Email_area_container}>
+                            <div className={style.inputWrapper}>
+                                <input
+                                    onChange={loginEmailHandler}
+                                    value={loginEmail}
+                                    onBlur={loginBlurHandler}
+                                    name='loginEmail'
+                                    className={style.Email_area}
+                                    type="text"
+                                    placeholder=' '
+                                />
+                                <label className={style.placeholderLabel}>Email</label>
+                            </div>
                         </div>
+                        {(loginEmailDirty && loginEmailError) && <div className={style.Error_area}>{loginEmailError}</div>}
+
                         <div className={style.Password_area_container}>
-                            <input className={style.Password_area} type="password" placeholder='Пароль' />
+                            <div className={style.inputWrapper}>
+                                <input
+                                    onChange={loginPasswordHandler}
+                                    value={loginPassword}
+                                    onBlur={loginBlurHandler}
+                                    name='loginPassword'
+                                    className={style.Password_area}
+                                    type="password"
+                                    placeholder=' '
+                                />
+                                <label className={style.placeholderLabel}>Пароль</label>
+                            </div>
                         </div>
+                        {(loginPasswordDirty && loginPasswordError) && <div className={style.Error_area}>{loginPasswordError}</div>}
                         <div className={style.FortgotPass_container}>
                             <a>Забыли пароль ?</a>
                         </div>
                         <div className={style.LoginBtn_container}>
-                            <button> Войти</button>
+                            <button
+                                disabled={!loginFormValid}
+                                className={loginFormValid ? style.buttonEnabled : style.buttonDisabled}
+                                onClick={handleLogin}
+                            >
+                                Войти
+                            </button>
                         </div>
                     </div>
                 ) : (
                     <div className={style.Registration_container}>
                         <div className={style.Name_area_container}>
-                            <input onChange={nameHandler} value={name} onBlur={blurHandler} name='name' className={style.Name_area} type="text" placeholder='Ваше имя' />
+                            <div className={style.inputWrapper}>
+                                <input
+                                    onChange={nameHandler}
+                                    value={name}
+                                    onBlur={blurHandler}
+                                    name='name'
+                                    className={style.Name_area}
+                                    type="text"
+                                    placeholder=' '
+                                />
+                                <label className={style.placeholderLabel}>Ваше имя</label>
+                            </div>
+                        </div>
+                        {(nameDirty && nameError) && <p className={style.Error_area}>{nameError}</p>}
 
+                        <div className={style.Email_area_container}>
+                            <div className={style.inputWrapper}>
+                                <input
+                                    onChange={emailHandler}
+                                    value={email}
+                                    onBlur={blurHandler}
+                                    name='email'
+                                    className={style.Email_area}
+                                    type="text"
+                                    placeholder=' '
+                                />
+                                <label className={style.placeholderLabel}>Email</label>
+                            </div>
                         </div>
-                        {(nameDirty && nameError) && <p className ={style.Error_area}>{nameError}</p>}
-                        <div className={style.Login_area_container}>
-                            <input onChange={emailHandler} value={email} onBlur={blurHandler} name='email' className={style.Login_area} type="text" placeholder='Email или телефон' />
-                        </div>
-                        {(emailDirty && emailError) && <div className ={style.Error_area} >{emailError}</div>}
-                        <div className={style.Password_area_container}>
-                            <input onChange={passwordHandler} value={password} onBlur={blurHandler} name='password' className={style.Password_area} type="password" placeholder='Пароль' />
-                        </div>
-                        {(passwordDirty && passwordError) && <div className ={style.Error_area}>{passwordError}</div>}
-                        <div style={{display:'flex',flexDirection: 'column', maxWidth: '300px'}}>
-                        <div style={{fontSize: '15px'}}>Минимум 6 символов (букв, цифр и спец. знаков)</div>
+                        {(emailDirty && emailError) && <div className={style.Error_area}>{emailError}</div>}
 
+                        <div className={style.Password_area_container}>
+                            <div className={style.inputWrapper}>
+                                <input
+                                    onChange={passwordHandler}
+                                    value={password}
+                                    onBlur={blurHandler}
+                                    name='password'
+                                    className={style.Password_area}
+                                    type={isEyeOpen ? "text" : "password"}
+                                    placeholder=' '
+                                />
+                                <label className={style.placeholderLabel}>Придумайте пароль</label>
+                                <a type="button" className={style.eyeButton} onClick={() => setIsEyeOpen(!isEyeOpen)}>
+                                    {isEyeOpen ? <PiEye /> : <PiEyeClosed />}
+                                </a>
+                            </div>
+                        </div>
+                        {(passwordDirty && passwordError) && <div className={style.Error_area}>{passwordError}</div>}
+                        <div style={{ display: 'flex', flexDirection: 'column', maxWidth: '300px' }}>
+                            <div style={{ fontSize: '15px' }}>Минимум 6 символов (букв или цифр)</div>
                         </div>
                         <div className={style.Password_area_container}>
-                            <input onChange ={passwordMatchHandler} value={passwordMatch} onBlur={blurHandler} name ='passwordMatch' className={style.Password_area} type="password" placeholder='Подтвердите пароль' />
+                            <div className={style.inputWrapper}>
+                                <input
+                                    onChange={passwordMatchHandler}
+                                    value={passwordMatch}
+                                    onBlur={blurHandler}
+                                    name='passwordMatch'
+                                    className={style.Password_area}
+                                    type="password"
+                                    placeholder=' '
+                                />
+                                <label className={style.placeholderLabel}>Подтвердите пароль</label>
+                            </div>
                         </div>
-                        {(passwordMatchDirty && passwordMatchEror) && <div className ={style.Error_area}>{passwordMatchEror}</div>}
+                        {(passwordMatchDirty && passwordMatchError) && <div className={style.Error_area}>{passwordMatchError}</div>}
                         <div className={style.RegisterBtn_container}>
                             <button
-                                   disabled={!formValid}
-                                   className={formValid ? style.buttonEnabled : style.buttonDisabled}
+                                disabled={!formValid}
+                                className={formValid ? style.buttonEnabled : style.buttonDisabled}
+                                onClick={handleRegistration}
                             >
                                 Зарегистрироваться
                             </button>
                         </div>
-                        <div className={style.RegisterPoliticy}>Нажимая кнопку «Зарегистрироваться», я даю свое согласие на сбор и обработку моих персональных данных в соответствии с <br /> <a href="#">Политикой</a> и принимаю условия <a href="#">Пользовательского соглашения</a></div>
                     </div>
                 )}
             </div>
