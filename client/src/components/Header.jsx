@@ -102,17 +102,18 @@ export default function Header({ setIsOpen }) {
           </div>
           <div className={styles.Auth_container}>
             {!isAuth ? (
-              <a onClick={handleClick}>Войти</a>
-            ) : (
-              <>
-                <span className={styles.auth_greeting} onClick={handlePopUp}>
-                  Привет!, {userData.f_name}
-                </span>
-                <a className={styles.logout_bth} onClick={handleLogOut}>
-                  Выйти
-                </a>
-              </>
-            )}
+              <a onClick={handleClick}>
+                <div className={styles.Image_wrapper} >
+                  <img className={styles.Avatar} src="/defaultAvatar.png" alt="" />
+                </div>
+                <p>Войти</p>
+              </a>) : (
+              <a onClick={handlePopUp}>
+                <div className={styles.Image_wrapper} >
+                  <img className={styles.Avatar} src="/defaultAvatar.png" alt="" />
+                </div>
+                <p>{userData.f_name}</p>
+              </a>)}
           </div>
         </div>
       </header>

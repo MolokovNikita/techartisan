@@ -73,8 +73,13 @@ ol {
 }
 
 .Auth_container {
-  margin-top: 40px;
-  margin-right: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+  margin-top: 10px;
+  margin-right: 30px;
 }
 
 a:visited,
@@ -97,4 +102,20 @@ a:hover {
 .logout_bth {
   font-size: 1.5rem;
   margin-left: 15px;
+}
+.Avatar{
+  width: 60px;
+  transition: 0.2s ease;
+}
+/* .Avatar:hover {
+  width: 70px;
+} */
+.Auth_container > a > p {
+  font-size: 1.2rem;
+  display: flex;
+  justify-content: center;
+}
+.Image_wrapper{
+  display: flex;
+  justify-content: center;
 }
