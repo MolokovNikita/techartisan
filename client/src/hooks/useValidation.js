@@ -11,7 +11,9 @@ export const useValidation = () => {
   const [passwordMatchDirty, setPasswordMatchDirty] = useState(false);
   const [nameError, setNameError] = useState("Имя не может быть пустым");
   const [emailError, setEmailError] = useState("Email не может быть пустым");
-  const [passwordError, setPasswordError] = useState("Пароль не может быть пустым",);
+  const [passwordError, setPasswordError] = useState(
+    "Пароль не может быть пустым",
+  );
   const [passwordMatchError, setPasswordMatchError] = useState(
     "Пароль не может быть пустым",
   );

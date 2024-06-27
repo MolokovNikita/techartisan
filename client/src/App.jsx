@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
-import { useEffect, useState, useContext } from "react";
+import { useState, useContext } from "react";
 import MainPage from "./pages/MainPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
 import Services from "./pages/Services.jsx";
@@ -8,7 +8,6 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ModalAuth from "./components/ModalAuth";
 import { AuthContext } from "./context/AuthContext";
-import axios from "axios";
 import style from "./styles/app.module.css";
 
 function App() {

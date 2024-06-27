@@ -1,19 +1,24 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import styles from "../styles/header.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import AuthDropDownMenu from "./AuthDropDownMenu";
+
 export default function Header({ setIsOpen }) {
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { handleLogOut, isAuth, userData, setUserData } =
-    useContext(AuthContext);
-  const handleClick = () => {
-    setIsOpen(true);
+  const { handleLogOut, isAuth, userData } = useContext(AuthContext);
+
+  const handlePopUpClose = () => {
+    setIsPopUpOpen(false);
   };
 
-  const handlePopUp = () => {
-    console.log(userData);
+  const handlePopUp = (e) => {
+    e.stopPropagation(); // предотвращаем всплытие события
+    setIsPopUpOpen((prev) => !prev);
   };
+
   const handleNavigation = (path, hash) => {
     if (location.pathname !== path) {
       navigate(path);
@@ -32,6 +37,7 @@ export default function Header({ setIsOpen }) {
       }
     }
   };
+
   return (
     <>
       <header>
@@ -57,7 +63,7 @@ export default function Header({ setIsOpen }) {
               <a href="tel:+79999999999">+7-999-999-99-99</a>
             </li>
             <li>
-              <a onClick={handlePopUp} href="#">
+              <a href="#">
                 <img className={styles.tglogo} src="/tg.png" alt="tglogo" />
               </a>
             </li>
@@ -101,19 +107,33 @@ export default function Header({ setIsOpen }) {
             </ol>
           </div>
           <div className={styles.Auth_container}>
+            <AuthDropDownMenu
+              isPopUpOpen={isPopUpOpen}
+              onClose={handlePopUpClose}
+            />
             {!isAuth ? (
-              <a onClick={handleClick}>
-                <div className={styles.Image_wrapper} >
-                  <img className={styles.Avatar} src="/defaultAvatar.png" alt="" />
+              <a onClick={() => setIsOpen(true)}>
+                <div className={styles.Image_wrapper}>
+                  <img
+                    className={styles.Avatar}
+                    src="/defaultAvatar.png"
+                    alt=""
+                  />
                 </div>
                 <p>Войти</p>
-              </a>) : (
+              </a>
+            ) : (
               <a onClick={handlePopUp}>
-                <div className={styles.Image_wrapper} >
-                  <img className={styles.Avatar} src="/defaultAvatar.png" alt="" />
+                <div className={styles.Image_wrapper}>
+                  <img
+                    className={styles.Avatar}
+                    src="/defaultAvatar.png"
+                    alt=""
+                  />
                 </div>
                 <p>{userData.f_name}</p>
-              </a>)}
+              </a>
+            )}
           </div>
         </div>
       </header>

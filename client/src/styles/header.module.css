@@ -79,7 +79,7 @@ ol {
   align-items: center;
   justify-items: center;
   margin-top: 10px;
-  margin-right: 30px;
+  margin-right: 60px;
 }
 
 a:visited,
@@ -103,7 +103,7 @@ a:hover {
   font-size: 1.5rem;
   margin-left: 15px;
 }
-.Avatar{
+.Avatar {
   width: 60px;
   transition: 0.2s ease;
 }
@@ -115,7 +115,7 @@ a:hover {
   display: flex;
   justify-content: center;
 }
-.Image_wrapper{
+.Image_wrapper {
   display: flex;
   justify-content: center;
 }

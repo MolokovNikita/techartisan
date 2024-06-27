@@ -70,13 +70,11 @@ export default function ModalAuth(props) {
         const lastElement = focusableElements[focusableElements.length - 1];
 
         if (e.shiftKey) {
-          // Shift + Tab
           if (document.activeElement === firstElement) {
             e.preventDefault();
             lastElement.focus();
           }
         } else {
-          // Tab
           if (document.activeElement === lastElement) {
             e.preventDefault();
             firstElement.focus();
