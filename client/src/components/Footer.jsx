@@ -1,14 +1,43 @@
 import styles from "../styles/footer.module.css";
+import { Link } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Footer() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNavigation = (path, hash) => {
+    if (location.pathname !== path) {
+      navigate(path);
+      if (hash) {
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      }
+    } else if (hash) {
+      const element = document.getElementById(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
   return (
     <footer className={styles.footer_container}>
       <div className={styles.footer_text}>
         <ul>
           <li>© 2024 TechArtisan. Все права защищены.</li>
           <li>
-            <a href="#">Конфиденциальность</a> |{" "}
-            <a href="#">Публичная оферта о продаже</a>
+            <a onClick={() => handleNavigation("/confidencity", "top")}>
+              Конфиденциальность
+            </a>{" "}
+            |{" "}
+            <a onClick={() => handleNavigation("/politicy", "top")}>
+              Публичная оферта о продаже
+            </a>
           </li>
         </ul>
       </div>

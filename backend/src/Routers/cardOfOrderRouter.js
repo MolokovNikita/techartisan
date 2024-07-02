@@ -1,19 +1,17 @@
-const { Router } = require('express');
+const { Router } = require("express");
 const router = new Router();
-const CardOfOrderController = require('../Controllers/CardOfOrderController');
+const CardOfOrderController = require("../Controllers/CardOfOrderController");
 //post one Card
-router.post('', CardOfOrderController.create);
+router.post("", CardOfOrderController.create);
 //get all Cards
-router.get('', CardOfOrderController.getAll);
+router.get("", CardOfOrderController.getAll);
 //get one Card by id
-router.get('/:id', CardOfOrderController.getOne);
+router.get("/:id", CardOfOrderController.getOne);
 //update Card
-router.put('', CardOfOrderController.update)
+router.put("", CardOfOrderController.update);
 //delete one Card
-router.delete('/:id', CardOfOrderController.deleteOne)
+router.delete("/:id", CardOfOrderController.deleteOne);
 //delete all Cards
-router.delete('', CardOfOrderController.deleteAll);
+router.delete("", CardOfOrderController.deleteAll);
 
 module.exports = router;
-
-

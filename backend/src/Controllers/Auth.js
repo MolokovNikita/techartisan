@@ -1,7 +1,7 @@
 // const { COOKIE_SETTINGS } = require('../constants.js');
 
-const ErrorsUtils = require('../utils/Errors.js');
-const AuthService = require('../Services/Auth.js');
+const ErrorsUtils = require("../utils/Errors.js");
+const AuthService = require("../Services/Auth.js");
 const COOKIE_SETTINGS = {
   REFRESH_TOKEN: {
     httpOnly: true,
@@ -21,7 +21,9 @@ class AuthController {
         });
       res.cookie("refreshToken", refreshToken, COOKIE_SETTINGS.REFRESH_TOKEN);
 
-      return res.status(200).json({ accessToken, accessTokenExpiration, id, f_name, email});
+      return res
+        .status(200)
+        .json({ accessToken, accessTokenExpiration, id, f_name, email });
     } catch (err) {
       return res.status(400).send("Bad request - " + err.message);
     }
@@ -60,13 +62,21 @@ class AuthController {
     const { fingerprint } = req;
     const currentRefreshToken = req.cookies.refreshToken;
     try {
-      const { accessToken, refreshToken, accessTokenExpiration, id, f_name, email } =
-        await AuthService.refresh({
-          currentRefreshToken,
-          fingerprint,
-        });
+      const {
+        accessToken,
+        refreshToken,
+        accessTokenExpiration,
+        id,
+        f_name,
+        email,
+      } = await AuthService.refresh({
+        currentRefreshToken,
+        fingerprint,
+      });
       res.cookie("refreshToken", refreshToken, COOKIE_SETTINGS.REFRESH_TOKEN);
-      return res.status(200).json({ accessToken, accessTokenExpiration,id, f_name, email });
+      return res
+        .status(200)
+        .json({ accessToken, accessTokenExpiration, id, f_name, email });
     } catch (err) {
       return res.status(400).send("Bad request - " + err.message);
     }

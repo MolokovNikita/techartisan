@@ -5,6 +5,7 @@ import { AuthContext } from "../context/AuthContext";
 import { PiEye, PiEyeClosed } from "react-icons/pi";
 import { useLoginValidation } from "../hooks/useLoginValidation";
 import { useValidation } from "../hooks/useValidation";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const ModalRootElement = document.querySelector("#ModalAuth");
 
@@ -14,6 +15,27 @@ export default function ModalAuth(props) {
   const [isLoginSelected, setIsLoginSelected] = useState(true);
   const element = useMemo(() => document.createElement("div"), []);
   const modalRef = useRef(null);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNavigation = (path, hash) => {
+    if (location.pathname !== path) {
+      navigate(path);
+      if (hash) {
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      }
+    } else if (hash) {
+      const element = document.getElementById(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
 
   const {
     name,
@@ -313,6 +335,18 @@ export default function ModalAuth(props) {
             {passwordMatchDirty && passwordMatchError && (
               <div className={style.Error_area}>{passwordMatchError}</div>
             )}
+            <div className={style.register_politicy}>
+              Нажимая кнопку «Зарегистрироваться», я даю свое согласие на сбор и
+              обработку моих персональных данных в соответствии с&nbsp;
+              <a href="/confidencity" target="_blank">
+                Политикой
+              </a>
+              &nbsp;и принимаю условия&nbsp;
+              <a href="/politicy" target="_blank">
+                Пользовательского соглашения
+              </a>
+            </div>
+
             <div className={style.RegisterBtn_container}>
               <button
                 disabled={!formValid}

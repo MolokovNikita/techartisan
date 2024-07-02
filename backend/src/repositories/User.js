@@ -1,10 +1,10 @@
-const pool = require('../Config/ormconfig');
+const pool = require("../Config/ormconfig");
 class UserRepository {
   static async createUser({ f_name, hashedPassword, email }) {
     const now = new Date().toISOString(); // Преобразование даты в строку в формате ISO
     const response = await pool.query(
       "INSERT INTO client (f_name, pass, email, created) VALUES ($1, $2, $3, $4) RETURNING *",
-      [f_name, hashedPassword, email, now]
+      [f_name, hashedPassword, email, now],
     );
     return response.rows[0];
   }
@@ -16,7 +16,7 @@ class UserRepository {
 
     if (!response.rows.length) {
       return null;
-    } 
+    }
     return response.rows[0];
   }
 }

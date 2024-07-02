@@ -1,0 +1,15 @@
+.container {
+  padding: 40px;
+  font-family: Arial, sans-serif;
+}
+
+h1,
+h2 {
+  color: #333;
+}
+
+p {
+  margin: 10px 0;
+  line-height: 1.6;
+  color: #555;
+}

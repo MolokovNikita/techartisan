@@ -1,0 +1,24 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+h1,
+h2 {
+  color: #333;
+}
+
+p {
+  margin-bottom: 15px;
+}
+
+ul {
+  margin-bottom: 15px;
+}
+
+li {
+  margin-bottom: 5px;
+}

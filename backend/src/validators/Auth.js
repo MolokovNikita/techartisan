@@ -1,5 +1,5 @@
-const Yup = require("yup")
-const  validateRequest = require('../utils/ValidateRequest.js')
+const Yup = require("yup");
+const validateRequest = require("../utils/ValidateRequest.js");
 module.exports = signInSchema = Yup.object({
   body: Yup.object({
     email: Yup.string()
@@ -15,8 +15,8 @@ module.exports = signInSchema = Yup.object({
 module.exports = signUpSchema = Yup.object({
   body: Yup.object({
     f_name: Yup.string()
-    .required("Поле обязательно!")
-    .max(45, "Максимальная длина - 45 символов"),
+      .required("Поле обязательно!")
+      .max(45, "Максимальная длина - 45 символов"),
     email: Yup.string()
       .required("Поле обязательно!")
       .max(45, "Максимальная длина - 45 символов"),
@@ -27,7 +27,7 @@ module.exports = signUpSchema = Yup.object({
   }),
 });
 
-module.exports =  logoutSchema = Yup.object({
+module.exports = logoutSchema = Yup.object({
   cookies: Yup.object({
     refreshToken: Yup.string().required("Поле обязательно!"),
   }),
@@ -39,7 +39,6 @@ class AuthValidator {
   }
 
   static async signUp(req, res, next) {
-    
     return validateRequest(req, res, next, signUpSchema);
   }
 
@@ -48,7 +47,6 @@ class AuthValidator {
   }
 
   static async refresh(req, res, next) {
-
     return validateRequest(req, res, next);
   }
 }

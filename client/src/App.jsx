@@ -9,6 +9,8 @@ import Footer from "./components/Footer";
 import ModalAuth from "./components/ModalAuth";
 import { AuthContext } from "./context/AuthContext";
 import style from "./styles/app.module.css";
+import Confidencity from "./pages/Confidencity.jsx";
+import Politicy from "./pages/Politicy.jsx";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -18,7 +20,13 @@ function App() {
     setIsOpen(false);
   };
 
-  const routesWithHeaderFooter = ["/main", "/services", "/aboutus"];
+  const routesWithHeaderFooter = [
+    "/main",
+    "/services",
+    "/aboutus",
+    "/confidencity",
+    "/politicy",
+  ];
   return (
     <>
       {isLoading ? (
@@ -35,6 +43,8 @@ function App() {
             <Route path="/main" element={<MainPage />} />
             <Route path="/services" element={<Services />} />
             <Route path="/aboutus" element={<AboutUs />} />
+            <Route path="/confidencity" element={<Confidencity />} />
+            <Route path="/politicy" element={<Politicy />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
           {routesWithHeaderFooter.includes(location.pathname) && <Footer />}

@@ -41,7 +41,7 @@ export default function Header({ setIsOpen }) {
   return (
     <>
       <header>
-        <div className={styles.top_header}>
+        <div id="top" className={styles.top_header}>
           <ol className={styles.location_nav}>
             <li>
               <img

@@ -1,19 +1,19 @@
-const { Router } = require('express');
+const { Router } = require("express");
 const router = new Router();
-const pool = require('../Config/ormconfig');
-const ServicesToCardController = require('../Controllers/ServicesToCardController');
+const pool = require("../Config/ormconfig");
+const ServicesToCardController = require("../Controllers/ServicesToCardController");
 // Создание записи
-router.post('/create', ServicesToCardController.create);
+router.post("/create", ServicesToCardController.create);
 // Получение всех записей
-router.get('/getAll', ServicesToCardController.getAll);
+router.get("/getAll", ServicesToCardController.getAll);
 // Получение одной записи по идентификатору
-router.get('/getOne/:id', ServicesToCardController.getOne);
+router.get("/getOne/:id", ServicesToCardController.getOne);
 // Обновление записи
-router.put('/update', ServicesToCardController.update);
+router.put("/update", ServicesToCardController.update);
 // Удаление одной записи по идентификатору
-router.delete('/deleteOne/:id', ServicesToCardController.deleteOne);
+router.delete("/deleteOne/:id", ServicesToCardController.deleteOne);
 // Удаление связи между устройством и картой заказа
-router.delete('/deleteRelation', ServicesToCardController.deleteOneOffice);
+router.delete("/deleteRelation", ServicesToCardController.deleteOneOffice);
 // Удаление всех записей
-router.delete('/deleteAll', ServicesToCardController.deleteAll);
+router.delete("/deleteAll", ServicesToCardController.deleteAll);
 module.exports = router;

@@ -7,7 +7,7 @@ const TokenService = require("./Token.js");
 //   Conflict,
 //   Unauthorized,
 // } from "../utils/Errors.js";
-const RefreshSessionRepository =require ("../repositories/RefreshSession.js");
+const RefreshSessionRepository = require("../repositories/RefreshSession.js");
 const UserRepository = require("../repositories/User.js");
 const ACCESS_TOKEN_EXPIRATION = 18e5;
 
@@ -37,7 +37,7 @@ class AuthService {
       accessTokenExpiration: ACCESS_TOKEN_EXPIRATION,
       id: userData.id,
       f_name: userData.f_name,
-      email: userData.email
+      email: userData.email,
     };
   }
 
@@ -66,7 +66,7 @@ class AuthService {
       accessTokenExpiration: ACCESS_TOKEN_EXPIRATION,
       id,
       f_name,
-      email 
+      email,
     };
   }
 
@@ -76,14 +76,13 @@ class AuthService {
 
   static async refresh({ fingerprint, currentRefreshToken }) {
     if (!currentRefreshToken) {
-      throw new Error('Unauthorized');
+      throw new Error("Unauthorized");
     }
-    const refreshSession = await RefreshSessionRepository.getRefreshSession(
-      currentRefreshToken
-    );
+    const refreshSession =
+      await RefreshSessionRepository.getRefreshSession(currentRefreshToken);
 
     if (!refreshSession) {
-      throw new Error('Unauthorized');
+      throw new Error("Unauthorized");
     }
 
     if (refreshSession.finger_print !== fingerprint.hash) {
@@ -99,11 +98,9 @@ class AuthService {
       throw new Error(error);
     }
 
-    const {
-      email,
-      id,
-      f_name
-    } = await UserRepository.getUserData(payload.email);
+    const { email, id, f_name } = await UserRepository.getUserData(
+      payload.email,
+    );
 
     const actualPayload = { email, id };
 
@@ -122,7 +119,7 @@ class AuthService {
       accessTokenExpiration: ACCESS_TOKEN_EXPIRATION,
       email,
       id,
-      f_name
+      f_name,
     };
   }
 }

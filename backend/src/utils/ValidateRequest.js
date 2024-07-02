@@ -4,6 +4,7 @@ module.exports = async (req, res, next, schema) => {
       await schema.validate(req);
     }
     return next();
-  } catch (err) { 
-  return res.status(400).send("Bad request - " + err.message);}
+  } catch (err) {
+    return res.status(400).send("Bad request - " + err.message);
+  }
 };

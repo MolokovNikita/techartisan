@@ -248,3 +248,13 @@ a {
   cursor: not-allowed;
   background-color: #ccc !important;
 }
+.register_politicy {
+  font-size: 15px;
+  max-width: 300px;
+}
+.register_politicy a {
+  color: green;
+}
+.register_politicy a:hover {
+  color: rgba(136, 226, 139, 1);
+}

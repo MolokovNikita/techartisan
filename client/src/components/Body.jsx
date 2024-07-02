@@ -144,7 +144,8 @@ export default function Body() {
         <p className={styles.find_text}>Как нас найти?</p>
         <a
           href="https://yandex.ru/maps/213/moscow/house/krasnokazarmennaya_ulitsa_17/Z04YcQdoSE0CQFtvfXt0dXRkYw==/?ll=37.706910%2C55.755936&z=17.17"
-          target="_blank" rel="noreferrer"
+          target="_blank"
+          rel="noreferrer"
         >
           <button>Яндекс карты</button>
         </a>

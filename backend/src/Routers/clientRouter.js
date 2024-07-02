@@ -1,20 +1,18 @@
-const { Router } = require('express');
+const { Router } = require("express");
 const router = new Router();
-const pool = require('../Config/ormconfig');
-const ClientController = require('../Controllers/ClientController');
+const pool = require("../Config/ormconfig");
+const ClientController = require("../Controllers/ClientController");
 //post one client
-router.post('', ClientController.create);
+router.post("", ClientController.create);
 //get all clients
-router.get('', ClientController.getAll);
+router.get("", ClientController.getAll);
 //get one client by id
-router.get('/:id', ClientController.getOne);
+router.get("/:id", ClientController.getOne);
 //update client
-router.put('', ClientController.update)
+router.put("", ClientController.update);
 //delete one client
-router.delete('/:id', ClientController.deleteOne)
+router.delete("/:id", ClientController.deleteOne);
 //delete all clients
-router.delete('', ClientController.deleteAll);
+router.delete("", ClientController.deleteAll);
 
 module.exports = router;
-
-
