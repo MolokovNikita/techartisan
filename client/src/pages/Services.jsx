@@ -7,7 +7,7 @@ import config from "../config.js";
 function Services() {
   const [services, setServices] = useState([]);
   const [openQuestions, setOpenQuestions] = useState([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     axios
       .get(`${config.API_URL}/services`)
@@ -16,6 +16,9 @@ function Services() {
       })
       .catch((e) => {
         console.log(e);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, []);
 
@@ -57,22 +60,28 @@ function Services() {
     <>
       <div className={styles.services_main_container}>
         <div className={styles.services_title}>Услуги</div>
-        <div className={styles.services_card}>
-          <div className={styles.services_container_1}>
-            <ol className={styles.services_list}>
-              {services.map((item) => (
-                <li key={item.id}> {item.name} </li>
-              ))}
-            </ol>
+        {isLoading ? (
+          <div className={styles.loader_container}>
+            <div className={styles.spinner}></div>
           </div>
-          <div className={styles.services_container_2}>
-            <ol className={styles.services_list}>
-              {services.map((item) => (
-                <li key={item.id}> {item.price} </li>
-              ))}
-            </ol>
+        ) : (
+          <div className={styles.services_card}>
+            <div className={styles.services_container_1}>
+              <ol className={styles.services_list}>
+                {services.map((item) => (
+                  <li key={item.id}> {item.name} </li>
+                ))}
+              </ol>
+            </div>
+            <div className={styles.services_container_2}>
+              <ol className={styles.services_list}>
+                {services.map((item) => (
+                  <li key={item.id}> {item.price} </li>
+                ))}
+              </ol>
+            </div>
           </div>
-        </div>
+        )}
         <div className={styles.button_container}>
           <button className={styles.services_button}>Записаться онлайн</button>
         </div>

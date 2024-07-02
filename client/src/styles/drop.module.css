@@ -24,7 +24,9 @@
   border-bottom: 1px solid #eee;
   font-size: 13px;
 }
-
+/* .dropDown_item1 p{
+  font-size: 30px;
+} */
 .dropDown_list li:last-child {
   border-bottom: none;
 }
@@ -49,4 +51,11 @@
     opacity: 0;
     transform: translateY(-10px);
   }
+}
+
+.dropDown_block {
+  display: flex;
+  justify-content: start;
+  flex-direction: row;
+  align-items: center;
 }

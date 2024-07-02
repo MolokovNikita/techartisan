@@ -78,7 +78,7 @@ ol {
   justify-content: center;
   align-items: center;
   justify-items: center;
-  margin-top: 10px;
+  margin-top: 1rem;
   margin-right: 60px;
 }
 
@@ -107,10 +107,8 @@ a:hover {
   width: 60px;
   transition: 0.2s ease;
 }
-/* .Avatar:hover {
-  width: 70px;
-} */
 .Auth_container > a > p {
+  margin-top: 0.2rem;
   font-size: 1.2rem;
   display: flex;
   justify-content: center;

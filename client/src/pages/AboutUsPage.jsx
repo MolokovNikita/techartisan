@@ -1,6 +1,37 @@
 import styles from "../styles/aboutus.module.css";
+import { useState, useEffect } from "react";
 
 function AboutUs() {
+  const [loading, setLoading] = useState(true);
+  const [imagesLoaded, setImagesLoaded] = useState(0);
+
+  const images = [
+    "/photo_1.png",
+    "/photo_2.png",
+    "/photo_3.png",
+    "/photo_4.png",
+    "/photo_5.png",
+    "/photo_6.png",
+  ];
+
+  useEffect(() => {
+    const handleImageLoad = () => {
+      setImagesLoaded((prev) => prev + 1);
+    };
+
+    images.forEach((src) => {
+      const img = new Image();
+      img.src = src;
+      img.onload = handleImageLoad;
+    });
+  }, []);
+
+  useEffect(() => {
+    if (imagesLoaded === images.length) {
+      setLoading(false);
+    }
+  }, [imagesLoaded]);
+
   return (
     <>
       <div className={styles.top_text_container}>
@@ -29,26 +60,20 @@ function AboutUs() {
           </ul>
         </div>
       </div>
-      <div className={styles.slider_grid}>
-        <div className={styles.slide}>
-          <img src="/photo_1.png" alt="Image 1" />
+
+      {loading ? (
+        <div className={styles.loader_container}>
+          <div className={styles.spinner}></div>
         </div>
-        <div className={styles.slide}>
-          <img src="/photo_2.png" alt="Image 2" />
+      ) : (
+        <div className={styles.slider_grid}>
+          {images.map((src, index) => (
+            <div className={styles.slide} key={index}>
+              <img src={src} alt={`Image ${index + 1}`} />
+            </div>
+          ))}
         </div>
-        <div className={styles.slide}>
-          <img src="/photo_3.png" alt="Image 3" />
-        </div>
-        <div className={styles.slide}>
-          <img src="/photo_4.png" alt="Image 4" />
-        </div>
-        <div className={styles.slide}>
-          <img src="/photo_5.png" alt="Image 5" />
-        </div>
-        <div className={styles.slide}>
-          <img src="/photo_6.png" alt="Image 6" />
-        </div>
-      </div>
+      )}
       <div className={styles.bottom_text_container}>
         <div className={styles.bottomp_text_card}>
           <ul>
