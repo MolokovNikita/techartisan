@@ -12,6 +12,7 @@ import style from "./styles/app.module.css";
 import Confidencity from "./pages/Confidencity.jsx";
 import Politicy from "./pages/Politicy.jsx";
 import { SnackbarProvider } from "notistack";
+import AccountPage from "./pages/AccountPage.jsx";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -27,6 +28,7 @@ function App() {
     "/aboutus",
     "/confidencity",
     "/politicy",
+    "/account"
   ];
   return (
     <>
@@ -47,6 +49,7 @@ function App() {
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/confidencity" element={<Confidencity />} />
             <Route path="/politicy" element={<Politicy />} />
+            <Route path="/account" element={<AccountPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
           {routesWithHeaderFooter.includes(location.pathname) && <Footer />}

@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import AuthDropDownMenu from "./AuthDropDownMenu";
 import { enqueueSnackbar } from "notistack";
+import { RxHamburgerMenu } from "react-icons/rx";
 
 
 export default function Header({ setIsOpen }) {
@@ -44,6 +45,11 @@ export default function Header({ setIsOpen }) {
     <>
       <header>
         <div id="top" className={styles.top_header}>
+          <div className={styles.burger_menu}>
+          <button>
+            {<RxHamburgerMenu size ={30}/>}
+            </button>
+          </div>
           <ol className={styles.location_nav}>
             <li>
               <img
@@ -54,6 +60,9 @@ export default function Header({ setIsOpen }) {
               Москва
             </li>
             <li>ул. Красноказарменая, д.17</li>
+            <li className={styles.company_name}>
+              TECHARTISAN
+            </li>
           </ol>
           <ol className={styles.social_nav}>
             <li>
@@ -69,6 +78,7 @@ export default function Header({ setIsOpen }) {
                 <img className={styles.tglogo} src="/tg.png" alt="tglogo" />
               </a>
             </li>
+            
             <li>
               <a onClick={() => {
                 console.log('Click');

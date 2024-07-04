@@ -30,6 +30,9 @@ const AuthProvider = ({ children }) => {
 
   const handleError = (data) => { 
     setErrorText(data);
+    setTimeout(()=>{
+      setErrorText('');
+    },5000)
   }
 
   const handleFetchProtected = () => {
@@ -100,7 +103,7 @@ const AuthProvider = ({ children }) => {
         setisAuth(true);
         enqueueSnackbar(`Вы успешно зарегистрировались!, ${data[0].f_name}!`, {
           variant: "success",
-          autoHideDuration: 1500, // 3 seconds
+          autoHideDuration: 1500, 
           anchorOrigin: {
             vertical: 'top',
             horizontal: 'right',
@@ -109,9 +112,9 @@ const AuthProvider = ({ children }) => {
       })
       .catch((e) => {
         handleError(e.response.data);
-        enqueueSnackbar(`Ой что-то пошло не так, ${data[0].f_name} ${e.response.data}`, {
+        enqueueSnackbar(`${e.response.data}`, {
           variant: "error",
-          autoHideDuration: 1500, // 3 seconds
+          autoHideDuration: 3000, 
           anchorOrigin: {
             vertical: 'top',
             horizontal: 'right',
@@ -137,7 +140,7 @@ const AuthProvider = ({ children }) => {
         setisAuth(true);
         enqueueSnackbar(`Привет, ${res.data.f_name}!`, {
           variant: "success",
-          autoHideDuration: 1500, // 3 seconds
+          autoHideDuration: 3000,
           anchorOrigin: {
             vertical: 'top',
             horizontal: 'right',
