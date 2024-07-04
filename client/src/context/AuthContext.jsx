@@ -2,6 +2,7 @@ import { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
 import config from "../config.js";
 import useInMemoryJWT from "../hooks/inMemoryJWT.js";
+import { enqueueSnackbar } from "notistack";
 
 export const AuthClient = axios.create({
   baseURL: `${config.API_URL}/auth`,
@@ -18,7 +19,7 @@ const AuthProvider = ({ children }) => {
   const { getToken, setToken, deleteToken } = useInMemoryJWT();
   const [isAuth, setisAuth] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [erorText, setErrorText] = useState('');
   const [userData, setUserData] = useState({
     id: "",
     f_name: "",
@@ -26,6 +27,10 @@ const AuthProvider = ({ children }) => {
     email: "",
     phone_number: "",
   });
+
+  const handleError = (data) => { 
+    setErrorText(data);
+  }
 
   const handleFetchProtected = () => {
     ResourceClient.get("/clients")
@@ -93,9 +98,25 @@ const AuthProvider = ({ children }) => {
         sessionStorage.setItem("userId", res.data.id);
         data[1]();
         setisAuth(true);
+        enqueueSnackbar(`Вы успешно зарегистрировались!, ${data[0].f_name}!`, {
+          variant: "success",
+          autoHideDuration: 1500, // 3 seconds
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        });
       })
       .catch((e) => {
-        console.log(e.response);
+        handleError(e.response.data);
+        enqueueSnackbar(`Ой что-то пошло не так, ${data[0].f_name} ${e.response.data}`, {
+          variant: "error",
+          autoHideDuration: 1500, // 3 seconds
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        });
       });
   };
 
@@ -114,9 +135,25 @@ const AuthProvider = ({ children }) => {
         sessionStorage.setItem("userId", res.data.id);
         data[1]();
         setisAuth(true);
+        enqueueSnackbar(`Привет, ${res.data.f_name}!`, {
+          variant: "success",
+          autoHideDuration: 1500, // 3 seconds
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        });
       })
       .catch((e) => {
-        console.log(e.response.data);
+        handleError(e.response.data);
+        enqueueSnackbar(`${e.response.data}`, {
+          variant: "error",
+          autoHideDuration: 1500, // 3 seconds
+          anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        });
       });
   };
 
@@ -138,6 +175,7 @@ const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        erorText,
         isLoading,
         isAuth,
         userData,
@@ -147,6 +185,7 @@ const AuthProvider = ({ children }) => {
         handleLogOut,
         setUserData,
         handleFetchProtected,
+        setErrorText
       }}
     >
       {children}

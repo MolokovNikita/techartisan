@@ -79,7 +79,7 @@ ol {
   align-items: center;
   justify-items: center;
   margin-top: 1rem;
-  margin-right: 60px;
+  margin-right: 70px;
 }
 
 a:visited,
@@ -96,13 +96,7 @@ a:hover {
 .bottom_header_left {
   display: flex;
 }
-.auth_greeting {
-  font-size: 1rem;
-}
-.logout_bth {
-  font-size: 1.5rem;
-  margin-left: 15px;
-}
+
 .Avatar {
   width: 60px;
   transition: 0.2s ease;

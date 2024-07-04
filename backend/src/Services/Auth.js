@@ -15,7 +15,7 @@ class AuthService {
   static async signIn({ email, pass, fingerprint }) {
     const userData = await UserRepository.getUserData(email);
     if (!userData) {
-      throw new Error("Пользователь не найден");
+      throw new Error("Неверный email или пароль");
     }
 
     const isPasswordValid = bcrypt.compareSync(pass, userData.pass);

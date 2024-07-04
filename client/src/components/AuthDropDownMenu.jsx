@@ -63,40 +63,40 @@ export default function AuthDropDownMenu(props) {
           <ul className={styles.dropDown_list}>
             <li>
               <div className={styles.dropDown_block}>
-                <CiMail size={20} />
-                Почта
+                <div className={styles.logo}><CiMail size={20} /></div>
+                <div className={styles.logo_btn}>Почта</div>
               </div>
               <div>{userData.email}</div>
             </li>
             <li>
               <a href="">
                 <div className={styles.dropDown_block}>
-                  <MdOutlineSupportAgent size={20} />
-                  Чат с поддержкой
+                <div className={styles.logo}><MdOutlineSupportAgent size={20} /> </div>
+                <div className={styles.logo_btn}>Чат с поддержкой</div>
                 </div>
               </a>
             </li>
             <li>
               <a href="">
                 <div className={styles.dropDown_block}>
-                  <CiSettings size={20} />
-                  Настройки аккаунта
+                <div className={styles.logo}><CiSettings size={20} /> </div>
+                <div className={styles.logo_btn}> Настройки аккаунта</div>
                 </div>
               </a>
             </li>
             <li>
               <a href="">
                 <div className={styles.dropDown_block}>
-                  <RiPagesLine size={20} />
-                  Мои услуги
+                <div className={styles.logo}><RiPagesLine size={20} /></div>
+                <div className={styles.logo_btn}>Мои услуги</div>
                 </div>
               </a>
             </li>
             <li>
               <a onClick={handleClickLogout} href="">
                 <div className={styles.dropDown_block}>
-                  <IoLogOutOutline size={20} />
-                  Выход
+                <div className={styles.logo}><IoLogOutOutline size={20} /></div>
+                <div className={styles.logo_btn}>Выход</div>
                 </div>
               </a>
             </li>

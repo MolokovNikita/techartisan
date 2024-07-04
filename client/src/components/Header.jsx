@@ -3,6 +3,8 @@ import styles from "../styles/header.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import AuthDropDownMenu from "./AuthDropDownMenu";
+import { enqueueSnackbar } from "notistack";
+
 
 export default function Header({ setIsOpen }) {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
@@ -68,7 +70,11 @@ export default function Header({ setIsOpen }) {
               </a>
             </li>
             <li>
-              <a href="#">
+              <a onClick={() => {
+                console.log('Click');
+               
+              }}
+                href="#">
                 <img className={styles.vklogo} src="/vk.png" alt="vklogo" />
               </a>
             </li>

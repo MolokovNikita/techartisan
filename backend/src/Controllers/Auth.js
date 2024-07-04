@@ -25,7 +25,7 @@ class AuthController {
         .status(200)
         .json({ accessToken, accessTokenExpiration, id, f_name, email });
     } catch (err) {
-      return res.status(400).send("Bad request - " + err.message);
+      return res.status(400).send(err.message);
     }
   }
 
@@ -43,7 +43,7 @@ class AuthController {
       res.cookie("refreshToken", refreshToken, COOKIE_SETTINGS.REFRESH_TOKEN);
       return res.status(200).json({ accessToken, accessTokenExpiration, id });
     } catch (err) {
-      return res.status(400).send("Bad request - " + err.message);
+      return res.status(400).send(err.message);
     }
   }
 
@@ -54,7 +54,7 @@ class AuthController {
       res.clearCookie("refreshToken");
       return res.sendStatus(200);
     } catch (err) {
-      return res.status(400).send("Bad request - " + err.message);
+      return res.status(400).send(err.message);
     }
   }
 
@@ -78,7 +78,7 @@ class AuthController {
         .status(200)
         .json({ accessToken, accessTokenExpiration, id, f_name, email });
     } catch (err) {
-      return res.status(400).send("Bad request - " + err.message);
+      return res.status(400).send(err.message);
     }
   }
 }

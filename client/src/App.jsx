@@ -11,6 +11,7 @@ import { AuthContext } from "./context/AuthContext";
 import style from "./styles/app.module.css";
 import Confidencity from "./pages/Confidencity.jsx";
 import Politicy from "./pages/Politicy.jsx";
+import { SnackbarProvider } from "notistack";
 
 function App() {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,6 +30,7 @@ function App() {
   ];
   return (
     <>
+    <SnackbarProvider />
       {isLoading ? (
         <div className={style.loader_container}>
           <div className={style.spinner}></div>
