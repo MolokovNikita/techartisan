@@ -7,7 +7,7 @@
   margin-left: 200px;
 }
 
-.location_nav>li {
+.location_nav > li {
   margin-right: 30px;
 }
 
@@ -15,11 +15,11 @@
   margin-right: 100px;
 }
 
-.social_nav>li {
+.social_nav > li {
   margin-left: 15px;
 }
 
-.social_nav>li:first-child {
+.social_nav > li:first-child {
   margin-right: 50px;
 }
 
@@ -68,7 +68,7 @@ ol {
   margin-top: 40px;
 }
 
-.main_nav>li {
+.main_nav > li {
   margin-left: 80px;
 }
 
@@ -102,7 +102,7 @@ a:hover {
   transition: 0.2s ease;
 }
 
-.Auth_container>a>p {
+.Auth_container > a > p {
   margin-top: 0.2rem;
   font-size: 1.2rem;
   display: flex;
@@ -130,7 +130,6 @@ a:hover {
 
 /* Медиа запросы */
 @media (max-width: 1017px) {
-
   .social_nav {
     display: none;
   }

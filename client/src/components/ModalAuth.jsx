@@ -11,7 +11,8 @@ const ModalRootElement = document.querySelector("#ModalAuth");
 
 export default function ModalAuth(props) {
   const { isOpen, onClose } = props;
-  const { handleSignIn, handleSignUp, erorText, setErrorText } = useContext(AuthContext);
+  const { handleSignIn, handleSignUp, erorText, setErrorText } =
+    useContext(AuthContext);
   const [isLoginSelected, setIsLoginSelected] = useState(true);
   const element = useMemo(() => document.createElement("div"), []);
   const modalRef = useRef(null);
@@ -172,7 +173,7 @@ export default function ModalAuth(props) {
             className={isLoginSelected ? style.selected : ""}
             onClick={() => {
               setIsLoginSelected(true);
-              setErrorText('');
+              setErrorText("");
             }}
           >
             Логин&nbsp;
@@ -182,9 +183,8 @@ export default function ModalAuth(props) {
             className={!isLoginSelected ? style.selected : ""}
             onClick={() => {
               setIsLoginSelected(false);
-              setErrorText('');
-            }
-            }
+              setErrorText("");
+            }}
           >
             &nbsp;Регистрация
           </a>
@@ -247,9 +247,7 @@ export default function ModalAuth(props) {
                 Войти
               </button>
             </div>
-            <div className={style.Error_text}>
-              {erorText}
-                </div>
+            <div className={style.Error_text}>{erorText}</div>
           </div>
         ) : (
           <div className={style.Registration_container}>
@@ -367,11 +365,8 @@ export default function ModalAuth(props) {
               >
                 Зарегистрироваться
               </button>
-            
             </div>
-            <div className={style.Error_text}>
-              {erorText}
-                </div>
+            <div className={style.Error_text}>{erorText}</div>
           </div>
         )}
       </div>

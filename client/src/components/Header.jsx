@@ -6,7 +6,6 @@ import AuthDropDownMenu from "./AuthDropDownMenu";
 import { enqueueSnackbar } from "notistack";
 import { RxHamburgerMenu } from "react-icons/rx";
 
-
 export default function Header({ setIsOpen }) {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const location = useLocation();
@@ -18,7 +17,7 @@ export default function Header({ setIsOpen }) {
   };
 
   const handlePopUp = (e) => {
-    e.stopPropagation(); // предотвращаем всплытие события
+    e.stopPropagation(); // предотвращение всплытия событий
     setIsPopUpOpen((prev) => !prev);
   };
 
@@ -46,9 +45,7 @@ export default function Header({ setIsOpen }) {
       <header>
         <div id="top" className={styles.top_header}>
           <div className={styles.burger_menu}>
-          <button>
-            {<RxHamburgerMenu size ={30}/>}
-            </button>
+            <button>{<RxHamburgerMenu size={30} />}</button>
           </div>
           <ol className={styles.location_nav}>
             <li>
@@ -60,9 +57,7 @@ export default function Header({ setIsOpen }) {
               Москва
             </li>
             <li>ул. Красноказарменая, д.17</li>
-            <li className={styles.company_name}>
-              TECHARTISAN
-            </li>
+            <li className={styles.company_name}>TECHARTISAN</li>
           </ol>
           <ol className={styles.social_nav}>
             <li>
@@ -78,13 +73,14 @@ export default function Header({ setIsOpen }) {
                 <img className={styles.tglogo} src="/tg.png" alt="tglogo" />
               </a>
             </li>
-            
+
             <li>
-              <a onClick={() => {
-                console.log('Click');
-               
-              }}
-                href="#">
+              <a
+                onClick={() => {
+                  console.log("Click");
+                }}
+                href="#"
+              >
                 <img className={styles.vklogo} src="/vk.png" alt="vklogo" />
               </a>
             </li>

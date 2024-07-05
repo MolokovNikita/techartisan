@@ -19,7 +19,8 @@ const AuthProvider = ({ children }) => {
   const { getToken, setToken, deleteToken } = useInMemoryJWT();
   const [isAuth, setisAuth] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [erorText, setErrorText] = useState('');
+  const [erorText, setErrorText] = useState("");
+  const [isAdmin, setIsAdmin] = useState(true);
   const [userData, setUserData] = useState({
     id: "",
     f_name: "",
@@ -28,12 +29,12 @@ const AuthProvider = ({ children }) => {
     phone_number: "",
   });
 
-  const handleError = (data) => { 
+  const handleError = (data) => {
     setErrorText(data);
-    setTimeout(()=>{
-      setErrorText('');
-    },5000)
-  }
+    setTimeout(() => {
+      setErrorText("");
+    }, 5000);
+  };
 
   const handleFetchProtected = () => {
     ResourceClient.get("/clients")
@@ -103,10 +104,10 @@ const AuthProvider = ({ children }) => {
         setisAuth(true);
         enqueueSnackbar(`Вы успешно зарегистрировались!, ${data[0].f_name}!`, {
           variant: "success",
-          autoHideDuration: 1500, 
+          autoHideDuration: 1500,
           anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'right',
+            vertical: "top",
+            horizontal: "right",
           },
         });
       })
@@ -114,10 +115,10 @@ const AuthProvider = ({ children }) => {
         handleError(e.response.data);
         enqueueSnackbar(`${e.response.data}`, {
           variant: "error",
-          autoHideDuration: 3000, 
+          autoHideDuration: 3000,
           anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'right',
+            vertical: "top",
+            horizontal: "right",
           },
         });
       });
@@ -142,8 +143,8 @@ const AuthProvider = ({ children }) => {
           variant: "success",
           autoHideDuration: 3000,
           anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'right',
+            vertical: "top",
+            horizontal: "right",
           },
         });
       })
@@ -153,8 +154,8 @@ const AuthProvider = ({ children }) => {
           variant: "error",
           autoHideDuration: 1500, // 3 seconds
           anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'right',
+            vertical: "top",
+            horizontal: "right",
           },
         });
       });
@@ -178,6 +179,7 @@ const AuthProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
+        isAdmin,
         erorText,
         isLoading,
         isAuth,
@@ -188,7 +190,7 @@ const AuthProvider = ({ children }) => {
         handleLogOut,
         setUserData,
         handleFetchProtected,
-        setErrorText
+        setErrorText,
       }}
     >
       {children}

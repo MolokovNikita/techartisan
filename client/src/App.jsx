@@ -28,11 +28,10 @@ function App() {
     "/aboutus",
     "/confidencity",
     "/politicy",
-    "/account"
   ];
   return (
     <>
-    <SnackbarProvider />
+      <SnackbarProvider />
       {isLoading ? (
         <div className={style.loader_container}>
           <div className={style.spinner}></div>
