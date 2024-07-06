@@ -8,6 +8,9 @@
   background-color: rgb(199, 223, 195);
   padding-top: 15px;
   padding-bottom: 15px;
+  bottom: 0;
+  width: 100%;
+  flex: 0 0 auto;
 }
 
 .footer_container > ul {

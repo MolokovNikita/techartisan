@@ -36,7 +36,31 @@ class CardOfOrderController {
       res.json(formattedData);
     });
   }
-
+  async getOneByClientId(req, res) {
+    const { id } = req.params;
+    const sql = "SELECT * FROM cardoforder WHERE client_id = $1";
+    pool.query(sql, [id], (err, result) => {
+      if (err) {
+        console.error(err.message);
+        return res.status(400).json({ error: "Invalid syntax" });
+      }
+      if (result.rows.length === 0) {
+        return res.status(404).json({ error: "Card of order not found" });
+      }
+      const resultArray = result.rows.map((row) => {
+        return {
+          ...row,
+          created: new Date(row.created).toLocaleString("en-US", {
+            timeZone: "Europe/Moscow",
+          }),
+          ended: new Date(row.ended).toLocaleString("en-US", {
+            timeZone: "Europe/Moscow",
+          }),
+        };
+      });
+      res.json(resultArray);
+    });
+  } //
   async getOne(req, res) {
     const id = req.params.id;
     const sql = "SELECT * FROM cardoforder WHERE id = $1";
@@ -49,6 +73,7 @@ class CardOfOrderController {
         return res.status(404).json({ error: "Card of order not found" });
       }
       // Преобразование даты и времени в нужный часовой пояс
+
       const formattedData = {
         ...result.rows[0],
         created: new Date(result.rows[0].created).toLocaleString("en-US", {

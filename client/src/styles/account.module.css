@@ -1,15 +1,30 @@
+.page_container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+
+.content_wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .profile_container {
   display: flex;
   justify-content: center;
-  padding-bottom: 120px;
+  flex: 1;
+  margin-bottom: 100px;
 }
 
 .profile {
+  margin-top: 70px;
   display: flex;
   background-color: rgba(217, 217, 217, 0.3);
   border-radius: 30px;
   flex-direction: column;
   width: 600px;
+  height: 430px;
   font-family: "Inter", sans-serif;
   font-weight: lighter;
   font-size: 1rem;
@@ -176,36 +191,58 @@
 .save__button:active {
   background-color: rgba(136, 226, 139, 1);
 }
+
 .phone_desc__area {
   margin-top: 5px;
   margin-left: 45px;
   font-size: 12px;
 }
+
 .phone_number_container,
 .email_container {
   display: flex;
   flex-direction: column;
 }
+
 .email_container {
   margin: 0;
   padding: 0;
   margin-top: 5px;
 }
+
 .phone_number_inpt__container,
 .email_inpt__container {
   display: flex;
   flex-direction: row;
 }
+
 .phone__img {
   padding-right: 5px;
   margin-left: 20px;
   margin-top: 5px;
 }
+
 .phone_number__label {
   margin-top: 5px;
   margin-left: 18px;
 }
+
 .email__img {
   margin-top: 5px;
   margin-right: 5px;
+}
+
+.error__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.error__text {
+  padding: 100px;
+  padding-bottom: 0;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
 }

@@ -1,0 +1,25 @@
+.support_page__container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+.content__wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.error__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.error__text {
+  padding: 100px;
+  padding-bottom: 0;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+}

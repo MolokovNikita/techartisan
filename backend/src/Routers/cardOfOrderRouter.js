@@ -7,6 +7,9 @@ router.post("", CardOfOrderController.create);
 router.get("", CardOfOrderController.getAll);
 //get one Card by id
 router.get("/:id", CardOfOrderController.getOne);
+//get one Card by client id
+router.get("/client/:id", CardOfOrderController.getOneByClientId);
+
 //update Card
 router.put("", CardOfOrderController.update);
 //delete one Card

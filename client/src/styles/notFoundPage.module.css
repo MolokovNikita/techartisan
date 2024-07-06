@@ -1,0 +1,16 @@
+.not_found__container {
+  padding-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  font-size: 60px;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+}
+.link__container {
+  font-size: 30px;
+  color: blue;
+  margin-top: 20px;
+}

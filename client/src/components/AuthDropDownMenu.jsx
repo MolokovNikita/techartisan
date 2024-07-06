@@ -19,6 +19,7 @@ export default function AuthDropDownMenu(props) {
   const handleClickLogout = () => {
     handleLogOut();
     handleClose();
+    window.location.href = "/main";
   };
 
   const handleClose = () => {
@@ -92,7 +93,7 @@ export default function AuthDropDownMenu(props) {
               <div>{userData.email}</div>
             </li>
             <li>
-              <a href="">
+              <a onClick={() => handleNavigation("/support")}>
                 <div className={styles.dropDown_block}>
                   <div className={styles.logo}>
                     <MdOutlineSupportAgent size={20} />{" "}
@@ -112,7 +113,7 @@ export default function AuthDropDownMenu(props) {
               </a>
             </li>
             <li>
-              <a href="">
+              <a onClick={() => handleNavigation("/my/services")}>
                 <div className={styles.dropDown_block}>
                   <div className={styles.logo}>
                     <RiPagesLine size={20} />

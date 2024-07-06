@@ -54,7 +54,7 @@ class ClientController {
       // Преобразование даты и времени в нужный часовой пояс
       const formattedData = {
         ...result.rows[0],
-        created: row.created
+        created: result.rows[0].created
           ? new Date(result.rows[0].created).toLocaleString("en-US", {
               timeZone: "Europe/Moscow",
             })
