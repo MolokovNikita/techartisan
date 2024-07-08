@@ -50,7 +50,7 @@ class StaffController {
       }
       const formattedData = {
         ...result.rows[0],
-        hired: hired.created
+        hired: result.rows[0].hired
           ? new Date(result.rows[0].hired).toLocaleString("en-US", {
               timeZone: "Europe/Moscow",
             })

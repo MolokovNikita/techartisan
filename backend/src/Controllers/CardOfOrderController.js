@@ -58,6 +58,7 @@ class CardOfOrderController {
           }),
         };
       });
+      //console.log('res.json - ',resultArray)
       res.json(resultArray);
     });
   } //
