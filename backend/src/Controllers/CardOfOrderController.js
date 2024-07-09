@@ -53,9 +53,11 @@ class CardOfOrderController {
           created: new Date(row.created).toLocaleString("en-US", {
             timeZone: "Europe/Moscow",
           }),
-          ended: new Date(row.ended).toLocaleString("en-US", {
-            timeZone: "Europe/Moscow",
-          }),
+          ended: row.ended
+            ? new Date(row.ended).toLocaleString("en-US", {
+                timeZone: "Europe/Moscow",
+              })
+            : null,
         };
       });
       //console.log('res.json - ',resultArray)

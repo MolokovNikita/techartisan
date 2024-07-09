@@ -8,149 +8,159 @@ import axios from "axios";
 import { CiSearch } from "react-icons/ci";
 import Select from "react-select";
 import config from "../config.js";
-
 import { FaRegSadCry } from "react-icons/fa";
 
 export default function ClientServicesPage() {
   const [services, setServices] = useState([]); // services Cards from backend
   const { userData, isAuth } = useContext(AuthContext);
+
   useEffect(() => {
     if (!isAuth) {
-      return null;
-    } else {
-      console.log(userData.id);
-      console.log(
-        `Axios request to - ${config.API_URL}/order-card/client/${userData.id}`,
-      );
-      //Получение всех карточкек закаказов клиента
-      axios
-        .get(`${config.API_URL}/order-card/client/${userData.id}`)
-        .then((res) => {
-          console.log(res.data);
-          console.log(
-            `Axios request to - ${config.API_URL}/services-order/getOne/${res.data[0].id}`,
-          );
-          //Получение всех услуг из карточки заказа (запрос к отношению карточка заказа к услугам)
-          axios
-            .get(`${config.API_URL}/services-order/getOne/${res.data[0].id}`)
-            .then((res) => {
-              console.log("Services");
-              console.log(res.data);
-              //Получение деталей услуг по их id (нужно будеь циклом пройтись по всем услугам)
-              axios
-                .get(`${config.API_URL}/services/${res.data[0].services_id}`)
-                .then((res) => {
-                  console.log(res.data);
-                })
-                .catch((e) => console.log(e));
-            });
-          console.log(
-            "axios req - ",
-            `${config.API_URL}/staff-order/getOne/${res.data[0].id}`,
-          );
-          //Получние всех сотрдуников из карточки заказа
-          axios
-            .get(`${config.API_URL}/staff-order/getOne/${res.data[0].id}`)
-            .then((res) => {
-              console.log("Staff");
-              console.log(res.data);
-              //Получение деталей сотрудников по их id (нужно будет циклом пройтись)
-              axios
-                .get(`${config.API_URL}/staff/${res.data[0].staff_id}`)
-                .then((res) => {
-                  console.log(res.data);
-                })
-                .catch((e) => console.log(e));
-            });
-          console.log(
-            "axios req - ",
-            `${config.API_URL}/devices-order/getOne/${res.data[0].id}`,
-          );
-          //Получение всех устройств из карточки заказа
-          axios
-            .get(`${config.API_URL}/devices-order/getOne/${res.data[0].id}`)
-            .then((res) => {
-              console.log("devices");
-              console.log(res.data);
-              //Получение деталей устройств по их id (нужно будет циклом пройтись)
-              axios
-                .get(`${config.API_URL}/devices/${res.data[0].devices_id}`)
-                .then((res) => {
-                  console.log(res.data);
-                })
-                .catch((e) => console.log(e));
-            });
-          console.log(
-            "axios req - ",
-            `${config.API_URL}/status-order/getOne/${res.data[0].id}`,
-          );
-          //Получение статуса заказа из карточки заказов
-          axios
-            .get(`${config.API_URL}/status-order/getOne/${res.data[0].id}`)
-            .then((res) => {
-              console.log("status");
-              console.log(res.data);
-              axios
-                .get(
-                  `${config.API_URL}/statuses/${res.data[0].statusoforder_id}`,
-                )
-                .then((res) => {
-                  console.log(res.data);
-                })
-                .catch((e) => console.log(e));
-            });
-          //Получение офисов из карточки заказов
-          console.log(
-            "axios req - ",
-            `${config.API_URL}/offices-order/getOne/${res.data[0].id}`,
-          );
-          axios
-            .get(`${config.API_URL}/offices-order/getOne/${res.data[0].id}`)
-            .then((res) => {
-              console.log("offices");
-              console.log(res.data);
-              axios
-                .get(`${config.API_URL}/offices/${res.data[0].offices_id}`)
-                .then((res) => {
-                  console.log(res.data);
-                })
-                .catch((e) => console.log(e));
-            })
-            .catch((e) => console.log(e));
-        })
-
-        .catch((e) => {
-          console.log(e);
-        });
+      return;
     }
-  }, []); // get All Client Services
+
+    const fetchServiceDetails = async (serviceId) => {
+      try {
+        const res = await axios.get(`${config.API_URL}/services/${serviceId}`);
+        return res.data;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    };
+
+    const fetchCardDetails = async (cardId) => {
+      try {
+        const [
+          serviceOrders,
+          staffOrders,
+          deviceOrders,
+          statusOrders,
+          officeOrders,
+        ] = await Promise.all([
+          axios.get(`${config.API_URL}/services-order/getOne/${cardId}`),
+          axios.get(`${config.API_URL}/staff-order/getOne/${cardId}`),
+          axios.get(`${config.API_URL}/devices-order/getOne/${cardId}`),
+          axios.get(`${config.API_URL}/status-order/getOne/${cardId}`),
+          axios.get(`${config.API_URL}/offices-order/getOne/${cardId}`),
+        ]);
+
+        const servicesDetails = await Promise.all(
+          serviceOrders.data.map(async (service) => {
+            const serviceDetails = await fetchServiceDetails(
+              service.services_id,
+            );
+            return { ...service, serviceDetails };
+          }),
+        );
+
+        const staffDetails = await Promise.all(
+          staffOrders.data.map(async (staff) => {
+            const res = await axios.get(
+              `${config.API_URL}/staff/${staff.staff_id}`,
+            );
+            return res.data;
+          }),
+        );
+
+        const deviceDetails = await Promise.all(
+          deviceOrders.data.map(async (device) => {
+            const res = await axios.get(
+              `${config.API_URL}/devices/${device.devices_id}`,
+            );
+            return res.data;
+          }),
+        );
+
+        const statusDetails = await Promise.all(
+          statusOrders.data.map(async (status) => {
+            const res = await axios.get(
+              `${config.API_URL}/statuses/${status.statusoforder_id}`,
+            );
+            return res.data;
+          }),
+        );
+
+        const officeDetails = await Promise.all(
+          officeOrders.data.map(async (office) => {
+            const res = await axios.get(
+              `${config.API_URL}/offices/${office.offices_id}`,
+            );
+            return res.data;
+          }),
+        );
+
+        return {
+          services: servicesDetails,
+          staff: staffDetails,
+          devices: deviceDetails,
+          status: statusDetails,
+          office: officeDetails,
+        };
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    };
+
+    const fetchData = async () => {
+      try {
+        const res = await axios.get(
+          `${config.API_URL}/order-card/client/${userData.id}`,
+        );
+        const cards = res.data;
+
+        const allCardDetails = await Promise.all(
+          cards.map(async (card) => {
+            const details = await fetchCardDetails(card.id);
+            return { ...card, ...details };
+          }),
+        );
+
+        setServices(allCardDetails);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [isAuth, userData.id]);
+
   const options = [
     { value: "newAtFirst", label: "Сначала новые" },
     { value: "oldAtFirst", label: "Сначала старые" },
     { value: "expensiveAtFirst", label: "Сначала дорогие" },
     { value: "cheapAtFirst", label: "Сначала дешевые" },
   ];
+
   const sortValue = useRef("");
   const searchFilter = useRef(0);
+
   const setSortType = () => {
-    //console.log(sortValue.current);
+    // Implement sorting logic here
     switch (sortValue.current) {
       case "newAtFirst":
-        return;
+        // Sort services by newest first
+        break;
       case "oldAtFirst":
-        return;
+        // Sort services by oldest first
+        break;
       case "expensiveAtFirst":
-        return;
+        // Sort services by most expensive first
+        break;
       case "cheapAtFirst":
-        return;
+        // Sort services by least expensive first
+        break;
       default:
-        return;
+        break;
     }
   };
+
   const setSearchFilter = () => {
     console.log(services);
-    //console.log(searchFilter.current.value);
+    // Implement search filter logic here
   };
+
   const selectStyles = {
     control: (styles) => ({
       ...styles,
@@ -171,7 +181,7 @@ export default function ClientServicesPage() {
           : isSelected
             ? data.color
             : isFocused
-              ? "rgb(199, 223, 195);"
+              ? "rgb(199, 223, 195)"
               : undefined,
         color: isDisabled ? "#ccc" : isSelected ? "green" : data.color,
         cursor: isSelected ? "default" : "pointer",
@@ -181,7 +191,7 @@ export default function ClientServicesPage() {
           backgroundColor: !isDisabled
             ? isSelected
               ? data.color
-              : "rgba(136, 226, 139, 1);"
+              : "rgba(136, 226, 139, 1)"
             : undefined,
         },
       };
@@ -189,6 +199,7 @@ export default function ClientServicesPage() {
     input: (styles) => ({ ...styles }),
     placeholder: (styles) => ({ ...styles }),
   };
+
   return (
     <>
       {isAuth ? (
@@ -233,50 +244,67 @@ export default function ClientServicesPage() {
                     </li>
                   </ul>
                 </div>
-                {/*  */}
-
-                {
-                  <div className={styles.services_panel__container}>
+                {/* Render services here */}
+                {services.map((service, index) => (
+                  <div key={index} className={styles.services_panel__container}>
                     <div className={styles.styles_top__container}>
                       <div className={styles.service__title}>
-                        Заказ №{services[0].id}
+                        Заказ №{service.id}
                       </div>
                       <div>
                         <div className={styles.status__sphere}></div>
-                        Уже у вас
+                        {service.status
+                          ? service.status[0].orderstatus
+                          : "Статус не найден"}
                       </div>
                       <div>
-                        Дата создания карточки услуги - {services[0].created}
+                        Дата создания карточки услуги - {service.created}
                       </div>
                       <div>
-                        Дата завершения карточки услуги - {services[0].ended}
+                        Дата завершения карточки услуги -{" "}
+                        {service.ended ? service.ended : "Не завершена"}
                       </div>
-                      <div>Примечание - {services[0].description}</div>
+                      <div>Примечание - {service.description}</div>
                     </div>
                     <div className={styles.styles_bottom__container}>
                       <ul className={styles.service__list}>
-                        <li>Услуга - 1</li>
-                        <li>
-                          Это примерное описание услуги Это примерное описание
-                          услуги Это примерное описание услуги Это примерное
-                          описание услуги Это примерное описание услуги Это
-                          примерное описание услуги Это примерное описание
-                          услуги Это примерное описание услуги Это примерное
-                          описание услуги
-                        </li>
-                        <li>1000р</li>
+                        {service.services.map((serv, idx) => (
+                          <li key={idx}>
+                            <div className={styles.services__text}>
+                              {serv.serviceDetails.name}
+                            </div>
+                            <div className={styles.services__price}>
+                              {serv.serviceDetails.price}р
+                            </div>
+                          </li>
+                        ))}
                       </ul>
-
+                      <div className={styles.devices_title__text}>
+                        Устройства:
+                      </div>
+                      <ul className={styles.device__list}>
+                        {service.devices.map((serv, idx) => (
+                          <li key={idx}>
+                            <div className={styles.devices__text}>
+                              {serv.name}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
                       <div className={styles.services_price}>
                         <ul>
-                          <li>Итого: {services[0].price}</li>
-                          <li>Мастер: Каюша</li>
+                          <li>Итого: {service.price}</li>
+                          <li>
+                            Мастер:{" "}
+                            {service.staff
+                              ? service.staff[0].f_name
+                              : "Не назначен"}
+                          </li>
                         </ul>
                       </div>
                     </div>
                   </div>
-                }
-                {/*  */}
+                ))}
               </div>
             ) : (
               <div className={styles.empty_order__container}>

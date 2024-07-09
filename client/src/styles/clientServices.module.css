@@ -163,19 +163,22 @@
 }
 .service__list {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   border-bottom: 0.1px solid gray;
 }
 .service__list li {
-  padding-right: 15px;
+  display: flex;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  border-bottom: 0.1px solid gray;
 }
 .service__list li:last-child {
-  padding-right: 0;
+  border-bottom: 0px;
+}
+.services__price {
   margin-left: auto;
 }
-.service__list li:first-child {
-  min-width: 80px;
-}
+
 .services_price ul {
   display: flex;
 }
