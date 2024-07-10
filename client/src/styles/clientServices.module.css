@@ -166,11 +166,20 @@
   flex-direction: column;
   border-bottom: 0.1px solid gray;
 }
-.service__list li {
+.service__list li,
+.device__list li {
   display: flex;
   padding-bottom: 20px;
   padding-top: 20px;
   border-bottom: 0.1px solid gray;
+}
+.services_title__text,
+.devices_title__text {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 1.2rem;
 }
 .service__list li:last-child {
   border-bottom: 0px;
@@ -193,4 +202,15 @@
   background-color: rgb(13, 255, 0);
   margin-right: 10px;
   border: 0.1px solid rgb(146, 145, 145);
+}
+
+.search_error__container {
+  display: flex;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  justify-content: center;
+  font-size: 25px;
+  margin-top: 50px;
+  flex-direction: column;
+  align-items: center;
 }

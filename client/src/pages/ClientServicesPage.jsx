@@ -9,9 +9,13 @@ import { CiSearch } from "react-icons/ci";
 import Select from "react-select";
 import config from "../config.js";
 import { FaRegSadCry } from "react-icons/fa";
+import { TbMoodSadSquint } from "react-icons/tb";
 
 export default function ClientServicesPage() {
-  const [services, setServices] = useState([]); // services Cards from backend
+    const { isLoading, setIsLoading } = useContext(AuthContext);
+  const [serviceCards, setServiceCards] = useState([]); // services Cards from backend
+  const [serviceCardsFiltered, setServiceCardsFiltered] = useState([]); // services Cards filtered
+  const [isSearch, setIsSearch] = useState(false);
   const { userData, isAuth } = useContext(AuthContext);
 
   useEffect(() => {
@@ -117,10 +121,11 @@ export default function ClientServicesPage() {
           }),
         );
 
-        setServices(allCardDetails);
+        setServiceCards(allCardDetails);
       } catch (error) {
         console.error(error);
       }
+      
     };
 
     fetchData();
@@ -157,8 +162,17 @@ export default function ClientServicesPage() {
   };
 
   const setSearchFilter = () => {
-    console.log(services);
-    // Implement search filter logic here
+    console.log(serviceCards); // Просто проверка, что лежит в serviceCards
+    if (!searchFilter.current.value) {
+      setIsSearch(false);
+      return;
+    }
+    setIsSearch(true);
+    const resultArray = [];
+    serviceCards.forEach((card) => {
+      if (card.id === searchFilter.current.value) resultArray.push(card);
+    });
+    setServiceCardsFiltered(resultArray);
   };
 
   const selectStyles = {
@@ -206,7 +220,7 @@ export default function ClientServicesPage() {
         <div className={styles.client_sertvices_page__container}>
           <Header />
           <div className={styles.content__wrap}>
-            {services.length != 0 ? (
+            {serviceCards.length != 0 ? (
               <div className={styles.client_main__container}>
                 <h1 className={styles.client_services__title}>Ваши Услуги</h1>
 
@@ -245,66 +259,155 @@ export default function ClientServicesPage() {
                   </ul>
                 </div>
                 {/* Render services here */}
-                {services.map((service, index) => (
-                  <div key={index} className={styles.services_panel__container}>
-                    <div className={styles.styles_top__container}>
-                      <div className={styles.service__title}>
-                        Заказ №{service.id}
+                {isSearch ? (
+                  serviceCardsFiltered.length != 0 ? (
+                    serviceCardsFiltered.map((service, index) => (
+                      <div
+                        key={index}
+                        className={styles.services_panel__container}
+                      >
+                        <div className={styles.styles_top__container}>
+                          <div className={styles.service__title}>
+                            Заказ №{service.id}
+                          </div>
+                          <div>
+                            <div className={styles.status__sphere}></div>
+                            {service.status
+                              ? service.status[0].orderstatus
+                              : "Статус не найден"}
+                          </div>
+                          <div>
+                            Дата создания карточки услуги - {service.created}
+                          </div>
+                          <div>
+                            Дата завершения карточки услуги -{" "}
+                            {service.ended ? service.ended : "Не завершена"}
+                          </div>
+                          <div>Описание - {service.description}</div>
+                        </div>
+                        <div className={styles.styles_bottom__container}>
+                          <div>
+                            Офис обслуживания - {service.office[0].adress}
+                          </div>
+                          <div className={styles.services_title__text}>
+                            Услуги:
+                          </div>
+                          <ul className={styles.service__list}>
+                            {service.services.map((serv, idx) => (
+                              <li key={idx}>
+                                <div className={styles.services__text}>
+                                  {serv.serviceDetails.name}
+                                </div>
+                                <div className={styles.services__price}>
+                                  {serv.serviceDetails.price}р
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                          <div className={styles.devices_title__text}>
+                            Устройства:
+                          </div>
+                          <ul className={styles.device__list}>
+                            {service.devices.map((serv, idx) => (
+                              <li key={idx}>
+                                <div className={styles.devices__text}>
+                                  {serv.name}
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                          <div className={styles.services_price}>
+                            <ul>
+                              <li>Итого: {service.price}</li>
+                              <li>
+                                Мастер:{" "}
+                                {service.staff
+                                  ? service.staff[0].f_name
+                                  : "Не назначен"}
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <div className={styles.status__sphere}></div>
-                        {service.status
-                          ? service.status[0].orderstatus
-                          : "Статус не найден"}
-                      </div>
-                      <div>
-                        Дата создания карточки услуги - {service.created}
-                      </div>
-                      <div>
-                        Дата завершения карточки услуги -{" "}
-                        {service.ended ? service.ended : "Не завершена"}
-                      </div>
-                      <div>Примечание - {service.description}</div>
+                    ))
+                  ) : (
+                    <div className={styles.search_error__container}>
+                      <TbMoodSadSquint size={40} />
+                      Ничего не найдено.
                     </div>
-                    <div className={styles.styles_bottom__container}>
-                      <ul className={styles.service__list}>
-                        {service.services.map((serv, idx) => (
-                          <li key={idx}>
-                            <div className={styles.services__text}>
-                              {serv.serviceDetails.name}
-                            </div>
-                            <div className={styles.services__price}>
-                              {serv.serviceDetails.price}р
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                      <div className={styles.devices_title__text}>
-                        Устройства:
+                  )
+                ) : (
+                  //end of is Search condition
+                  serviceCards.map((service, index) => (
+                    <div
+                      key={index}
+                      className={styles.services_panel__container}
+                    >
+                      <div className={styles.styles_top__container}>
+                        <div className={styles.service__title}>
+                          Заказ №{service.id}
+                        </div>
+                        <div>
+                          <div className={styles.status__sphere}></div>
+                          {service.status
+                            ? service.status[0].orderstatus
+                            : "Статус не найден"}
+                        </div>
+                        <div>
+                          Дата создания карточки услуги - {service.created}
+                        </div>
+                        <div>
+                          Дата завершения карточки услуги -{" "}
+                          {service.ended ? service.ended : "Не завершена"}
+                        </div>
+                        <div>Описание - {service.description}</div>
                       </div>
-                      <ul className={styles.device__list}>
-                        {service.devices.map((serv, idx) => (
-                          <li key={idx}>
-                            <div className={styles.devices__text}>
-                              {serv.name}
-                            </div>
-                          </li>
-                        ))}
-                      </ul>
-                      <div className={styles.services_price}>
-                        <ul>
-                          <li>Итого: {service.price}</li>
-                          <li>
-                            Мастер:{" "}
-                            {service.staff
-                              ? service.staff[0].f_name
-                              : "Не назначен"}
-                          </li>
+                      <div className={styles.styles_bottom__container}>
+                        <div>
+                          Офис обслуживания - {service.office[0].adress}
+                        </div>
+                        <div className={styles.services_title__text}>
+                          Услуги:
+                        </div>
+                        <ul className={styles.service__list}>
+                          {service.services.map((serv, idx) => (
+                            <li key={idx}>
+                              <div className={styles.services__text}>
+                                {serv.serviceDetails.name}
+                              </div>
+                              <div className={styles.services__price}>
+                                {serv.serviceDetails.price}р
+                              </div>
+                            </li>
+                          ))}
                         </ul>
+                        <div className={styles.devices_title__text}>
+                          Устройства:
+                        </div>
+                        <ul className={styles.device__list}>
+                          {service.devices.map((serv, idx) => (
+                            <li key={idx}>
+                              <div className={styles.devices__text}>
+                                {serv.name}
+                              </div>
+                            </li>
+                          ))}
+                        </ul>
+                        <div className={styles.services_price}>
+                          <ul>
+                            <li>Итого: {service.price}</li>
+                            <li>
+                              Мастер:{" "}
+                              {service.staff
+                                ? service.staff[0].f_name
+                                : "Не назначен"}
+                            </li>
+                          </ul>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
+                  ))
+                )}
               </div>
             ) : (
               <div className={styles.empty_order__container}>

@@ -184,6 +184,7 @@ const AuthProvider = ({ children }) => {
         isLoading,
         isAuth,
         userData,
+        setIsLoading,
         setisAuth,
         handleSignUp,
         handleSignIn,
