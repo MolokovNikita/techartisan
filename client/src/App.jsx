@@ -13,9 +13,8 @@ import Confidencity from "./pages/Confidencity.jsx";
 import Politicy from "./pages/Politicy.jsx";
 import { SnackbarProvider } from "notistack";
 import AccountPage from "./pages/AccountPage.jsx";
-import ClientServicesPage from "./pages/ClientServicesPage.jsx";
 import SupportPage from "./pages/SupportPage.jsx";
-
+import ClientServicePage from "./pages/ClientServicesPage/ClientServicePage.jsx";
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const { isLoading } = useContext(AuthContext);
@@ -51,7 +50,7 @@ function App() {
             <Route path="/confidencity" element={<Confidencity />} />
             <Route path="/politicy" element={<Politicy />} />
             <Route path="/account" element={<AccountPage />} />
-            <Route path="/my/services" element={<ClientServicesPage />} />
+            <Route path="/my/services" element={<ClientServicePage />} />
             <Route path="/support" element={<SupportPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

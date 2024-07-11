@@ -1,0 +1,112 @@
+.client_services_page__container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+}
+.content__wrap {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.error__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+.error__text {
+  padding: 100px;
+  padding-bottom: 0;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+.client_services__title {
+  display: flex;
+  justify-content: center;
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 2rem;
+  margin-bottom: 50px;
+}
+.empty_order__container {
+  display: flex;
+  justify-content: center;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+  flex-direction: column;
+  align-items: center;
+}
+.empty_order__container a {
+  color: green;
+}
+.empty_order__container a:hover {
+  color: rgba(136, 226, 139, 1);
+}
+.client_services__title_error {
+  font-family: "Inter", sans-serif;
+  font-weight: 500;
+  font-size: 2rem;
+  margin-bottom: 100px;
+}
+.client_main__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1rem;
+}
+.services_panel_loading__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 30%;
+  margin: auto;
+  margin-top: 50px;
+  border-radius: 15px;
+  margin-bottom: 100px;
+  background-color: white;
+  border: 0.5px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 600px;
+  animation: pulse 1s infinite;
+}
+.styles_top_loading__container {
+  display: flex;
+  padding: 20px;
+  border-radius: 15px;
+  height: 100px;
+  background-color: rgba(207, 207, 207, 0.278);
+  animation: pulse 1s infinite;
+}
+.styles_bottom_loading__container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+  height: 300px;
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+.search_error__container {
+  display: flex;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  justify-content: center;
+  font-size: 25px;
+  margin-top: 50px;
+  flex-direction: column;
+  align-items: center;
+}

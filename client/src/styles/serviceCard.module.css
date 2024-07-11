@@ -1,0 +1,71 @@
+.services_panel__container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 30%;
+  margin: auto;
+  margin-top: 50px;
+  border-radius: 15px;
+  margin-bottom: 100px;
+  background-color: white;
+  border: 0.5px solid #ccc;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: 600px;
+}
+.service__title {
+  display: flex;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1.5rem;
+}
+.styles_top__container {
+  padding: 20px;
+  border-radius: 15px;
+  background-color: rgba(207, 207, 207, 0.278);
+}
+.styles_bottom__container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 15px;
+}
+.service__list {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 0.1px solid gray;
+}
+.service__list li,
+.device__list li {
+  display: flex;
+  padding-bottom: 20px;
+  padding-top: 20px;
+  border-bottom: 0.1px solid gray;
+}
+.services_title__text,
+.devices_title__text {
+  padding-bottom: 10px;
+  padding-top: 10px;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 1.2rem;
+}
+.service__list li:last-child {
+  border-bottom: 0px;
+}
+.services__price {
+  margin-left: auto;
+}
+.services_price ul {
+  display: flex;
+}
+.services_price ul li:last-child {
+  margin-left: auto;
+}
+.status__sphere {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: rgb(13, 255, 0);
+  margin-right: 10px;
+  border: 0.1px solid rgb(146, 145, 145);
+}
