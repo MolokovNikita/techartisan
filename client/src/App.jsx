@@ -15,6 +15,7 @@ import { SnackbarProvider } from "notistack";
 import AccountPage from "./pages/AccountPage.jsx";
 import SupportPage from "./pages/SupportPage.jsx";
 import ClientServicePage from "./pages/ClientServicesPage/ClientServicePage.jsx";
+import ServiceCardModal from "./components/ServiceCardModal.jsx";
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const { isLoading } = useContext(AuthContext);
@@ -22,7 +23,10 @@ function App() {
   const handleModalClose = () => {
     setIsOpen(false);
   };
-
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState(true);
+  const handleServiceModalClose = () => {
+    setIsServiceModalOpen(false);
+  };
   const routesWithHeaderFooter = [
     "/main",
     "/services",
@@ -40,6 +44,13 @@ function App() {
       ) : (
         <>
           <ModalAuth isOpen={isOpen} onClose={handleModalClose} />
+          <ServiceCardModal
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            onClose={handleServiceModalClose}
+            isServiceModalOpen={isServiceModalOpen}
+          />
+
           {routesWithHeaderFooter.includes(location.pathname) && (
             <Header setIsOpen={setIsOpen} />
           )}

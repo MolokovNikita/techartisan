@@ -1,12 +1,23 @@
 import styles from "../../styles/serviceCard.module.css";
-
 export default function ServiceCard({ service }) {
   return (
     <div className={styles.services_panel__container}>
       <div className={styles.styles_top__container}>
         <div className={styles.service__title}>Заказ №{service.id}</div>
         <div>
-          <div className={styles.status__sphere}></div>
+          {service.status[0].orderstatus === "Уже у вас" ||
+          service.status[0].orderstatus === "Готов к выдаче" ? (
+            <div className={styles.status__sphere_green}></div>
+          ) : service.status[0].orderstatus === "В процессе" ||
+            service.status[0].orderstatus === "В обработке" ? (
+            <div className={styles.status__sphere_yellow}></div>
+          ) : service.status[0].orderstatus === "Заказ создан" ? (
+            <div className={styles.status__sphere_gray}></div>
+          ) : service.status[0].orderstatus === "Отменен" ? (
+            <div className={styles.status__sphere_red}></div>
+          ) : (
+            <div className={styles.status__sphere_gray}></div>
+          )}
           {service.status ? service.status[0].orderstatus : "Статус не найден"}
         </div>
         <div>Дата создания карточки услуги - {service.created}</div>

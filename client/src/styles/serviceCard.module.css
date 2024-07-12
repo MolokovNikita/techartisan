@@ -60,12 +60,39 @@
 .services_price ul li:last-child {
   margin-left: auto;
 }
-.status__sphere {
+.status__sphere_green {
   display: inline-block;
   width: 15px;
   height: 15px;
   border-radius: 15px;
-  background-color: rgb(13, 255, 0);
+  background-color: rgba(13, 255, 0, 0.79);
+  margin-right: 10px;
+  border: 0.1px solid rgb(146, 145, 145);
+}
+.status__sphere_yellow {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: rgba(242, 238, 1, 0.79);
+  margin-right: 10px;
+  border: 0.1px solid rgb(146, 145, 145);
+}
+.status__sphere_gray {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: rgb(255, 255, 255);
+  margin-right: 10px;
+  border: 1px solid rgb(146, 145, 145);
+}
+.status__sphere_red {
+  display: inline-block;
+  width: 15px;
+  height: 15px;
+  border-radius: 15px;
+  background-color: rgba(235, 1, 1, 0.79);
   margin-right: 10px;
   border: 0.1px solid rgb(146, 145, 145);
 }
