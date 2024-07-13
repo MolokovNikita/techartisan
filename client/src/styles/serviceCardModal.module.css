@@ -15,12 +15,59 @@
 
 .modalContainer {
   display: flex;
-  width: 400px;
-  height: 500px;
+  flex-direction: column;
+  width: 500px;
+  height: 600px;
   background-color: rgb(255, 255, 255);
   border-radius: 15px;
-  justify-content: center;
-  align-items: center;
   border: 0.5px solid #ccc;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+.sign_online__title,
+.select_office__container {
+  display: flex;
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  margin-top: 10px;
+  font-size: 20px;
+  justify-content: center;
+}
+.date_picker__container {
+  margin-top: 15px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+.date_picker__container input {
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  width: 200px;
+  height: 30px;
+  font-size: 20px;
+  align-items: center;
+  text-align: center;
+  border: 0.5px solid #ccc;
+  border-radius: 5px;
+  transition: 0.3s all;
+  cursor: pointer;
+}
+.select_date__container {
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+}
+.date_picker__container input:hover {
+  border: 0.5px solid #585858;
+}
+.select_date__container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+.select_office__container {
+  display: flex;
+  justify-content: center;
+}
+.select__office {
+  width: 300px;
 }
