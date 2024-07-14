@@ -44,7 +44,9 @@ export default function ServiceCardModal(props) {
     { value: "21", label: "Чистка ...0" },
     { value: "223", label: "Чистка ...123" },
   ];
-
+  const handleColor = (time) => {
+    return time.getHours() > 12 ? styles.textSuccess : styles.textError;
+  };
   const selectStyles = {
     control: (styles) => ({
       ...styles,
@@ -120,6 +122,9 @@ export default function ServiceCardModal(props) {
   const handleCardClick = (event) => {
     event.stopPropagation();
   };
+  const handleBtnClick = () => {
+    console.log("click");
+  };
   if (!isServiceModalOpen) return null;
 
   return createPortal(
@@ -132,16 +137,29 @@ export default function ServiceCardModal(props) {
         onClick={handleCardClick}
         tabIndex="-1"
       >
-        <div className={styles.sign_online__title}>Записаться онлайн</div>
+        <div className={styles.sign_online_container}>
+          <div className={styles.sign_online__title}>Онлайн запись</div>
+          <div className={styles.close}>
+            <button
+              className={styles.closeButton}
+              onClick={handleBackgroundClick}
+            >
+              <img src="/close.png" alt="close" className={styles.closeImage} />
+            </button>
+          </div>
+        </div>
         <div className={styles.select_date__container}>
           Выберете дату и время помещения нашего офиса
         </div>
         <div className={styles.date_picker__container}>
           <DatePicker
-            format="yyyy-MM"
+            dateFormat="dd.MM - HH:mm"
             locale="ru"
+            showTimeSelect
+            timeCaption="Время"
             selected={startDate}
             onChange={getDateValue}
+            timeClassName={handleColor}
           />
         </div>
         <div className={styles.select_office__container}>
@@ -165,7 +183,28 @@ export default function ServiceCardModal(props) {
             options={services}
             placeholder={"Выберете услуги"}
             styles={selectStyles}
+            noOptionsMessage={() => "Услуги закончились :("}
           />
+          <div className={styles.services_label__container}>
+            <label className={styles.services__label}>
+              Если вам нужно несколько одинаковых услуг, просто добавьте нужную
+              услугу, и напишете в комментарии к заказу количество услуг
+            </label>
+          </div>
+          <div className={styles.comment__container}>
+            <textarea
+              wrap="off"
+              cols="40"
+              rows="5"
+              placeholder="Комментарий к заказу"
+              className={styles.comment__area}
+            />
+          </div>
+        </div>
+        <div className={styles.btn__container}>
+          <button className={styles.sign__btn} onClick={handleBtnClick}>
+            Записаться
+          </button>
         </div>
       </div>
     </div>,
