@@ -2,15 +2,15 @@ import { useEffect, useMemo, useRef, useState, useContext } from "react";
 import { createPortal } from "react-dom";
 import styles from "../styles/serviceCardModal.module.css";
 import { AuthContext } from "../context/AuthContext";
-import { PiEye, PiEyeClosed } from "react-icons/pi";
-import { useLoginValidation } from "../hooks/useLoginValidation";
-import { useValidation } from "../hooks/useValidation";
 import { useLocation, useNavigate } from "react-router-dom";
 import DatePicker, { registerLocale } from "react-datepicker";
 import Select from "react-select";
 import "react-datepicker/dist/react-datepicker.css";
 import ru from "date-fns/locale/ru"; // Import Russian locale from date-fns
 import makeAnimated from "react-select/animated";
+import axios from "axios";
+import config from "../config";
+
 const animatedComponents = makeAnimated();
 
 const ModalRootElement = document.querySelector("#ServiceCard");
@@ -22,30 +22,36 @@ export default function ServiceCardModal(props) {
   const { isOpen, setIsOpen, onClose, isServiceModalOpen } = props;
   const { userData, isAuth } = useContext(AuthContext);
   const [startDate, setStartDate] = useState(new Date());
-  const modalRef = useRef(null);
+  const commentRef = useRef(null);
   const element = useMemo(() => document.createElement("div"), []);
-  //offices from bd
-  const offices = [
-    { value: "Moscow", label: "г. Москва, ул. Красноказарменная 13" },
-    { value: "Saint-Petesburg", label: "г. Санкт Петербург, ул. Пушкина" },
-  ];
-  //services from bd
-  const services = [
-    { value: "1", label: "Замена ..." },
-    { value: "2", label: "Чистка ...1" },
-    { value: "3", label: "Чистка ...2" },
-    { value: "24", label: "Чистка ...3" },
-    { value: "25", label: "Чистка ...4" },
-    { value: "26", label: "Чистка ...5" },
-    { value: "27", label: "Чистка ...6" },
-    { value: "28", label: "Чистка ...7" },
-    { value: "29", label: "Чистка ...8" },
-    { value: "20", label: "Чистка ...9" },
-    { value: "21", label: "Чистка ...0" },
-    { value: "223", label: "Чистка ...123" },
-  ];
-  const handleColor = (time) => {
-    return time.getHours() > 12 ? styles.textSuccess : styles.textError;
+  const [offices, setOffices] = useState([]); // offices from bd
+  const [services, setServices] = useState([]); // services from bd
+
+  const getMinTime = () => {
+    const now = new Date();
+    const minTime = new Date(startDate);
+
+    if (
+      startDate.toDateString() === now.toDateString() &&
+      now.getHours() >= 7
+    ) {
+      if (now.getMinutes() >= 31) {
+        minTime.setHours(now.getHours() + 1, 0, 0, 0); // Round up to the next hour
+      } else if (now.getMinutes() === 30) {
+        minTime.setHours(now.getHours(), 30, 0, 0); // Set to the next half hour
+      } else {
+        minTime.setHours(now.getHours(), 30, 0, 0); // Round up to the next half hour
+      }
+    } else {
+      minTime.setHours(7, 0, 0, 0); // If not today, set to 7 AM
+    }
+    return minTime;
+  };
+
+  const getMaxTime = () => {
+    const maxTime = new Date(startDate);
+    maxTime.setHours(20, 30, 0, 0);
+    return maxTime;
   };
   const selectStyles = {
     control: (styles) => ({
@@ -89,9 +95,29 @@ export default function ServiceCardModal(props) {
     setIsOpen(true);
   };
   const getDateValue = (date) => {
-    setStartDate(date);
+    const now = new Date();
     console.log(date);
+    if (date.toDateString() === now.toDateString()) {
+      // Если выбрана текущая дата
+      const currentMinTime = getMinTime();
+      if (date.getTime() < now.getTime()) {
+        // Если выбрано прошедшее время на текущий день, установить текущее время
+        setStartDate(now);
+      } else if (date.getHours() < currentMinTime.getHours()) {
+        // Если выбрано время раньше минимального времени на текущий день, установить минимальное время
+        setStartDate(currentMinTime);
+      } else {
+        // В противном случае, установить выбранную дату
+        setStartDate(date);
+      }
+    } else {
+      // Если выбрана другая дата, установить минимальное время для этой даты
+      const newDate = new Date(date);
+      newDate.setHours(7, 0, 0, 0); // Установить на 7 утра выбранного дня
+      setStartDate(newDate);
+    }
   };
+
   useEffect(() => {
     if (ModalRootElement) {
       ModalRootElement.appendChild(element);
@@ -107,10 +133,35 @@ export default function ServiceCardModal(props) {
         return handleAuth();
       }
       document.body.style.overflow = "hidden";
+
+      const fetchData = async () => {
+        try {
+          const [servicesResponse, officesResponse] = await Promise.all([
+            axios.get(`${config.API_URL}/services`),
+            axios.get(`${config.API_URL}/offices`),
+          ]);
+
+          setServices(
+            servicesResponse.data.map((item) => ({
+              value: item.id,
+              label: item.name,
+            })),
+          );
+
+          setOffices(
+            officesResponse.data.map((item) => ({
+              value: item.id,
+              label: item.adress,
+            })),
+          );
+        } catch (error) {
+          console.error(error);
+        }
+      };
+      fetchData();
     } else {
       document.body.style.overflow = "";
     }
-
     return () => {
       document.body.style.overflow = "";
     };
@@ -123,7 +174,9 @@ export default function ServiceCardModal(props) {
     event.stopPropagation();
   };
   const handleBtnClick = () => {
-    console.log("click");
+    commentRef.current.value
+      ? console.log(commentRef.current.value)
+      : console.log(null);
   };
   if (!isServiceModalOpen) return null;
 
@@ -158,8 +211,12 @@ export default function ServiceCardModal(props) {
             showTimeSelect
             timeCaption="Время"
             selected={startDate}
+            minDate={new Date()}
+            minTime={getMinTime()} // Устанавливаем минимальное время
+            maxTime={getMaxTime()} // Устанавливаем максимальное время
             onChange={getDateValue}
-            timeClassName={handleColor}
+
+            // timeClassName={handleColor}
           />
         </div>
         <div className={styles.select_office__container}>
@@ -193,6 +250,7 @@ export default function ServiceCardModal(props) {
           </div>
           <div className={styles.comment__container}>
             <textarea
+              ref={commentRef}
               wrap="off"
               cols="40"
               rows="5"
