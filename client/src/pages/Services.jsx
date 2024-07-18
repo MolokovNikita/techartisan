@@ -1,10 +1,14 @@
 import styles from "../styles/services.module.css";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
 import { IoIosArrowForward } from "react-icons/io";
 import config from "../config.js";
 
-function Services() {
+function Services(props) {
+  const { isAuth } = useContext(AuthContext);
+  const { setIsServiceModalOpen, setIsOpen } = props;
   const [services, setServices] = useState([]);
   const [openQuestions, setOpenQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -83,7 +87,18 @@ function Services() {
           </div>
         )}
         <div className={styles.button_container}>
-          <button className={styles.services_button}>Записаться онлайн</button>
+          <button
+            className={styles.services_button}
+            onClick={() => {
+              if (isAuth) {
+                setIsServiceModalOpen(true);
+              } else {
+                setIsOpen(true);
+              }
+            }}
+          >
+            Записаться онлайн
+          </button>
         </div>
         <div className={styles.question_topic}>
           <p>Вопросы и Ответы о наших услугах</p>

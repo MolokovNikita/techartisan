@@ -1,9 +1,13 @@
 import Body from "../components/Body";
 
-function MainPage() {
+function MainPage(props) {
+  const { setIsServiceModalOpen, setIsOpen } = props;
   return (
     <>
-      <Body />
+      <Body
+        setIsServiceModalOpen={setIsServiceModalOpen}
+        setIsOpen={setIsOpen}
+      />
     </>
   );
 }

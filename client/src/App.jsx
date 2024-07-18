@@ -23,7 +23,7 @@ function App() {
   const handleModalClose = () => {
     setIsOpen(false);
   };
-  const [isServiceModalOpen, setIsServiceModalOpen] = useState(true);
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
   const handleServiceModalClose = () => {
     setIsServiceModalOpen(false);
   };
@@ -55,8 +55,24 @@ function App() {
             <Header setIsOpen={setIsOpen} />
           )}
           <Routes>
-            <Route path="/main" element={<MainPage />} />
-            <Route path="/services" element={<Services />} />
+            <Route
+              path="/main"
+              element={
+                <MainPage
+                  setIsServiceModalOpen={setIsServiceModalOpen}
+                  setIsOpen={setIsOpen}
+                />
+              }
+            />
+            <Route
+              path="/services"
+              element={
+                <Services
+                  setIsServiceModalOpen={setIsServiceModalOpen}
+                  setIsOpen={setIsOpen}
+                />
+              }
+            />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/confidencity" element={<Confidencity />} />
             <Route path="/politicy" element={<Politicy />} />

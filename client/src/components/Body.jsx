@@ -1,6 +1,10 @@
 import styles from "../styles/body.module.css";
 import { Link } from "react-router-dom";
-export default function Body() {
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
+export default function Body(props) {
+  const { setIsServiceModalOpen, setIsOpen } = props;
+  const { isAuth } = useContext(AuthContext);
   return (
     <>
       <div className={styles.topic_container}>
@@ -38,7 +42,17 @@ export default function Body() {
                   <img src="/monitorlogo.png" alt="" />
                 </li>
                 <li className={styles.SignUpButton}>
-                  <button>Записаться онлайн</button>
+                  <button
+                    onClick={() => {
+                      if (isAuth) {
+                        setIsServiceModalOpen(true);
+                      } else {
+                        setIsOpen(true);
+                      }
+                    }}
+                  >
+                    Записаться онлайн
+                  </button>
                 </li>
                 <li>
                   <img src="/smartphonelogo.png" alt="" />

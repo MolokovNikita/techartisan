@@ -18,34 +18,51 @@ const ModalRootElement = document.querySelector("#ServiceCard");
 // Register the locale with react-datepicker
 registerLocale("ru", ru);
 
+const getNearestAvailableTime = (now) => {
+  const nearestTime = new Date(now);
+  if (now.getHours() >= 7 && now.getHours() < 20) {
+    if (now.getMinutes() >= 30) {
+      nearestTime.setHours(now.getHours() + 1, 0, 0, 0);
+    } else {
+      nearestTime.setHours(now.getHours(), 30, 0, 0);
+    }
+  } else if (now.getHours() < 7) {
+    nearestTime.setHours(7, 0, 0, 0);
+  } else {
+    nearestTime.setHours(20, 30, 0, 0);
+  }
+  return nearestTime;
+};
+
 export default function ServiceCardModal(props) {
-  const { isOpen, setIsOpen, onClose, isServiceModalOpen } = props;
-  const { userData, isAuth } = useContext(AuthContext);
-  const [startDate, setStartDate] = useState(new Date());
-  const commentRef = useRef(null);
   const element = useMemo(() => document.createElement("div"), []);
+
+  const { isOpen, setIsOpen, onClose, isServiceModalOpen } = props;
+
+  const { userData, isAuth } = useContext(AuthContext);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [startDate, setStartDate] = useState(() => {
+    const now = new Date();
+    const minTime = getNearestAvailableTime(now);
+    return minTime;
+  });
+  const [selectedOffice, setSelectedOffice] = useState(0);
+  const [selectedServices, setSelectedServices] = useState([]);
+  const commentRef = useRef(null);
+
   const [offices, setOffices] = useState([]); // offices from bd
   const [services, setServices] = useState([]); // services from bd
 
   const getMinTime = () => {
     const now = new Date();
     const minTime = new Date(startDate);
-
-    if (
-      startDate.toDateString() === now.toDateString() &&
-      now.getHours() >= 7
-    ) {
-      if (now.getMinutes() >= 31) {
-        minTime.setHours(now.getHours() + 1, 0, 0, 0); // Round up to the next hour
-      } else if (now.getMinutes() === 30) {
-        minTime.setHours(now.getHours(), 30, 0, 0); // Set to the next half hour
-      } else {
-        minTime.setHours(now.getHours(), 30, 0, 0); // Round up to the next half hour
-      }
+    if (startDate.toDateString() === now.toDateString()) {
+      return getNearestAvailableTime(now);
     } else {
       minTime.setHours(7, 0, 0, 0); // If not today, set to 7 AM
+      return minTime;
     }
-    return minTime;
   };
 
   const getMaxTime = () => {
@@ -53,6 +70,7 @@ export default function ServiceCardModal(props) {
     maxTime.setHours(20, 30, 0, 0);
     return maxTime;
   };
+
   const selectStyles = {
     control: (styles) => ({
       ...styles,
@@ -90,31 +108,27 @@ export default function ServiceCardModal(props) {
     input: (styles) => ({ ...styles }),
     placeholder: (styles) => ({ ...styles }),
   };
+
   const handleAuth = () => {
     onClose();
     setIsOpen(true);
   };
+
   const getDateValue = (date) => {
     const now = new Date();
-    console.log(date);
+    const currentMinTime = getMinTime();
+    console.log(date.toDateString());
+    console.log(now.toDateString());
     if (date.toDateString() === now.toDateString()) {
-      // Если выбрана текущая дата
-      const currentMinTime = getMinTime();
-      if (date.getTime() < now.getTime()) {
-        // Если выбрано прошедшее время на текущий день, установить текущее время
-        setStartDate(now);
-      } else if (date.getHours() < currentMinTime.getHours()) {
-        // Если выбрано время раньше минимального времени на текущий день, установить минимальное время
-        setStartDate(currentMinTime);
+      const nearestAvailableTime = getNearestAvailableTime(now);
+      if (date.getTime() < nearestAvailableTime.getTime()) {
+        setStartDate(nearestAvailableTime);
       } else {
-        // В противном случае, установить выбранную дату
         setStartDate(date);
       }
     } else {
-      // Если выбрана другая дата, установить минимальное время для этой даты
-      const newDate = new Date(date);
-      newDate.setHours(7, 0, 0, 0); // Установить на 7 утра выбранного дня
-      setStartDate(newDate);
+      console.log(date.getHours());
+      setStartDate(date);
     }
   };
 
@@ -170,14 +184,18 @@ export default function ServiceCardModal(props) {
   const handleBackgroundClick = () => {
     onClose();
   };
+
   const handleCardClick = (event) => {
     event.stopPropagation();
   };
+
   const handleBtnClick = () => {
-    commentRef.current.value
-      ? console.log(commentRef.current.value)
-      : console.log(null);
+    console.log("Comment - ", commentRef.current.value);
+    console.log("SelectedOffice - ", selectedOffice);
+    console.log("SelectedServices - ", selectedServices);
+    console.log("SelectedDate - ", startDate);
   };
+
   if (!isServiceModalOpen) return null;
 
   return createPortal(
@@ -215,8 +233,6 @@ export default function ServiceCardModal(props) {
             minTime={getMinTime()} // Устанавливаем минимальное время
             maxTime={getMaxTime()} // Устанавливаем максимальное время
             onChange={getDateValue}
-
-            // timeClassName={handleColor}
           />
         </div>
         <div className={styles.select_office__container}>
@@ -228,6 +244,9 @@ export default function ServiceCardModal(props) {
             options={offices}
             placeholder={"Выберете офис"}
             styles={selectStyles}
+            onChange={(value) => {
+              setSelectedOffice(value);
+            }}
           />
         </div>
         <div className={styles.select_office__container}>Выберете услуги</div>
@@ -241,11 +260,14 @@ export default function ServiceCardModal(props) {
             placeholder={"Выберете услуги"}
             styles={selectStyles}
             noOptionsMessage={() => "Услуги закончились :("}
+            onChange={(value) => {
+              setSelectedServices(value);
+            }}
           />
           <div className={styles.services_label__container}>
             <label className={styles.services__label}>
               Если вам нужно несколько одинаковых услуг, просто добавьте нужную
-              услугу, и напишете в комментарии к заказу количество услуг
+              услугу, и напишите в комментарии к заказу количество услуг
             </label>
           </div>
           <div className={styles.comment__container}>
