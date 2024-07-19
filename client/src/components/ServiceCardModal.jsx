@@ -20,6 +20,7 @@ registerLocale("ru", ru);
 
 const getNearestAvailableTime = (now) => {
   const nearestTime = new Date(now);
+  console.log(nearestTime);
   if (now.getHours() >= 7 && now.getHours() < 20) {
     if (now.getMinutes() >= 30) {
       nearestTime.setHours(now.getHours() + 1, 0, 0, 0);
@@ -29,7 +30,8 @@ const getNearestAvailableTime = (now) => {
   } else if (now.getHours() < 7) {
     nearestTime.setHours(7, 0, 0, 0);
   } else {
-    nearestTime.setHours(20, 30, 0, 0);
+    nearestTime.setDate(nearestTime.getDate() + 1);
+    nearestTime.setHours(7, 0, 0, 0);
   }
   return nearestTime;
 };
@@ -60,9 +62,14 @@ export default function ServiceCardModal(props) {
     if (startDate.toDateString() === now.toDateString()) {
       return getNearestAvailableTime(now);
     } else {
-      minTime.setHours(7, 0, 0, 0); // If not today, set to 7 AM
+      minTime.setHours(7, 0, 0, 0);
       return minTime;
     }
+  };
+  const getMinDay = () => {
+    const now = new Date();
+    const condition = now.getHours() >= 20 && now.getMinutes() >= 30;
+    return condition ? new Date(now.setDate(now.getDate() + 1)) : now;
   };
 
   const getMaxTime = () => {
@@ -117,8 +124,6 @@ export default function ServiceCardModal(props) {
   const getDateValue = (date) => {
     const now = new Date();
     const currentMinTime = getMinTime();
-    console.log(date.toDateString());
-    console.log(now.toDateString());
     if (date.toDateString() === now.toDateString()) {
       const nearestAvailableTime = getNearestAvailableTime(now);
       if (date.getTime() < nearestAvailableTime.getTime()) {
@@ -127,7 +132,6 @@ export default function ServiceCardModal(props) {
         setStartDate(date);
       }
     } else {
-      console.log(date.getHours());
       setStartDate(date);
     }
   };
@@ -229,9 +233,9 @@ export default function ServiceCardModal(props) {
             showTimeSelect
             timeCaption="Время"
             selected={startDate}
-            minDate={new Date()}
-            minTime={getMinTime()} // Устанавливаем минимальное время
-            maxTime={getMaxTime()} // Устанавливаем максимальное время
+            minDate={getMinDay()}
+            minTime={getMinTime()}
+            maxTime={getMaxTime()}
             onChange={getDateValue}
           />
         </div>
