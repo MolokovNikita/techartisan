@@ -2,24 +2,26 @@ const pool = require("../Config/ormconfig");
 
 class CardOfOrderController {
   async create(req, res) {
-    const { id, price, description, ended, client_id } = req.body;
+    // id, price, description, created, ended, client_id, comment, visit
+    const { price, description, ended, client_id, comment, visit } = req.body;
     let { created } = req.body;
     const now = new Date().toISOString(); // Преобразование текущей даты в строку в формате ISO
     if (!created) created = now;
-    const sql_insert = `INSERT INTO cardoforder (id, price, description, ended, client_id, created) VALUES ($1, $2, $3, $4, $5, $6)`;
-    const values = [id, price, description, ended, client_id, created];
+    const sql_insert = `INSERT INTO cardoforder (price, description, ended, client_id, created, comment, visit) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`;
+    const values = [price, description, ended, client_id, created, comment, visit];
     try {
-      await pool.query(sql_insert, values);
-      res.send("Data inserted successfully!");
+        const result = await pool.query(sql_insert, values);
+        const newId = result.rows[0].id;
+        res.json({ message: "Data inserted successfully!", id: newId });
     } catch (err) {
-      if (err.code === "23505") {
-        // Код ошибки 23505 обозначает конфликт уникальности
-        return res.status(400).send("Conflict: Data already exists");
-      }
-      console.error(err.message);
-      return res.status(400).send("Bad request - " + err.message);
+        if (err.code === "23505") {
+            // Код ошибки 23505 обозначает конфликт уникальности
+            return res.status(400).send("Conflict: Data already exists");
+        }
+        console.error(err.message);
+        return res.status(400).send("Bad request - " + err.message);
     }
-  }
+}
   async getAll(req, res) {
     const sql = "SELECT * FROM cardoforder";
     pool.query(sql, [], (err, result) => {

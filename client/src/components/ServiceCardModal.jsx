@@ -20,7 +20,6 @@ registerLocale("ru", ru);
 
 const getNearestAvailableTime = (now) => {
   const nearestTime = new Date(now);
-  console.log(nearestTime);
   if (now.getHours() >= 7 && now.getHours() < 20) {
     if (now.getMinutes() >= 30) {
       nearestTime.setHours(now.getHours() + 1, 0, 0, 0);
@@ -163,6 +162,7 @@ export default function ServiceCardModal(props) {
             servicesResponse.data.map((item) => ({
               value: item.id,
               label: item.name,
+              price: item.price,
             })),
           );
 
@@ -198,6 +198,61 @@ export default function ServiceCardModal(props) {
     console.log("SelectedOffice - ", selectedOffice);
     console.log("SelectedServices - ", selectedServices);
     console.log("SelectedDate - ", startDate);
+    setIsLoading(true);
+    setIsLoading(false);
+    const price = selectedServices.reduce((acc, item, index) => {
+      return acc + Number(item.price);
+    }, 0);
+    axios
+      .post(`http://localhost:5002/order-card`, {
+        // Создание карточки
+        price: price,
+        client_id: userData.id,
+        comment: commentRef.current.value,
+        visit: startDate.toISOString(),
+      })
+      .then((res) => {
+        console.log(res);
+        console.log(res.data.id);
+        const CARD_ID = res.data.id;
+        //const { cardoforder_id, services_id } = req.body;
+        selectedServices.forEach((item) => {
+          axios
+            .post(`http://localhost:5002/services-order/create`, {
+              cardoforder_id: CARD_ID,
+              services_id: item.value,
+            })
+            .then((res) => {
+              console.log(res);
+            })
+            .catch((e) => console.error(e));
+        });
+        axios
+          .post(`http://localhost:5002/offices-order/create`, {
+            // const { cardoforder_id, offices_id } = req.body;
+            cardoforder_id: CARD_ID,
+            offices_id: selectedOffice.value,
+          })
+          .then((res) => {
+            console.log("Office inserted, - ", res);
+            axios
+              .post(`http://localhost:5002/status-order/create`, {
+                cardoforder_id: CARD_ID,
+                statusoforder_id: 5,
+              })
+              .then((res) => {
+                console.log(res);
+              })
+              .catch((e) => console.error(e));
+          })
+          .catch((e) => console.error(e));
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+      .finally(() => {
+        onClose();
+      });
   };
 
   if (!isServiceModalOpen) return null;

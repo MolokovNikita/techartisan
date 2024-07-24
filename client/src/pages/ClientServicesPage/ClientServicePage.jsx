@@ -65,7 +65,7 @@ export default function ClientServicesPage() {
                   <>
                     {isSearch ? (
                       serviceCardsFiltered.length !== 0 ? (
-                        serviceCardsFiltered.map((service, index) => (
+                        serviceCardsFiltered?.map((service, index) => (
                           <ServiceCard key={index} service={service} />
                         ))
                       ) : (
@@ -75,7 +75,7 @@ export default function ClientServicesPage() {
                         </div>
                       )
                     ) : (
-                      serviceCards.map((service, index) => (
+                      serviceCards?.map((service, index) => (
                         <ServiceCard key={index} service={service} />
                       ))
                     )}

@@ -1,6 +1,6 @@
 // const { COOKIE_SETTINGS } = require('../constants.js');
 
-const ErrorsUtils = require("../utils/Errors.js");
+//const ErrorsUtils = require("../utils/Errors.js");
 const AuthService = require("../Services/Auth.js");
 const COOKIE_SETTINGS = {
   REFRESH_TOKEN: {
