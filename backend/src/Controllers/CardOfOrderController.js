@@ -8,20 +8,28 @@ class CardOfOrderController {
     const now = new Date().toISOString(); // Преобразование текущей даты в строку в формате ISO
     if (!created) created = now;
     const sql_insert = `INSERT INTO cardoforder (price, description, ended, client_id, created, comment, visit) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`;
-    const values = [price, description, ended, client_id, created, comment, visit];
+    const values = [
+      price,
+      description,
+      ended,
+      client_id,
+      created,
+      comment,
+      visit,
+    ];
     try {
-        const result = await pool.query(sql_insert, values);
-        const newId = result.rows[0].id;
-        res.json({ message: "Data inserted successfully!", id: newId });
+      const result = await pool.query(sql_insert, values);
+      const newId = result.rows[0].id;
+      res.json({ message: "Data inserted successfully!", id: newId });
     } catch (err) {
-        if (err.code === "23505") {
-            // Код ошибки 23505 обозначает конфликт уникальности
-            return res.status(400).send("Conflict: Data already exists");
-        }
-        console.error(err.message);
-        return res.status(400).send("Bad request - " + err.message);
+      if (err.code === "23505") {
+        // Код ошибки 23505 обозначает конфликт уникальности
+        return res.status(400).send("Conflict: Data already exists");
+      }
+      console.error(err.message);
+      return res.status(400).send("Bad request - " + err.message);
     }
-}
+  }
   async getAll(req, res) {
     const sql = "SELECT * FROM cardoforder";
     pool.query(sql, [], (err, result) => {
@@ -48,18 +56,18 @@ class CardOfOrderController {
       if (result.rows.length === 0) {
         return res.status(404).json({ error: "Card of order not found" });
       }
-  
+
       // Опции для форматирования даты
       const options = {
         timeZone: "Europe/Moscow",
-        day: '2-digit',
-        month: '2-digit',
-        year: 'numeric',
-        hour: '2-digit',
-        minute: '2-digit',
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
         hour12: false,
       };
-  
+
       const resultArray = result.rows.map((row) => {
         return {
           ...row,
@@ -70,11 +78,11 @@ class CardOfOrderController {
             : null,
         };
       });
-  
+
       return res.status(200).json(resultArray);
     });
   }
-  
+
   async getOne(req, res) {
     const id = req.params.id;
     const sql = "SELECT * FROM cardoforder WHERE id = $1";

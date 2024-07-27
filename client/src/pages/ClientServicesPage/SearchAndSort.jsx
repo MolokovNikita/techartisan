@@ -21,9 +21,9 @@ export default function SearchAndSort({
   const searchFilter = useRef("");
 
   const parseDate = (dateString) => {
-    const [datePart, timePart] = dateString.split(', ');
-    const [day, month, year] = datePart.split('.');
-    const [hours, minutes] = timePart.split(':');
+    const [datePart, timePart] = dateString.split(", ");
+    const [day, month, year] = datePart.split(".");
+    const [hours, minutes] = timePart.split(":");
     return new Date(year, month - 1, day, hours, minutes);
   };
 
@@ -32,7 +32,7 @@ export default function SearchAndSort({
     const dateB = parseDate(b.created);
 
     if (isNaN(dateA) || isNaN(dateB)) {
-      console.error('Invalid Date:', a.created, b.created);
+      console.error("Invalid Date:", a.created, b.created);
       return 0;
     }
 
@@ -44,7 +44,7 @@ export default function SearchAndSort({
     const dateB = parseDate(b.created);
 
     if (isNaN(dateA) || isNaN(dateB)) {
-      console.error('Invalid Date:', a.created, b.created);
+      console.error("Invalid Date:", a.created, b.created);
       return 0;
     }
 
@@ -84,9 +84,8 @@ export default function SearchAndSort({
       return;
     }
     setIsSearch(true);
-    const resultArray = serviceCards.filter(
-      (card) =>
-        card.id.toString().includes(searchFilter.current.value),
+    const resultArray = serviceCards.filter((card) =>
+      card.id.toString().includes(searchFilter.current.value),
     );
     setServiceCardsFiltered(resultArray);
   };

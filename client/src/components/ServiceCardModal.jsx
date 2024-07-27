@@ -12,7 +12,6 @@ import axios from "axios";
 import config from "../config";
 import { enqueueSnackbar } from "notistack";
 
-
 const animatedComponents = makeAnimated();
 
 const ModalRootElement = document.querySelector("#ServiceCard");
@@ -196,67 +195,73 @@ export default function ServiceCardModal(props) {
   };
 
   const handleBtnClick = () => {
-    const price = selectedServices.reduce((acc, item) => acc + Number(item.price), 0);
-  
-    axios.post(`http://localhost:5002/order-card`, {
-      price: price,
-      client_id: userData.id,
-      comment: commentRef.current.value,
-      visit: startDate.toISOString(),
-    })
-    .then((res) => {
-      const CARD_ID = res.data.id;
+    const price = selectedServices.reduce(
+      (acc, item) => acc + Number(item.price),
+      0,
+    );
 
-      // Создание промисов для услуг
-      const servicePromises = selectedServices.map((item) => 
-        axios.post(`http://localhost:5002/services-order/create`, {
-          cardoforder_id: CARD_ID,
-          services_id: item.value,
-        })
-      );
-  
-      // Промис для офиса
-      const officePromise = axios.post(`http://localhost:5002/offices-order/create`, {
-        cardoforder_id: CARD_ID,
-        offices_id: selectedOffice.value,
-      });
-  
-      // Выполнение всех промисов параллельно
-      Promise.all([...servicePromises, officePromise])
-        .then((res) => {
-          return axios.post(`http://localhost:5002/status-order/create`, {
+    axios
+      .post(`http://localhost:5002/order-card`, {
+        price: price,
+        client_id: userData.id,
+        comment: commentRef.current.value,
+        visit: startDate.toISOString(),
+      })
+      .then((res) => {
+        const CARD_ID = res.data.id;
+
+        // Создание промисов для услуг
+        const servicePromises = selectedServices.map((item) =>
+          axios.post(`http://localhost:5002/services-order/create`, {
             cardoforder_id: CARD_ID,
-            statusoforder_id: 5,
-          });
-        })
-        .catch((error) => {
-          console.error("Error during the operations:", error);
-        })
-        .finally(() => {
+            services_id: item.value,
+          }),
+        );
+
+        // Промис для офиса
+        const officePromise = axios.post(
+          `http://localhost:5002/offices-order/create`,
+          {
+            cardoforder_id: CARD_ID,
+            offices_id: selectedOffice.value,
+          },
+        );
+
+        // Выполнение всех промисов параллельно
+        Promise.all([...servicePromises, officePromise])
+          .then((res) => {
+            return axios.post(`http://localhost:5002/status-order/create`, {
+              cardoforder_id: CARD_ID,
+              statusoforder_id: 5,
+            });
+          })
+          .catch((error) => {
+            console.error("Error during the operations:", error);
+          })
+          .finally(() => {
             enqueueSnackbar(`Вы успешно создали карточку заказа!`, {
-                variant: "success",
-                autoHideDuration: 1500,
-                anchorOrigin: {
-                  vertical: "top",
-                  horizontal: "right",
-                },
-              });
-          onClose();
+              variant: "success",
+              autoHideDuration: 1500,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "right",
+              },
+            });
+            onClose();
+          });
+      })
+      .catch((e) => {
+        enqueueSnackbar(`Возникла ошибка при создании карточки - ${e}`, {
+          variant: "error",
+          autoHideDuration: 3000,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "right",
+          },
         });
-    })
-    .catch((e) => {
-      enqueueSnackbar(`Возникла ошибка при создании карточки - ${e}`, {
-        variant: "error",
-        autoHideDuration: 3000,
-        anchorOrigin: {
-          vertical: "top",
-          horizontal: "right",
-        },
+        onClose();
       });
-      onClose();
-    });
   };
-  
 
   if (!isServiceModalOpen) return null;
 

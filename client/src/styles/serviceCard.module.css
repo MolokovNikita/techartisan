@@ -2,15 +2,19 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  width: 30%;
   margin: auto;
   margin-top: 50px;
-  border-radius: 15px;
-  margin-bottom: 100px;
-  background-color: white;
-  border: 0.5px solid #ccc;
+  margin-bottom: 50px;
+}
+.services__container {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 600px;
+  border-radius: 15px;
+
+  border: 0.5px solid #ccc;
+  transition: all 0.2s;
+}
+.services__container:hover {
+  scale: 102%;
 }
 .service__title {
   display: flex;
@@ -96,14 +100,18 @@
   margin-right: 10px;
   border: 0.1px solid rgb(146, 145, 145);
 }
-.cancel__button{
+.cancel__button {
   background: none;
-	color: inherit;
-	border: none;
-	padding: 0;
-	font: inherit;
-	cursor: pointer;
-	outline: inherit;
-  color: red;
+  color: inherit;
+  border: none;
+  padding: 0;
+  font: inherit;
+  cursor: pointer;
+  outline: inherit;
+  color: rgb(210, 0, 0);
   font-size: 0.9rem;
+  transition: all 0.1s ease;
+}
+.cancel__button:hover {
+  color: red;
 }
