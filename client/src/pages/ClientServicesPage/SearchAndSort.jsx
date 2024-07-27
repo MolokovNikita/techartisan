@@ -20,8 +20,37 @@ export default function SearchAndSort({
   const sortValue = useRef("");
   const searchFilter = useRef("");
 
-  const sortNewAtFirst = (a, b) => new Date(b.created) - new Date(a.created);
-  const sortOldAtFirst = (a, b) => new Date(a.created) - new Date(b.created);
+  const parseDate = (dateString) => {
+    const [datePart, timePart] = dateString.split(', ');
+    const [day, month, year] = datePart.split('.');
+    const [hours, minutes] = timePart.split(':');
+    return new Date(year, month - 1, day, hours, minutes);
+  };
+
+  const sortNewAtFirst = (a, b) => {
+    const dateA = parseDate(a.created);
+    const dateB = parseDate(b.created);
+
+    if (isNaN(dateA) || isNaN(dateB)) {
+      console.error('Invalid Date:', a.created, b.created);
+      return 0;
+    }
+
+    return dateB - dateA;
+  };
+
+  const sortOldAtFirst = (a, b) => {
+    const dateA = parseDate(a.created);
+    const dateB = parseDate(b.created);
+
+    if (isNaN(dateA) || isNaN(dateB)) {
+      console.error('Invalid Date:', a.created, b.created);
+      return 0;
+    }
+
+    return dateA - dateB;
+  };
+
   const sortExpensiveAtFirst = (a, b) => b.price - a.price;
   const sortCheapAtFirst = (a, b) => a.price - b.price;
 
@@ -51,11 +80,13 @@ export default function SearchAndSort({
   const setSearchFilter = () => {
     if (!searchFilter.current.value) {
       setIsSearch(false);
+      setServiceCardsFiltered(serviceCards);
       return;
     }
     setIsSearch(true);
     const resultArray = serviceCards.filter(
-      (card) => card.id === searchFilter.current.value,
+      (card) =>
+        card.id.toString().includes(searchFilter.current.value),
     );
     setServiceCardsFiltered(resultArray);
   };
@@ -120,7 +151,7 @@ export default function SearchAndSort({
             <Select
               className={styles.select__container}
               options={options}
-              placeholder={"Выберете способ сортировки"}
+              placeholder={"Выберите способ сортировки"}
               styles={selectStyles}
               onChange={(e) => {
                 sortValue.current = e.value;

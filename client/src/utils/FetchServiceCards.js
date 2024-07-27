@@ -6,13 +6,23 @@ export const fetchServiceDetails = async (serviceId) => {
     const res = await axios.get(`${config.API_URL}/services/${serviceId}`);
     return res.data;
   } catch (error) {
-    console.error(error);
+    console.error(`Error fetching service details for serviceId ${serviceId}:`, error);
     return null;
   }
 };
 
 export const fetchCardDetails = async (cardId) => {
   try {
+    const fetchData = async (url) => {
+      try {
+        const res = await axios.get(url);
+        return res.data;
+      } catch (error) {
+        console.error(`Error fetching data from ${url}:`, error);
+        return [];
+      }
+    };
+
     const [
       serviceOrders,
       staffOrders,
@@ -20,54 +30,46 @@ export const fetchCardDetails = async (cardId) => {
       statusOrders,
       officeOrders,
     ] = await Promise.all([
-      axios.get(`${config.API_URL}/services-order/getOne/${cardId}`),
-      axios.get(`${config.API_URL}/staff-order/getOne/${cardId}`),
-      axios.get(`${config.API_URL}/devices-order/getOne/${cardId}`),
-      axios.get(`${config.API_URL}/status-order/getOne/${cardId}`),
-      axios.get(`${config.API_URL}/offices-order/getOne/${cardId}`),
+      fetchData(`${config.API_URL}/services-order/getOne/${cardId}`),
+      fetchData(`${config.API_URL}/staff-order/getOne/${cardId}`),
+      fetchData(`${config.API_URL}/devices-order/getOne/${cardId}`),
+      fetchData(`${config.API_URL}/status-order/getOne/${cardId}`),
+      fetchData(`${config.API_URL}/offices-order/getOne/${cardId}`),
     ]);
 
     const servicesDetails = await Promise.all(
-      serviceOrders.data.map(async (service) => {
+      serviceOrders.map(async (service) => {
         const serviceDetails = await fetchServiceDetails(service.services_id);
         return { ...service, serviceDetails };
-      }),
+      })
     );
 
     const staffDetails = await Promise.all(
-      staffOrders.data.map(async (staff) => {
-        const res = await axios.get(
-          `${config.API_URL}/staff/${staff.staff_id}`,
-        );
-        return res.data;
-      }),
+      staffOrders.map(async (staff) => {
+        const res = await fetchData(`${config.API_URL}/staff/${staff.staff_id}`);
+        return res;
+      })
     );
 
     const deviceDetails = await Promise.all(
-      deviceOrders.data.map(async (device) => {
-        const res = await axios.get(
-          `${config.API_URL}/devices/${device.devices_id}`,
-        );
-        return res.data;
-      }),
+      deviceOrders.map(async (device) => {
+        const res = await fetchData(`${config.API_URL}/devices/${device.devices_id}`);
+        return res;
+      })
     );
 
     const statusDetails = await Promise.all(
-      statusOrders.data.map(async (status) => {
-        const res = await axios.get(
-          `${config.API_URL}/statuses/${status.statusoforder_id}`,
-        );
-        return res.data;
-      }),
+      statusOrders.map(async (status) => {
+        const res = await fetchData(`${config.API_URL}/statuses/${status.statusoforder_id}`);
+        return res;
+      })
     );
 
     const officeDetails = await Promise.all(
-      officeOrders.data.map(async (office) => {
-        const res = await axios.get(
-          `${config.API_URL}/offices/${office.offices_id}`,
-        );
-        return res.data;
-      }),
+      officeOrders.map(async (office) => {
+        const res = await fetchData(`${config.API_URL}/offices/${office.offices_id}`);
+        return res;
+      })
     );
 
     return {
@@ -78,7 +80,7 @@ export const fetchCardDetails = async (cardId) => {
       office: officeDetails,
     };
   } catch (error) {
-    console.error(error);
+    console.error(`Error fetching card details for cardId ${cardId}:`, error);
     return null;
   }
 };
@@ -90,7 +92,7 @@ export const fetchClientOrders = async (clientId) => {
     );
     return res.data;
   } catch (error) {
-    console.error(error);
+    console.error(`Error fetching client orders for clientId ${clientId}:`, error);
     return [];
   }
 };

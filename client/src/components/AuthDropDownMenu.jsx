@@ -92,7 +92,7 @@ export default function AuthDropDownMenu(props) {
               </div>
               <div>{userData.email}</div>
             </li>
-            <li>
+            {/* <li>
               <a onClick={() => handleNavigation("/support")}>
                 <div className={styles.dropDown_block}>
                   <div className={styles.logo}>
@@ -101,7 +101,7 @@ export default function AuthDropDownMenu(props) {
                   <div className={styles.logo_btn}>Чат с поддержкой</div>
                 </div>
               </a>
-            </li>
+            </li> */}
             <li>
               <a onClick={() => handleNavigation("/account")}>
                 <div className={styles.dropDown_block}>

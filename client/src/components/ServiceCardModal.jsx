@@ -10,6 +10,8 @@ import ru from "date-fns/locale/ru"; // Import Russian locale from date-fns
 import makeAnimated from "react-select/animated";
 import axios from "axios";
 import config from "../config";
+import { enqueueSnackbar } from "notistack";
+
 
 const animatedComponents = makeAnimated();
 
@@ -194,66 +196,67 @@ export default function ServiceCardModal(props) {
   };
 
   const handleBtnClick = () => {
-    console.log("Comment - ", commentRef.current.value);
-    console.log("SelectedOffice - ", selectedOffice);
-    console.log("SelectedServices - ", selectedServices);
-    console.log("SelectedDate - ", startDate);
-    setIsLoading(true);
-    setIsLoading(false);
-    const price = selectedServices.reduce((acc, item, index) => {
-      return acc + Number(item.price);
-    }, 0);
-    axios
-      .post(`http://localhost:5002/order-card`, {
-        // Создание карточки
-        price: price,
-        client_id: userData.id,
-        comment: commentRef.current.value,
-        visit: startDate.toISOString(),
-      })
-      .then((res) => {
-        console.log(res);
-        console.log(res.data.id);
-        const CARD_ID = res.data.id;
-        //const { cardoforder_id, services_id } = req.body;
-        selectedServices.forEach((item) => {
-          axios
-            .post(`http://localhost:5002/services-order/create`, {
-              cardoforder_id: CARD_ID,
-              services_id: item.value,
-            })
-            .then((res) => {
-              console.log(res);
-            })
-            .catch((e) => console.error(e));
-        });
-        axios
-          .post(`http://localhost:5002/offices-order/create`, {
-            // const { cardoforder_id, offices_id } = req.body;
-            cardoforder_id: CARD_ID,
-            offices_id: selectedOffice.value,
-          })
-          .then((res) => {
-            console.log("Office inserted, - ", res);
-            axios
-              .post(`http://localhost:5002/status-order/create`, {
-                cardoforder_id: CARD_ID,
-                statusoforder_id: 5,
-              })
-              .then((res) => {
-                console.log(res);
-              })
-              .catch((e) => console.error(e));
-          })
-          .catch((e) => console.error(e));
-      })
-      .catch((e) => {
-        console.error(e);
-      })
-      .finally(() => {
-        onClose();
+    const price = selectedServices.reduce((acc, item) => acc + Number(item.price), 0);
+  
+    axios.post(`http://localhost:5002/order-card`, {
+      price: price,
+      client_id: userData.id,
+      comment: commentRef.current.value,
+      visit: startDate.toISOString(),
+    })
+    .then((res) => {
+      const CARD_ID = res.data.id;
+
+      // Создание промисов для услуг
+      const servicePromises = selectedServices.map((item) => 
+        axios.post(`http://localhost:5002/services-order/create`, {
+          cardoforder_id: CARD_ID,
+          services_id: item.value,
+        })
+      );
+  
+      // Промис для офиса
+      const officePromise = axios.post(`http://localhost:5002/offices-order/create`, {
+        cardoforder_id: CARD_ID,
+        offices_id: selectedOffice.value,
       });
+  
+      // Выполнение всех промисов параллельно
+      Promise.all([...servicePromises, officePromise])
+        .then((res) => {
+          return axios.post(`http://localhost:5002/status-order/create`, {
+            cardoforder_id: CARD_ID,
+            statusoforder_id: 5,
+          });
+        })
+        .catch((error) => {
+          console.error("Error during the operations:", error);
+        })
+        .finally(() => {
+            enqueueSnackbar(`Вы успешно создали карточку заказа!`, {
+                variant: "success",
+                autoHideDuration: 1500,
+                anchorOrigin: {
+                  vertical: "top",
+                  horizontal: "right",
+                },
+              });
+          onClose();
+        });
+    })
+    .catch((e) => {
+      enqueueSnackbar(`Возникла ошибка при создании карточки - ${e}`, {
+        variant: "error",
+        autoHideDuration: 3000,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
+      onClose();
+    });
   };
+  
 
   if (!isServiceModalOpen) return null;
 

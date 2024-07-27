@@ -1,7 +1,6 @@
 import styles from "../../styles/serviceCard.module.css";
 
 export default function ServiceCard({ service }) {
-  console.log(service);
   const getStatusSphere = () => {
     if (!service.status || service.status.length === 0) {
       return <div className={styles.status__sphere_gray}></div>;
@@ -15,7 +14,7 @@ export default function ServiceCard({ service }) {
       case "В обработке":
         return <div className={styles.status__sphere_yellow}></div>;
       case "Заказ создан":
-        return <div className={styles.status__sphere_gray}></div>;
+        return <div className={styles.status__sphere_yellow}></div>;
       case "Отменен":
         return <div className={styles.status__sphere_red}></div>;
       default:
@@ -38,7 +37,11 @@ export default function ServiceCard({ service }) {
           Дата завершения карточки услуги -{" "}
           {service?.ended ? service.ended : "Не завершена"}
         </div>
-        <div>Описание - {service.description}</div>
+        <div>
+          Дата посещения -{" "}
+          {service?.visit ? service.visit : "Не указана"}
+        </div>
+        <div>Описание - {service?.description ? service.description : 'Отсутствует'}</div>
       </div>
       <div className={styles.styles_bottom__container}>
         <div>
@@ -78,6 +81,9 @@ export default function ServiceCard({ service }) {
                 : "Не назначен"}
             </li>
           </ul>
+        </div>
+        <div className={styles.cancel_button__container}>
+          <button className={styles.cancel__button}>Отменить запись</button>
         </div>
       </div>
     </div>

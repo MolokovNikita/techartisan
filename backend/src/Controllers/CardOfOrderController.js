@@ -28,7 +28,6 @@ class CardOfOrderController {
       if (err) {
         return console.error(err.message);
       }
-      // Преобразование даты и времени в нужный часовой пояс
       const formattedData = result.rows.map((row) => ({
         ...row,
         created: new Date(row.created).toLocaleString("en-US", {
@@ -49,23 +48,33 @@ class CardOfOrderController {
       if (result.rows.length === 0) {
         return res.status(404).json({ error: "Card of order not found" });
       }
+  
+      // Опции для форматирования даты
+      const options = {
+        timeZone: "Europe/Moscow",
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      };
+  
       const resultArray = result.rows.map((row) => {
         return {
           ...row,
-          created: new Date(row.created).toLocaleString("en-US", {
-            timeZone: "Europe/Moscow",
-          }),
+          visit: new Date(row.visit).toLocaleString("ru-RU", options),
+          created: new Date(row.created).toLocaleString("ru-RU", options),
           ended: row.ended
-            ? new Date(row.ended).toLocaleString("en-US", {
-                timeZone: "Europe/Moscow",
-              })
+            ? new Date(row.ended).toLocaleString("ru-RU", options)
             : null,
         };
       });
-      //console.log('res.json - ',resultArray)
-      res.json(resultArray);
+  
+      return res.status(200).json(resultArray);
     });
-  } //
+  }
+  
   async getOne(req, res) {
     const id = req.params.id;
     const sql = "SELECT * FROM cardoforder WHERE id = $1";

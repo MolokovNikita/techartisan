@@ -96,3 +96,14 @@
   margin-right: 10px;
   border: 0.1px solid rgb(146, 145, 145);
 }
+.cancel__button{
+  background: none;
+	color: inherit;
+	border: none;
+	padding: 0;
+	font: inherit;
+	cursor: pointer;
+	outline: inherit;
+  color: red;
+  font-size: 0.9rem;
+}

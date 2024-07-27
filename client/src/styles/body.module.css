@@ -32,6 +32,8 @@ a:hover {
   font-weight: lighter;
   font-size: 1.4rem;
   padding: 2em;
+  min-width: 900px;
+  min-height: 500px;
 }
 
 .topic_list {
