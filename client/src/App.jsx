@@ -16,6 +16,7 @@ import AccountPage from "./pages/AccountPage.jsx";
 import SupportPage from "./pages/SupportPage.jsx";
 import ClientServicePage from "./pages/ClientServicesPage/ClientServicePage.jsx";
 import ServiceCardModal from "./components/ServiceCardModal.jsx";
+import AdminPanel from "./pages/AdminPanel.jsx";
 function App() {
   const [isOpen, setIsOpen] = useState(false);
   const { isLoading } = useContext(AuthContext);
@@ -73,6 +74,7 @@ function App() {
                 />
               }
             />
+            <Route path="/admin" element={<AdminPanel />} />
             <Route path="/aboutus" element={<AboutUs />} />
             <Route path="/confidencity" element={<Confidencity />} />
             <Route path="/politicy" element={<Politicy />} />
