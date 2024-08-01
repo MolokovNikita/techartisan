@@ -29,7 +29,7 @@ function App() {
     setIsServiceModalOpen(false);
   };
   const routesWithHeaderFooter = [
-    "/main",
+    "/",
     "/services",
     "/aboutus",
     "/confidencity",
@@ -56,8 +56,8 @@ function App() {
             <Header setIsOpen={setIsOpen} />
           )}
           <Routes>
-            <Route
-              path="/main"
+               <Route
+              path="/"
               element={
                 <MainPage
                   setIsServiceModalOpen={setIsServiceModalOpen}

@@ -154,6 +154,7 @@ export default function ServiceCardModal(props) {
 
       const fetchData = async () => {
         try {
+          setIsLoading(true)
           const [servicesResponse, officesResponse] = await Promise.all([
             axios.get(`${config.API_URL}/services`),
             axios.get(`${config.API_URL}/offices`),
@@ -175,6 +176,9 @@ export default function ServiceCardModal(props) {
           );
         } catch (error) {
           console.error(error);
+        }
+        finally { 
+          setIsLoading(false)
         }
       };
       fetchData();
@@ -199,7 +203,17 @@ export default function ServiceCardModal(props) {
       (acc, item) => acc + Number(item.price),
       0,
     );
-
+    if((!selectedOffice) || (!selectedServices)){
+    return enqueueSnackbar(`Возникла ошибка при создании карточки`, {
+      variant: "error",
+      autoHideDuration: 2000,
+      anchorOrigin: {
+        vertical: "top",
+        horizontal: "right",
+      },
+    });
+    }
+    setIsLoading(true)
     axios
       .post(`http://localhost:5002/order-card`, {
         price: price,
@@ -230,35 +244,48 @@ export default function ServiceCardModal(props) {
         // Выполнение всех промисов параллельно
         Promise.all([...servicePromises, officePromise])
           .then((res) => {
-            return axios.post(`http://localhost:5002/status-order/create`, {
-              cardoforder_id: CARD_ID,
-              statusoforder_id: 5,
-            });
-          })
-          .catch((error) => {
-            console.error("Error during the operations:", error);
-          })
-          .finally(() => {
-            enqueueSnackbar(`Вы успешно создали карточку заказа!`, {
+            console.log(res)
+            enqueueSnackbar(`Вы успешно оформили заказ`, {
               variant: "success",
-              autoHideDuration: 1500,
+              autoHideDuration: 2000,
               anchorOrigin: {
                 vertical: "top",
                 horizontal: "right",
               },
             });
             onClose();
+            setSelectedOffice([]);
+            setSelectedServices([])
+            return axios.post(`http://localhost:5002/status-order/create`, {
+              cardoforder_id: CARD_ID,
+              statusoforder_id: 5,
+            });
+            
+          })
+          .catch((e) => {
+            enqueueSnackbar(`Возникла ошибка при создании карточки`, {
+              variant: "error",
+              autoHideDuration: 2000,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "right",
+              },
+            });
+          })
+          .finally(() => {
+            setIsLoading(false)
           });
       })
       .catch((e) => {
-        enqueueSnackbar(`Возникла ошибка при создании карточки - ${e}`, {
+        enqueueSnackbar(`Возникла ошибка при создании карточки`, {
           variant: "error",
-          autoHideDuration: 3000,
+          autoHideDuration: 2000,
           anchorOrigin: {
             vertical: "top",
             horizontal: "right",
           },
         });
+        setIsLoading(false)
         onClose();
       });
   };
@@ -270,12 +297,15 @@ export default function ServiceCardModal(props) {
       className={styles.service_modal__background}
       onClick={handleBackgroundClick}
     >
+
+        {!isLoading ?
+    (
       <div
-        className={styles.modalContainer}
-        onClick={handleCardClick}
-        tabIndex="-1"
-      >
-        <div className={styles.sign_online_container}>
+      className={styles.modalContainer}
+      onClick={handleCardClick}
+      tabIndex="-1"
+    >
+    <div className={styles.sign_online_container}>
           <div className={styles.sign_online__title}>Онлайн запись</div>
           <div className={styles.close}>
             <button
@@ -354,6 +384,15 @@ export default function ServiceCardModal(props) {
           </button>
         </div>
       </div>
+
+        ) 
+        : 
+        <div className={styles.loader_container}>
+        <div className={styles.spinner}></div>
+      </div>
+        }
+       
+
     </div>,
     element,
   );

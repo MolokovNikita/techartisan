@@ -1,7 +1,6 @@
 import styles from "../../styles/serviceCard.module.css";
 
 export default function ServiceCard({ service }) {
-  console.log(service);
   const handleCancel = () => {
     console.log("Handle Cancel");
   };

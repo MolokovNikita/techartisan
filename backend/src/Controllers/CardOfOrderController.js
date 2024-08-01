@@ -2,7 +2,6 @@ const pool = require("../Config/ormconfig");
 
 class CardOfOrderController {
   async create(req, res) {
-    // id, price, description, created, ended, client_id, comment, visit
     const { price, description, ended, client_id, comment, visit } = req.body;
     let { created } = req.body;
     const now = new Date().toISOString(); // Преобразование текущей даты в строку в формате ISO

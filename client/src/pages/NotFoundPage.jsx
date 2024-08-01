@@ -6,7 +6,7 @@ function NotFoundPage() {
       <div className={styles.not_found__container}>
         404 Not Found
         <div className={styles.link__container}>
-          <Link to="/main">Go to main page</Link>
+          <Link to="/">Go to main page</Link>
         </div>
       </div>
     </>

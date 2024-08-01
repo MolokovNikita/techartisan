@@ -97,19 +97,19 @@ export default function Header({ setIsOpen }) {
         </div>
         <div className={styles.bottom_header}>
           <div className={styles.bottom_header_left}>
-            <a onClick={() => handleNavigation("/main")}>
+            <a onClick={() => handleNavigation("/")}>
               <img className={styles.logo} src="/logo.png" alt="logo" />
             </a>
 
             <ol className={styles.main_nav}>
               <li>
-                <a onClick={() => handleNavigation("/main")}>Главная</a>
+                <a onClick={() => handleNavigation("/")}>Главная</a>
               </li>
               <li>
                 <a onClick={() => handleNavigation("/services")}>Услуги</a>
               </li>
               <li>
-                <a onClick={() => handleNavigation("/main", "contacts_anchor")}>
+                <a onClick={() => handleNavigation("/", "contacts_anchor")}>
                   Контакты
                 </a>
               </li>

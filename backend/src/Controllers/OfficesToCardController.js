@@ -3,6 +3,7 @@ const pool = require("../Config/ormconfig");
 class OfficesToCardController {
   async create(req, res) {
     const { cardoforder_id, offices_id } = req.body;
+
     const now = new Date().toISOString(); // Преобразование даты в строку в формате ISO
     const sql_insert = `INSERT INTO officestocard (offices_id, cardoforder_id) VALUES
         ($1, $2)`;
