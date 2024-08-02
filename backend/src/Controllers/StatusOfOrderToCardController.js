@@ -110,6 +110,7 @@ class StatusOfOrderToCardController {
 
   async update(req, res) {
     const { cardoforder_id, statusoforder_id, new_statusoforder_id } = req.body;
+    console.log(cardoforder_id, statusoforder_id, new_statusoforder_id);
     const sql_exist = `SELECT * FROM statusofordertocard WHERE cardoforder_id = $1 AND statusoforder_id = $2`;
     pool.query(sql_exist, [cardoforder_id, statusoforder_id], (err, result) => {
       if (err) {

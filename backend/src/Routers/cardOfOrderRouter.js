@@ -14,6 +14,6 @@ router.put("", CardOfOrderController.update);
 //delete one Card
 router.delete("/:id", CardOfOrderController.deleteOne);
 //delete all Cards
-router.delete("", CardOfOrderController.deleteAll);
+// router.delete("", CardOfOrderController.deleteAll);
 
 module.exports = router;

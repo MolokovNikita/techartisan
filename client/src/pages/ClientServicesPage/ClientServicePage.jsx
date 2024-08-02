@@ -5,6 +5,7 @@ import NotFoundPage from "../NotFoundPage.jsx";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import axios from "axios";
+import config from "../../config.js";
 import {
   fetchServiceDetails,
   fetchCardDetails,
@@ -45,6 +46,31 @@ export default function ClientServicesPage() {
     fetchData();
   }, [isAuth, userData.id]);
 
+  const handleDelete = (id) => {
+    const API_URL = config.API_URL;
+
+    axios
+      .put(`${API_URL}/status-order/update`, {
+        cardoforder_id: id,
+        statusoforder_id: serviceCards.find((card) => card.id === id).status[0]
+          .id,
+        new_statusoforder_id: 6,
+      })
+      .then((res) => {
+        console.log(res);
+
+        // Обновление состояния после успешного изменения статуса
+        setServiceCards((prevServices) =>
+          prevServices.map((service) =>
+            service.id === id
+              ? { ...service, status: [{ orderstatus: "Отменен" }] }
+              : service,
+          ),
+        );
+      })
+      .catch((e) => console.log(e));
+  };
+
   return (
     <>
       {isAuth ? (
@@ -65,8 +91,12 @@ export default function ClientServicesPage() {
                   <>
                     {isSearch ? (
                       serviceCardsFiltered.length !== 0 ? (
-                        serviceCardsFiltered?.map((service, index) => (
-                          <ServiceCard key={index} service={service} />
+                        serviceCardsFiltered.map((service, index) => (
+                          <ServiceCard
+                            key={index}
+                            service={service}
+                            onDelete={handleDelete}
+                          />
                         ))
                       ) : (
                         <div className={styles.search_error__container}>
@@ -75,8 +105,12 @@ export default function ClientServicesPage() {
                         </div>
                       )
                     ) : (
-                      serviceCards?.map((service, index) => (
-                        <ServiceCard key={index} service={service} />
+                      serviceCards.map((service, index) => (
+                        <ServiceCard
+                          key={index}
+                          service={service}
+                          onDelete={handleDelete}
+                        />
                       ))
                     )}
                   </>

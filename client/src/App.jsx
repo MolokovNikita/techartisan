@@ -56,7 +56,7 @@ function App() {
             <Header setIsOpen={setIsOpen} />
           )}
           <Routes>
-               <Route
+            <Route
               path="/"
               element={
                 <MainPage

@@ -154,7 +154,7 @@ export default function ServiceCardModal(props) {
 
       const fetchData = async () => {
         try {
-          setIsLoading(true)
+          setIsLoading(true);
           const [servicesResponse, officesResponse] = await Promise.all([
             axios.get(`${config.API_URL}/services`),
             axios.get(`${config.API_URL}/offices`),
@@ -176,9 +176,8 @@ export default function ServiceCardModal(props) {
           );
         } catch (error) {
           console.error(error);
-        }
-        finally { 
-          setIsLoading(false)
+        } finally {
+          setIsLoading(false);
         }
       };
       fetchData();
@@ -203,17 +202,17 @@ export default function ServiceCardModal(props) {
       (acc, item) => acc + Number(item.price),
       0,
     );
-    if((!selectedOffice) || (!selectedServices)){
-    return enqueueSnackbar(`Возникла ошибка при создании карточки`, {
-      variant: "error",
-      autoHideDuration: 2000,
-      anchorOrigin: {
-        vertical: "top",
-        horizontal: "right",
-      },
-    });
+    if (!selectedOffice || selectedServices.length === 0) {
+      return enqueueSnackbar(`Возникла ошибка при создании карточки!`, {
+        variant: "error",
+        autoHideDuration: 2000,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
     }
-    setIsLoading(true)
+    setIsLoading(true);
     axios
       .post(`http://localhost:5002/order-card`, {
         price: price,
@@ -224,7 +223,6 @@ export default function ServiceCardModal(props) {
       .then((res) => {
         const CARD_ID = res.data.id;
 
-        // Создание промисов для услуг
         const servicePromises = selectedServices.map((item) =>
           axios.post(`http://localhost:5002/services-order/create`, {
             cardoforder_id: CARD_ID,
@@ -232,7 +230,6 @@ export default function ServiceCardModal(props) {
           }),
         );
 
-        // Промис для офиса
         const officePromise = axios.post(
           `http://localhost:5002/offices-order/create`,
           {
@@ -244,7 +241,7 @@ export default function ServiceCardModal(props) {
         // Выполнение всех промисов параллельно
         Promise.all([...servicePromises, officePromise])
           .then((res) => {
-            console.log(res)
+            console.log(res);
             enqueueSnackbar(`Вы успешно оформили заказ`, {
               variant: "success",
               autoHideDuration: 2000,
@@ -255,12 +252,11 @@ export default function ServiceCardModal(props) {
             });
             onClose();
             setSelectedOffice([]);
-            setSelectedServices([])
+            setSelectedServices([]);
             return axios.post(`http://localhost:5002/status-order/create`, {
               cardoforder_id: CARD_ID,
               statusoforder_id: 5,
             });
-            
           })
           .catch((e) => {
             enqueueSnackbar(`Возникла ошибка при создании карточки`, {
@@ -273,7 +269,7 @@ export default function ServiceCardModal(props) {
             });
           })
           .finally(() => {
-            setIsLoading(false)
+            setIsLoading(false);
           });
       })
       .catch((e) => {
@@ -285,7 +281,7 @@ export default function ServiceCardModal(props) {
             horizontal: "right",
           },
         });
-        setIsLoading(false)
+        setIsLoading(false);
         onClose();
       });
   };
@@ -297,102 +293,101 @@ export default function ServiceCardModal(props) {
       className={styles.service_modal__background}
       onClick={handleBackgroundClick}
     >
-
-        {!isLoading ?
-    (
-      <div
-      className={styles.modalContainer}
-      onClick={handleCardClick}
-      tabIndex="-1"
-    >
-    <div className={styles.sign_online_container}>
-          <div className={styles.sign_online__title}>Онлайн запись</div>
-          <div className={styles.close}>
-            <button
-              className={styles.closeButton}
-              onClick={handleBackgroundClick}
-            >
-              <img src="/close.png" alt="close" className={styles.closeImage} />
+      {!isLoading ? (
+        <div
+          className={styles.modalContainer}
+          onClick={handleCardClick}
+          tabIndex="-1"
+        >
+          <div className={styles.sign_online_container}>
+            <div className={styles.sign_online__title}>Онлайн запись</div>
+            <div className={styles.close}>
+              <button
+                className={styles.closeButton}
+                onClick={handleBackgroundClick}
+              >
+                <img
+                  src="/close.png"
+                  alt="close"
+                  className={styles.closeImage}
+                />
+              </button>
+            </div>
+          </div>
+          <div className={styles.select_date__container}>
+            Выберете дату и время помещения нашего офиса
+          </div>
+          <div className={styles.date_picker__container}>
+            <DatePicker
+              dateFormat="dd.MM - HH:mm"
+              locale="ru"
+              showTimeSelect
+              timeCaption="Время"
+              selected={startDate}
+              minDate={getMinDay()}
+              minTime={getMinTime()}
+              maxTime={getMaxTime()}
+              onChange={getDateValue}
+            />
+          </div>
+          <div className={styles.select_office__container}>
+            Выберете офис обслуживания
+          </div>
+          <div className={styles.select_office__container}>
+            <Select
+              className={styles.select__office}
+              options={offices}
+              placeholder={"Выберете офис"}
+              styles={selectStyles}
+              onChange={(value) => {
+                setSelectedOffice(value);
+              }}
+            />
+          </div>
+          <div className={styles.select_office__container}>Выберете услуги</div>
+          <div className={styles.select_office__container}>
+            <Select
+              components={animatedComponents}
+              closeMenuOnSelect={false}
+              className={styles.select__office}
+              isMulti
+              options={services}
+              placeholder={"Выберете услуги"}
+              styles={selectStyles}
+              noOptionsMessage={() => "Услуги закончились :("}
+              onChange={(value) => {
+                setSelectedServices(value);
+              }}
+            />
+            <div className={styles.services_label__container}>
+              <label className={styles.services__label}>
+                Если вам нужно несколько одинаковых услуг, просто добавьте
+                нужную услугу, и напишите в комментарии к заказу количество
+                услуг
+              </label>
+            </div>
+            <div className={styles.comment__container}>
+              <textarea
+                ref={commentRef}
+                wrap="off"
+                cols="40"
+                rows="5"
+                placeholder="Комментарий к заказу"
+                className={styles.comment__area}
+              />
+            </div>
+          </div>
+          <div className={styles.btn__container}>
+            <button className={styles.sign__btn} onClick={handleBtnClick}>
+              Записаться
             </button>
           </div>
         </div>
-        <div className={styles.select_date__container}>
-          Выберете дату и время помещения нашего офиса
-        </div>
-        <div className={styles.date_picker__container}>
-          <DatePicker
-            dateFormat="dd.MM - HH:mm"
-            locale="ru"
-            showTimeSelect
-            timeCaption="Время"
-            selected={startDate}
-            minDate={getMinDay()}
-            minTime={getMinTime()}
-            maxTime={getMaxTime()}
-            onChange={getDateValue}
-          />
-        </div>
-        <div className={styles.select_office__container}>
-          Выберете офис обслуживания
-        </div>
-        <div className={styles.select_office__container}>
-          <Select
-            className={styles.select__office}
-            options={offices}
-            placeholder={"Выберете офис"}
-            styles={selectStyles}
-            onChange={(value) => {
-              setSelectedOffice(value);
-            }}
-          />
-        </div>
-        <div className={styles.select_office__container}>Выберете услуги</div>
-        <div className={styles.select_office__container}>
-          <Select
-            components={animatedComponents}
-            closeMenuOnSelect={false}
-            className={styles.select__office}
-            isMulti
-            options={services}
-            placeholder={"Выберете услуги"}
-            styles={selectStyles}
-            noOptionsMessage={() => "Услуги закончились :("}
-            onChange={(value) => {
-              setSelectedServices(value);
-            }}
-          />
-          <div className={styles.services_label__container}>
-            <label className={styles.services__label}>
-              Если вам нужно несколько одинаковых услуг, просто добавьте нужную
-              услугу, и напишите в комментарии к заказу количество услуг
-            </label>
-          </div>
-          <div className={styles.comment__container}>
-            <textarea
-              ref={commentRef}
-              wrap="off"
-              cols="40"
-              rows="5"
-              placeholder="Комментарий к заказу"
-              className={styles.comment__area}
-            />
-          </div>
-        </div>
-        <div className={styles.btn__container}>
-          <button className={styles.sign__btn} onClick={handleBtnClick}>
-            Записаться
-          </button>
-        </div>
-      </div>
-
-        ) 
-        : 
+      ) : (
         <div className={styles.loader_container}>
-        <div className={styles.spinner}></div>
-      </div>
-        }
-       
-
+          <div className={styles.spinner}></div>
+        </div>
+      )}
     </div>,
     element,
   );

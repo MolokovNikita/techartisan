@@ -1,8 +1,10 @@
 import styles from "../../styles/serviceCard.module.css";
 
-export default function ServiceCard({ service }) {
-  const handleCancel = () => {
-    console.log("Handle Cancel");
+export default function ServiceCard(props) {
+  const { service, onDelete } = props;
+  const handleDelete = () => {
+    //Are u sure qustion
+    onDelete(service.id);
   };
   const getStatusSphere = () => {
     if (!service.status || service.status.length === 0) {
@@ -89,11 +91,13 @@ export default function ServiceCard({ service }) {
               </li>
             </ul>
           </div>
-          <div className={styles.cancel_button__container}>
-            <a onClick={handleCancel} className={styles.cancel__button}>
-              Отменить запись
-            </a>
-          </div>
+          {service.status[0].orderstatus !== "Отменен" ? (
+            <div className={styles.cancel_button__container}>
+              <a onClick={handleDelete} className={styles.cancel__button}>
+                Отменить запись
+              </a>
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
