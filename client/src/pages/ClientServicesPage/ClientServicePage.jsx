@@ -46,27 +46,44 @@ export default function ClientServicesPage() {
     fetchData();
   }, [isAuth, userData.id]);
 
-  const handleDelete = (id) => {
+  const handleDelete = (serviceCard) => {
+    const CARD_ID = serviceCard.id;
+    const CARD_PRICE = serviceCard.price;
+    const CARD_DESC = serviceCard.description;
+    const CARD_CREATED = serviceCard.created;
+    const CARD_CLIENT_ID = serviceCard.client_id;
     const API_URL = config.API_URL;
-
     axios
       .put(`${API_URL}/status-order/update`, {
-        cardoforder_id: id,
-        statusoforder_id: serviceCards.find((card) => card.id === id).status[0]
+        cardoforder_id: CARD_ID,
+        statusoforder_id: serviceCards.find((card) => card.id === CARD_ID).status[0]
           .id,
         new_statusoforder_id: 6,
       })
       .then((res) => {
-        console.log(res);
-
+        const END_DATE = new Date();
         // Обновление состояния после успешного изменения статуса
         setServiceCards((prevServices) =>
           prevServices.map((service) =>
-            service.id === id
-              ? { ...service, status: [{ orderstatus: "Отменен" }] }
+            service.id === CARD_ID
+              ? {
+                 ...service, 
+                 status: [{ orderstatus: "Отменен" }],
+                 ended: END_DATE,
+                }
               : service,
           ),
         );
+      axios.put(`${API_URL}/order-card`,{
+    id: CARD_ID,
+    price: CARD_PRICE,
+    created: CARD_CREATED,
+    description: CARD_DESC,
+    ended: END_DATE,
+    client_id: CARD_CLIENT_ID
+      })
+      .then(res=>console.log(res))
+      .catch(e=>console.error(e))
       })
       .catch((e) => console.log(e));
   };

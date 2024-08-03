@@ -2,6 +2,7 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { useState, useContext } from "react";
 import MainPage from "./pages/MainPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
+import ChangePass from "./pages/ChangePass.jsx";
 import Services from "./pages/Services.jsx";
 import AboutUs from "./pages/AboutUsPage.jsx";
 import Header from "./components/Header";
@@ -34,6 +35,7 @@ function App() {
     "/aboutus",
     "/confidencity",
     "/politicy",
+    "/account/password"
   ];
   return (
     <>
@@ -79,6 +81,7 @@ function App() {
             <Route path="/confidencity" element={<Confidencity />} />
             <Route path="/politicy" element={<Politicy />} />
             <Route path="/account" element={<AccountPage />} />
+            <Route path="/account/password" element={<ChangePass />} />
             <Route path="/my/services" element={<ClientServicePage />} />
             <Route path="/support" element={<SupportPage />} />
             <Route path="*" element={<NotFoundPage />} />

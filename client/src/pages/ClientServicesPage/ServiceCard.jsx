@@ -3,8 +3,7 @@ import styles from "../../styles/serviceCard.module.css";
 export default function ServiceCard(props) {
   const { service, onDelete } = props;
   const handleDelete = () => {
-    //Are u sure qustion
-    onDelete(service.id);
+    onDelete(service);
   };
   const getStatusSphere = () => {
     if (!service.status || service.status.length === 0) {
@@ -43,7 +42,7 @@ export default function ServiceCard(props) {
             Дата посещения - {service?.visit ? service.visit : "Не указана"}
           </div>
           <div>
-            Дата завершения - {service?.ended ? service.ended : "Не завершена"}
+            Дата завершения - {service?.ended ? service.ended.toLocaleString() : "Не завершена"}
           </div>
           <div>
             Описание -{" "}
