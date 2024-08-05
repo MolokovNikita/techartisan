@@ -2,6 +2,8 @@ a {
   cursor: pointer;
 }
 .AuthModal_background {
+  position: absolute;
+  z-index: 1000;
   position: fixed;
   top: 0;
   left: 0;

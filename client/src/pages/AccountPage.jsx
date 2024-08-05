@@ -15,9 +15,7 @@ export default function AccountPage() {
   const handleSave = () => {
     console.log("save");
   };
-  const handleChangePassword = () => {
-    
-  };
+  const handleChangePassword = () => {};
   return (
     <>
       {isAuth ? (

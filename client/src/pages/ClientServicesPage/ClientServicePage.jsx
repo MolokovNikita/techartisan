@@ -56,8 +56,8 @@ export default function ClientServicesPage() {
     axios
       .put(`${API_URL}/status-order/update`, {
         cardoforder_id: CARD_ID,
-        statusoforder_id: serviceCards.find((card) => card.id === CARD_ID).status[0]
-          .id,
+        statusoforder_id: serviceCards.find((card) => card.id === CARD_ID)
+          .status[0].id,
         new_statusoforder_id: 6,
       })
       .then((res) => {
@@ -67,23 +67,24 @@ export default function ClientServicesPage() {
           prevServices.map((service) =>
             service.id === CARD_ID
               ? {
-                 ...service, 
-                 status: [{ orderstatus: "Отменен" }],
-                 ended: END_DATE,
+                  ...service,
+                  status: [{ orderstatus: "Отменен" }],
+                  ended: END_DATE,
                 }
               : service,
           ),
         );
-      axios.put(`${API_URL}/order-card`,{
-    id: CARD_ID,
-    price: CARD_PRICE,
-    created: CARD_CREATED,
-    description: CARD_DESC,
-    ended: END_DATE,
-    client_id: CARD_CLIENT_ID
-      })
-      .then(res=>console.log(res))
-      .catch(e=>console.error(e))
+        axios
+          .put(`${API_URL}/order-card`, {
+            id: CARD_ID,
+            price: CARD_PRICE,
+            created: CARD_CREATED,
+            description: CARD_DESC,
+            ended: END_DATE,
+            client_id: CARD_CLIENT_ID,
+          })
+          .then((res) => console.log(res))
+          .catch((e) => console.error(e));
       })
       .catch((e) => console.log(e));
   };

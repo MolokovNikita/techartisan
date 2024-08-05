@@ -35,7 +35,7 @@ function App() {
     "/aboutus",
     "/confidencity",
     "/politicy",
-    "/account/password"
+    "/account/password",
   ];
   return (
     <>

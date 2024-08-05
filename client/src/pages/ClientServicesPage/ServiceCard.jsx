@@ -42,7 +42,8 @@ export default function ServiceCard(props) {
             Дата посещения - {service?.visit ? service.visit : "Не указана"}
           </div>
           <div>
-            Дата завершения - {service?.ended ? service.ended.toLocaleString() : "Не завершена"}
+            Дата завершения -{" "}
+            {service?.ended ? service.ended.toLocaleString() : "Не завершена"}
           </div>
           <div>
             Описание -{" "}

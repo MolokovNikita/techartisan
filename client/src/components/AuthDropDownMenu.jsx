@@ -19,7 +19,7 @@ export default function AuthDropDownMenu(props) {
   const handleClickLogout = () => {
     handleLogOut();
     handleClose();
-    window.location.href = "/main";
+    window.location.href = "/";
   };
 
   const handleClose = () => {
