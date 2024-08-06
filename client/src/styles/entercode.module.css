@@ -1,0 +1,63 @@
+.code_inpt__container {
+  display: flex;
+  justify-content: center;
+  padding-bottom: 50px;
+}
+.code__inpt {
+  height: 50px;
+  width: 50px;
+  margin-right: 30px;
+  font-size: 2rem;
+  text-align: center;
+}
+.clear__btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 230px;
+  right: 520px;
+  font-size: 2.5rem;
+}
+.back_arrow__container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+.back__btn {
+  border: 0;
+  background: 0;
+  cursor: pointer;
+  margin-right: 10px;
+}
+.code__title {
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 15px;
+
+  margin-right: 50px;
+}
+@keyframes digitBounce {
+  0% {
+    transform: scale(0.8);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.code__inpt {
+  height: 50px;
+  width: 50px;
+  margin-right: 30px;
+  font-size: 2rem;
+  text-align: center;
+  transition: transform 0.2s ease-in-out;
+}
+
+.code__inpt.animate {
+  animation: digitBounce 0.3s ease-out;
+}

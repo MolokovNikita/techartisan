@@ -168,3 +168,8 @@
   font-size: 0.8rem;
   color: green;
 }
+.enter_code__container {
+  display: flex;
+  gap: 6;
+  flex-direction: column;
+}
