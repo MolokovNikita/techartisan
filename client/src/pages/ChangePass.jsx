@@ -1,11 +1,74 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "../styles/changepass.module.css";
 import { FaArrowRight } from "react-icons/fa";
 import EnterCode from "../components/EnterCode";
 export default function ChangePass() {
+  const targetRecover = useRef("");
+
   const [isEmailRecover, setIsEmailRecover] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmit, setIsSubmit] = useState(false);
+
+  const [email, setEmail] = useState("");
+  const [emailDirty, setEmailDirty] = useState(false);
+  const [emailError, setEmailError] = useState("обязательное поле");
+
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumberDirty, setPhoneNumberDirty] = useState(false);
+  const [phoneNumberError, setPhoneNumberError] = useState("обязательное поле");
+
+  const [formValid, setFormValid] = useState(false);
+
+  useEffect(() => {
+    if (isEmailRecover) {
+      if (emailError) {
+        setFormValid(false);
+      } else {
+        setFormValid(true);
+      }
+    } else {
+      if (phoneNumberError) {
+        setFormValid(false);
+      } else {
+        setFormValid(true);
+      }
+    }
+  }, [emailError, phoneNumberError]);
+
+  const emailHandler = (e) => {
+    const value = e.target.value;
+    setEmail(value);
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(value)) {
+      setEmailError("Некорректный email, Пример: mail@example.ru");
+    } else {
+      setEmailError("");
+    }
+  };
+  const phoneNumberHandler = (e) => {
+    const value = e.target.value;
+    setPhoneNumber(value);
+    const phoneNumberRegex = /^7\d{10}$/;
+    if (!phoneNumberRegex.test(value)) {
+      setPhoneNumberError("Некорректный номер телефона Пример: 79994567890");
+    } else {
+      setPhoneNumberError("");
+    }
+  };
+
+  const blurHandler = (e) => {
+    switch (e.target.name) {
+      case "email":
+        setEmailDirty(true);
+        break;
+      case "phoneNumber":
+        setPhoneNumberDirty(true);
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleCodeSubmit = async (code) => {
     if (isLoading) return;
 
@@ -31,14 +94,32 @@ export default function ChangePass() {
     }
   };
   const handleEmailClick = () => {
+    setPhoneNumber("");
+    setPhoneNumberError("обязательное поле");
+    setPhoneNumberDirty(false);
+    targetRecover.current = "";
     setIsEmailRecover(true);
   };
 
   const handlePhoneClick = () => {
+    setEmail("");
+    setEmailError("обязательное поле");
+    setEmailDirty(false);
+    targetRecover.current = "";
     setIsEmailRecover(false);
   };
   const handleContinue = () => {
-    setIsSubmit(true);
+    if (isEmailRecover) {
+      if (!emailError) {
+        targetRecover.current = email;
+        setIsSubmit(true);
+      } else return;
+    } else {
+      if (!phoneNumberError) {
+        targetRecover.current = phoneNumber;
+        setIsSubmit(true);
+      } else return;
+    }
   };
 
   return (
@@ -69,27 +150,48 @@ export default function ChangePass() {
 
             <div className={styles.change_password_area__container}>
               <div className={styles.input__wrapper}>
-                <input
-                  name="name"
-                  className={styles.name__area}
-                  type="text"
-                  placeholder=" "
-                />
+                {isEmailRecover ? (
+                  <input
+                    name="email"
+                    className={styles.email__area}
+                    type="text"
+                    placeholder=" "
+                    onChange={emailHandler}
+                    value={email}
+                    onBlur={blurHandler}
+                  />
+                ) : (
+                  <input
+                    name="phoneNumber"
+                    className={styles.phone__area}
+                    type="text"
+                    placeholder=" "
+                    onChange={phoneNumberHandler}
+                    value={phoneNumber}
+                    onBlur={blurHandler}
+                  />
+                )}
                 <label className={styles.placeholder__label}>
                   {isEmailRecover ? "Email" : "Номер телефона"}
                 </label>
               </div>
+              {emailDirty && emailError && (
+                <div className={styles.error__area}>{emailError}</div>
+              )}
 
-              <label className={styles.example__inpt}>
-                {isEmailRecover
-                  ? "Пример: mail@mail.ru"
-                  : " Пример: 71234567890"}
-              </label>
+              {phoneNumberDirty && phoneNumberError && (
+                <div className={styles.error__area}>{phoneNumberError}</div>
+              )}
 
               <div className={styles.continue_btn__container}>
                 <button
+                  disabled={!formValid}
                   onClick={handleContinue}
-                  className={styles.continue__btn}
+                  className={
+                    formValid
+                      ? styles.continue__btn
+                      : styles.continue_disabled__btn
+                  }
                 >
                   <FaArrowRight size={20} />
                 </button>
@@ -104,6 +206,7 @@ export default function ChangePass() {
               back={() => {
                 setIsSubmit(false);
               }}
+              targetRecover={targetRecover.current}
             />
           </div>
         )}

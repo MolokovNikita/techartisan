@@ -4,13 +4,16 @@ import { IoIosArrowBack } from "react-icons/io";
 
 import styles from "../styles/entercode.module.css";
 
-export default function EnterCode({ callback, reset, isLoading, back }) {
+export default function EnterCode({
+  callback,
+  reset,
+  isLoading,
+  back,
+  targetRecover,
+}) {
   const [code, setCode] = useState("");
-
-  // Refs to control each digit input element
   const inputRefs = [useRef(null), useRef(null), useRef(null), useRef(null)];
 
-  // Reset all inputs and clear state
   const resetCode = () => {
     inputRefs.forEach((ref) => {
       ref.current.value = "";
@@ -86,6 +89,19 @@ export default function EnterCode({ callback, reset, isLoading, back }) {
     }
   };
 
+  const maskTargetRecover = (target) => {
+    if (/^\d+$/.test(target)) {
+      // Если это номер телефона
+      return target.slice(0, 2) + "****" + target.slice(-4);
+    } else {
+      // Если это email
+      const [localPart, domain] = target.split("@");
+      const maskedLocalPart =
+        localPart.slice(0, 2) + "***" + localPart.slice(-1);
+      return `${maskedLocalPart}@${domain}`;
+    }
+  };
+
   const ClearButton = () => {
     return (
       <button onClick={resetCode} className={styles.clear__btn}>
@@ -100,8 +116,13 @@ export default function EnterCode({ callback, reset, isLoading, back }) {
         <button className={styles.back__btn} onClick={back}>
           <IoIosArrowBack size={30} />
         </button>
-        <div className={styles.code__title}>
-          Введите 4-х значный код высланный на -
+        <div className={styles.target__container}>
+          <div className={styles.code__title}>
+            Введите 4-х значный код, высланный на -
+          </div>
+          <div className={styles.target__recover}>
+            {maskTargetRecover(targetRecover)}
+          </div>
         </div>
       </div>
       <div className={styles.code_inpt__container}>
