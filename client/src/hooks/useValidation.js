@@ -34,8 +34,8 @@ export const useValidation = () => {
       setNameError("*Данное поле не можеть быть пустым");
     } else if (!/^[а-яА-Я ]+$/.test(value.toLowerCase())) {
       setNameError("*Неккоректное имя (Пример : Иван)");
-    } else if (value.length < 3) {
-      setNameError("*Минимальная длина имени 3 символа");
+    } else if (value.length < 2) {
+      setNameError("*Минимальная длина имени 2 символа");
     } else {
       setNameError("");
     }

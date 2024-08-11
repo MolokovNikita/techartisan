@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { TbPasswordFingerprint } from "react-icons/tb";
 import NotFoundPage from "./NotFoundPage";
@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
+import { PiEye, PiEyeClosed } from "react-icons/pi";
 
 export default function AccountPage() {
   const { userData, isAuth } = useContext(AuthContext);
@@ -33,7 +34,83 @@ export default function AccountPage() {
     userData.email ? "" : "*Данное поле не можеть быть пустым",
   );
 
+  const userPhoneRef = useRef();
+  const userSurnameRef = useRef();
   const [formValid, setFormValid] = useState(false);
+
+  // password form
+  const [isPasswordChangeOpen, setIsPasswordChangeOpen] = useState(false);
+  const [isEyeOpenOldPass, setIsEyeOpenOldPass] = useState(false);
+  const [isEyeOpenNewPass, setIsEyeOpenNewPass] = useState(false);
+  //
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+
+  const [oldPasswordDirty, setOldPasswordDirty] = useState(false);
+  const [newPasswordDirty, setNewPasswordDirty] = useState(false);
+
+  const [oldPasswordError, setOldPasswordError] = useState(
+    "*Данное поле не можеть быть пустым",
+  );
+  const [newPasswordError, setNewPasswordError] = useState(
+    "*Данное поле не можеть быть пустым",
+  );
+  const [isChangePassFormValid, setIsChangePassFormValid] = useState(false);
+  const [passwordMatch, setPasswordMatch] = useState(false);
+
+  useEffect(() => {
+    if (oldPassword || newPassword) {
+      if (oldPassword === newPassword) {
+        setPasswordMatch(true);
+      } else {
+        setPasswordMatch(false);
+      }
+    }
+  }, [oldPassword, newPassword]);
+
+  useEffect(() => {
+    if (oldPasswordError || newPasswordError || passwordMatch) {
+      setIsChangePassFormValid(false);
+    } else {
+      setIsChangePassFormValid(true);
+    }
+  });
+
+  const oldPasswordHandler = (e) => {
+    setOldPassword(e.target.value);
+    if (!e.target.value) {
+      setOldPasswordError("*Данное поле не можеть быть пустым");
+      return;
+    } else {
+      setOldPasswordError("");
+    }
+  };
+  const changePasswordBlurHandler = (e) => {
+    switch (e.target.name) {
+      case "oldPassword":
+        setOldPasswordDirty(true);
+        break;
+      case "newPassword":
+        setNewPasswordDirty(true);
+        break;
+      default:
+        break;
+    }
+  };
+
+  const newPasswordHandler = (e) => {
+    setNewPassword(e.target.value);
+    if (!e.target.value) {
+      setNewPasswordError("*Данное поле не можеть быть пустым");
+      return;
+    }
+    const passwordRegex = /^[A-Za-z0-9]\w{5,30}$/;
+    if (!passwordRegex.test(e.target.value)) {
+      setNewPasswordError("*Неккоректный формат пароля");
+    } else {
+      setNewPasswordError("");
+    }
+  };
 
   useEffect(() => {
     if (userNameError || userEmailError || userSurnameError || userPhoneError) {
@@ -69,8 +146,8 @@ export default function AccountPage() {
       setUserNameError("*Данное поле не можеть быть пустым");
     } else if (!/^[а-яА-Я ]+$/.test(value)) {
       setUserNameError("*Неккоректное имя (Пример : Иван)");
-    } else if (value.length < 3) {
-      setUserNameError("*Минимальная длина имени 3 символа");
+    } else if (value.length < 2) {
+      setUserNameError("*Минимальная длина имени 2 символа");
     } else {
       setUserNameError("");
     }
@@ -81,8 +158,8 @@ export default function AccountPage() {
     setUserSurname(value);
     if (value && !/^[а-яА-Я ]+$/.test(value)) {
       setUserSurnameError("*Фамилия должна содержать только русские буквы");
-    } else if (value && value.length < 3) {
-      setUserSurnameError("*Минимальная длина фамилии 3 символа");
+    } else if (value && value.length < 2) {
+      setUserSurnameError("*Минимальная длина фамилии 2 символа");
     } else {
       setUserSurnameError("");
     }
@@ -134,8 +211,12 @@ export default function AccountPage() {
     // Здесь можно добавить код для отправки данных на сервер
   };
 
-  const handleChangePassword = () => {};
-
+  const handleChangePassword = () => {
+    setIsPasswordChangeOpen((prev) => !prev);
+  };
+  const handleConfirmChangePassword = () => {
+    console.log("Fetching....");
+  };
   return (
     <>
       {isAuth ? (
@@ -164,13 +245,17 @@ export default function AccountPage() {
                   <div className={styles.l_name_container}>
                     <label className={styles.l_name__label}>Фамилия</label>
                     <input
+                      ref={userSurnameRef}
+                      onClick={() => {
+                        userSurnameRef.current.placeholder = "79991234567";
+                      }}
                       name="userSurname"
                       className={styles.l_name__input}
                       type="text"
                       value={userSurname}
                       onChange={surnameHandler}
                       onBlur={blurHandler}
-                      placeholder="Петров"
+                      placeholder={userSurname ? userSurname : "Не указана"}
                     />
                     {userSurnameDirty && userSurnameError && (
                       <div className={styles.error__area}>
@@ -189,13 +274,17 @@ export default function AccountPage() {
                     <div className={styles.phone_number_inpt__container}>
                       <FaPhoneAlt className={styles.phone__img} size={18} />
                       <input
+                        ref={userPhoneRef}
+                        onClick={() => {
+                          userPhoneRef.current.placeholder = "79991234567";
+                        }}
                         name="userPhone"
                         className={styles.phone_number__input}
                         type="text"
                         value={userPhone}
                         onChange={phoneHandler}
                         onBlur={blurHandler}
-                        placeholder="79994567890"
+                        placeholder={userPhone ? userPhone : "Не указан"}
                       />
                     </div>
                     {userPhoneDirty && userPhoneError && (
@@ -247,6 +336,83 @@ export default function AccountPage() {
                     </div>
                   </div>
                 </button>
+
+                <div
+                  className={`${styles.change_pass__container} ${!isPasswordChangeOpen ? styles.hidden : ""}`}
+                >
+                  <div className={styles.old_pass__container}>
+                    <label>Старый пароль</label>
+                    <div className={styles.old_pass_inpt__container}>
+                      <input
+                        name="oldPassword"
+                        value={oldPassword}
+                        onChange={oldPasswordHandler}
+                        onBlur={changePasswordBlurHandler}
+                        className={styles.old_pass__inpt}
+                        type={isEyeOpenOldPass ? "text" : "password"}
+                      />
+                      <a
+                        type="button"
+                        className={styles.eye__btn}
+                        onClick={() => setIsEyeOpenOldPass(!isEyeOpenOldPass)}
+                      >
+                        {isEyeOpenOldPass ? (
+                          <PiEye size={20} />
+                        ) : (
+                          <PiEyeClosed size={20} />
+                        )}
+                      </a>
+                    </div>
+                    {oldPasswordDirty && oldPasswordError && (
+                      <div className={styles.error_password__area}>
+                        {oldPasswordError}
+                      </div>
+                    )}
+                  </div>
+                  <div className={styles.new_pass__container}>
+                    <label>Новый пароль</label>
+                    <div className={styles.new_pass_inpt__container}>
+                      <input
+                        name="newPassword"
+                        value={newPassword}
+                        onChange={newPasswordHandler}
+                        onBlur={changePasswordBlurHandler}
+                        className={styles.new_pass__inpt}
+                        type={isEyeOpenNewPass ? "text" : "password"}
+                      />
+                      <a
+                        type="button"
+                        className={styles.eye__btn}
+                        onClick={() => setIsEyeOpenNewPass(!isEyeOpenNewPass)}
+                      >
+                        {isEyeOpenNewPass ? (
+                          <PiEye size={20} />
+                        ) : (
+                          <PiEyeClosed size={20} />
+                        )}
+                      </a>
+                    </div>
+                    {newPasswordDirty && newPasswordError && (
+                      <div className={styles.error_password__area}>
+                        {newPasswordError}
+                      </div>
+                    )}
+                  </div>
+                  {passwordMatch ? (
+                    <div className={styles.password_match__container}>
+                      Новый пароль не должен совпадать со старым
+                    </div>
+                  ) : null}
+                  <div className={styles.confirm_pass__container}>
+                    <button
+                      className={styles.confirm_pass__btn}
+                      onClick={handleConfirmChangePassword}
+                      disabled={!isChangePassFormValid}
+                    >
+                      Подтвердить изменение пароля
+                    </button>
+                  </div>
+                </div>
                 <div className={styles.save_button__container}>
                   <button
                     onClick={handleSave}
