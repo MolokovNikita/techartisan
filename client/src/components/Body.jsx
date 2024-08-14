@@ -2,6 +2,7 @@ import styles from "../styles/body.module.css";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
+
 export default function Body(props) {
   const { setIsServiceModalOpen, setIsOpen } = props;
   const { isAuth } = useContext(AuthContext);

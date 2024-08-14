@@ -13,17 +13,34 @@ class AuthController {
     const { email, pass } = req.body;
     const { fingerprint } = req;
     try {
-      const { accessToken, refreshToken, accessTokenExpiration, id, f_name } =
-        await AuthService.signIn({
-          email,
-          pass,
-          fingerprint,
-        });
+      const {
+        accessToken,
+        refreshToken,
+        accessTokenExpiration,
+        id,
+        f_name,
+        l_name,
+        created,
+        deleted,
+        phone_number,
+      } = await AuthService.signIn({
+        email,
+        pass,
+        fingerprint,
+      });
       res.cookie("refreshToken", refreshToken, COOKIE_SETTINGS.REFRESH_TOKEN);
 
-      return res
-        .status(200)
-        .json({ accessToken, accessTokenExpiration, id, f_name, email });
+      return res.status(200).json({
+        accessToken,
+        accessTokenExpiration,
+        id,
+        f_name,
+        l_name,
+        email,
+        created,
+        deleted,
+        phone_number,
+      });
     } catch (err) {
       return res.status(400).send(err.message);
     }
@@ -68,15 +85,27 @@ class AuthController {
         accessTokenExpiration,
         id,
         f_name,
+        l_name,
         email,
+        created,
+        deleted,
+        phone_number,
       } = await AuthService.refresh({
         currentRefreshToken,
         fingerprint,
       });
       res.cookie("refreshToken", refreshToken, COOKIE_SETTINGS.REFRESH_TOKEN);
-      return res
-        .status(200)
-        .json({ accessToken, accessTokenExpiration, id, f_name, email });
+      return res.status(200).json({
+        accessToken,
+        accessTokenExpiration,
+        id,
+        f_name,
+        l_name,
+        email,
+        created,
+        deleted,
+        phone_number,
+      });
     } catch (err) {
       return res.status(400).send(err.message);
     }

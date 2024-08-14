@@ -8,14 +8,18 @@ import Footer from "../components/Footer";
 import { FaPhoneAlt } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 import { PiEye, PiEyeClosed } from "react-icons/pi";
+import { enqueueSnackbar } from "notistack";
+import { useNavigate } from "react-router-dom";
+
+import axios from "axios";
 
 export default function AccountPage() {
-  const { userData, isAuth } = useContext(AuthContext);
-
+  const { userData, isAuth, handleLogOut } = useContext(AuthContext);
   const [userName, setUserName] = useState(userData.f_name || "");
   const [userSurname, setUserSurname] = useState(userData.l_name || "");
   const [userPhone, setUserPhone] = useState(userData.phone_number || "");
   const [userEmail, setUserEmail] = useState(userData.email || "");
+  const navigate = useNavigate();
 
   // Изначально ошибка только если поле пустое
   const [userNameDirty, setUserNameDirty] = useState(false);
@@ -202,13 +206,61 @@ export default function AccountPage() {
 
     // Валидация обязательных полей
     if (!formValid) {
-      alert("Заполните обязательные поля корректно.");
+      enqueueSnackbar(`"Заполните обязательные поля корректно."`, {
+        variant: "error",
+        autoHideDuration: 1500,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
       return;
     }
 
-    // Отправка данных на сервер (если форма валидна и были внесены изменения)
-    console.log(userName, userSurname, userPhone, userEmail);
-    // Здесь можно добавить код для отправки данных на сервер
+    axios
+      .put("http://localhost:5002/clients", {
+        f_name: userName,
+        l_name: userSurname,
+        email: userEmail,
+        phone_number: userPhone ? userPhone : null,
+        id: userData.id,
+      })
+      .then(() => {
+        if (userEmail !== userData.email) {
+          handleLogOut();
+          enqueueSnackbar(
+            `Вы успешно изменили email, пожалуйста авторизируйтесь заново!`,
+            {
+              variant: "success",
+              autoHideDuration: 3000,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "right",
+              },
+            },
+          );
+          navigate("/");
+        } else {
+          enqueueSnackbar(`Данные успешно сохранены!`, {
+            variant: "success",
+            autoHideDuration: 3000,
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "right",
+            },
+          });
+        }
+      })
+      .catch((e) => {
+        enqueueSnackbar(`${e.response.data}`, {
+          variant: "error",
+          autoHideDuration: 1500,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "right",
+          },
+        });
+      });
   };
 
   const handleChangePassword = () => {
@@ -247,7 +299,7 @@ export default function AccountPage() {
                     <input
                       ref={userSurnameRef}
                       onClick={() => {
-                        userSurnameRef.current.placeholder = "79991234567";
+                        userSurnameRef.current.placeholder = "Петров";
                       }}
                       name="userSurname"
                       className={styles.l_name__input}

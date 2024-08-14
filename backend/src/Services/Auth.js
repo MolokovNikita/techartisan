@@ -37,7 +37,11 @@ class AuthService {
       accessTokenExpiration: ACCESS_TOKEN_EXPIRATION,
       id: userData.id,
       f_name: userData.f_name,
+      l_name: userData.l_name,
       email: userData.email,
+      created: userData.created,
+      deleted: userData.deleted,
+      phone_number: userData.phone_number,
     };
   }
 
@@ -98,9 +102,8 @@ class AuthService {
       throw new Error(error);
     }
 
-    const { email, id, f_name } = await UserRepository.getUserData(
-      payload.email,
-    );
+    const { id, f_name, l_name, email, created, deleted, phone_number } =
+      await UserRepository.getUserData(payload.email);
 
     const actualPayload = { email, id };
 
@@ -117,9 +120,13 @@ class AuthService {
       accessToken,
       refreshToken,
       accessTokenExpiration: ACCESS_TOKEN_EXPIRATION,
-      email,
       id,
       f_name,
+      l_name,
+      email,
+      created,
+      deleted,
+      phone_number,
     };
   }
 }

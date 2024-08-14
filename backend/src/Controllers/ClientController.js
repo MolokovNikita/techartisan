@@ -101,10 +101,10 @@ class ClientController {
   }
 
   async update(req, res) {
-    const { f_name, l_name, login, pass, email, created, deleted, id } =
+    const { f_name, l_name, email, created, deleted, phone_number, id } =
       req.body;
     // Проверяем, есть ли клиент с указанным id
-    const sql_exist = `SELECT id FROM client WHERE id = $8`;
+    const sql_exist = `SELECT id FROM client WHERE id = $1`;
     pool.query(sql_exist, [id], (err, result) => {
       if (err) {
         console.error(err.message);
@@ -114,20 +114,37 @@ class ClientController {
         return res.status(400).send("Error: Client not found!");
       }
       // Обновляем запись клиента
-      const sql_update = `UPDATE client SET f_name = $1, l_name = $2, login = $3, pass = $4, email = $5, created = $6, deleted = $7 WHERE id = $8`;
-      pool.query(
-        sql_update,
-        [f_name, l_name, login, pass, email, created, deleted, id],
-        (err, result) => {
-          if (err) {
-            console.error(err.message);
-            return res
-              .status(400)
-              .send("Error: Failed to update client record! " + err.message);
-          }
-          res.send("Client record updated successfully!");
-        },
-      );
+      if (created || deleted) {
+        const sql_update = `UPDATE client SET f_name = $1, l_name = $2, email = $3, created = $4, deleted = $5, phone_number = $6 WHERE id = $7`;
+        pool.query(
+          sql_update,
+          [f_name, l_name, email, created, deleted, phone_number, id],
+          (err, result) => {
+            if (err) {
+              console.error(err.message);
+              return res
+                .status(400)
+                .send("Error: Failed to update client record! " + err.message);
+            }
+            res.send("Client record updated successfully!");
+          },
+        );
+      } else {
+        const sql_update = `UPDATE client SET f_name = $1, l_name = $2, email = $3, phone_number = $4 WHERE id = $5`;
+        pool.query(
+          sql_update,
+          [f_name, l_name, email, phone_number, id],
+          (err, result) => {
+            if (err) {
+              console.error(err.message);
+              return res
+                .status(400)
+                .send("Error: Failed to update client record! " + err.message);
+            }
+            res.send("Client record updated successfully!");
+          },
+        );
+      }
     });
   }
 }

@@ -26,6 +26,8 @@ const AuthProvider = ({ children }) => {
     f_name: "",
     l_name: "",
     email: "",
+    created: "",
+    deleted: "",
     phone_number: "",
   });
 
@@ -37,6 +39,7 @@ const AuthProvider = ({ children }) => {
   };
 
   const handleFetchProtected = () => {
+    //to do authirization
     ResourceClient.get("/clients")
       .then((res) => {
         console.log(res);
@@ -55,7 +58,11 @@ const AuthProvider = ({ children }) => {
           ...userData,
           id: res.data.id,
           f_name: res.data.f_name,
+          l_name: res.data.l_name,
           email: res.data.email,
+          created: res.data.created,
+          deleted: res.data.deleted,
+          phone_number: res.data.phone_number,
         });
         setisAuth(true);
       })
@@ -80,6 +87,8 @@ const AuthProvider = ({ children }) => {
           f_name: "",
           l_name: "",
           email: "",
+          created: "",
+          deleted: "",
           phone_number: "",
         });
       })
@@ -127,7 +136,6 @@ const AuthProvider = ({ children }) => {
   const handleSignIn = (data) => {
     AuthClient.post("/sign-in", data[0])
       .then((res) => {
-        console.log(res.data.id, res.data.f_name, res.data.email);
         const { accessToken, accessTokenExpiration } = res.data;
         setToken(accessToken, accessTokenExpiration);
         setUserData({
@@ -135,6 +143,10 @@ const AuthProvider = ({ children }) => {
           id: res.data.id,
           f_name: res.data.f_name,
           email: res.data.email,
+          l_name: res.data.l_name,
+          created: res.data.created,
+          deleted: res.data.deleted,
+          phone_number: res.data.phone_number,
         });
         sessionStorage.setItem("userId", res.data.id);
         data[1]();
@@ -152,7 +164,7 @@ const AuthProvider = ({ children }) => {
         handleError(e.response.data);
         enqueueSnackbar(`${e.response.data}`, {
           variant: "error",
-          autoHideDuration: 1500, // 3 seconds
+          autoHideDuration: 1500,
           anchorOrigin: {
             vertical: "top",
             horizontal: "right",
