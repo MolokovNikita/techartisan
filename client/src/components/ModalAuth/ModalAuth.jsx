@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useRef, useState, useContext } from "react";
 import { createPortal } from "react-dom";
-import style from "../styles/style.module.css";
-import { AuthContext } from "../context/AuthContext";
+import style from "../../styles/style.module.css";
+import { AuthContext } from "../../context/AuthContext";
 import { PiEye, PiEyeClosed } from "react-icons/pi";
-import { useLoginValidation } from "../hooks/useLoginValidation";
-import { useValidation } from "../hooks/useValidation";
+import { useLoginValidation } from "../../hooks/useLoginValidation";
+import { useValidation } from "../../hooks/useValidation";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const ModalRootElement = document.querySelector("#ModalAuth");
@@ -127,7 +127,8 @@ export default function ModalAuth(props) {
 
   if (!isOpen) return null;
 
-  const handleRegistration = () => {
+  const handleRegistration = (event) => {
+    event.preventDefault();
     if (nameError || emailError || passwordError || passwordMatchError) {
       return;
     } else {
@@ -137,7 +138,8 @@ export default function ModalAuth(props) {
     }
   };
 
-  const handleLogin = () => {
+  const handleLogin = (event) => {
+    event.preventDefault();
     if (loginEmailError || loginPasswordError) {
       return;
     } else {
@@ -190,14 +192,7 @@ export default function ModalAuth(props) {
           </a>
         </div>
         {isLoginSelected ? (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
+          <form onSubmit={handleLogin} className={style.login_form__container}>
             <div className={style.Email_area_container}>
               <div className={style.inputWrapper}>
                 <input
@@ -208,6 +203,7 @@ export default function ModalAuth(props) {
                   className={style.Email_area}
                   type="text"
                   placeholder=" "
+                  autoComplete="email"
                 />
                 <label className={style.placeholderLabel}>Email</label>
               </div>
@@ -226,6 +222,7 @@ export default function ModalAuth(props) {
                   className={style.Password_area}
                   type="password"
                   placeholder=" "
+                  autoComplete="password"
                 />
                 <label className={style.placeholderLabel}>Пароль</label>
               </div>
@@ -242,15 +239,18 @@ export default function ModalAuth(props) {
                 className={
                   loginFormValid ? style.buttonEnabled : style.buttonDisabled
                 }
-                onClick={handleLogin}
+                type="submit"
               >
                 Войти
               </button>
             </div>
             <div className={style.Error_text}>{erorText}</div>
-          </div>
+          </form>
         ) : (
-          <div className={style.Registration_container}>
+          <form
+            onSubmit={handleRegistration}
+            className={style.Registration_container}
+          >
             <div className={style.Name_area_container}>
               <div className={style.inputWrapper}>
                 <input
@@ -261,6 +261,7 @@ export default function ModalAuth(props) {
                   className={style.Name_area}
                   type="text"
                   placeholder=" "
+                  autoComplete="name"
                 />
                 <label className={style.placeholderLabel}>Ваше имя</label>
               </div>
@@ -279,6 +280,7 @@ export default function ModalAuth(props) {
                   className={style.Email_area}
                   type="text"
                   placeholder=" "
+                  autoComplete="email"
                 />
                 <label className={style.placeholderLabel}>Email</label>
               </div>
@@ -297,6 +299,7 @@ export default function ModalAuth(props) {
                   className={style.Password_area}
                   type={isEyeOpen ? "text" : "password"}
                   placeholder=" "
+                  autoComplete="password"
                 />
                 <label className={style.placeholderLabel}>
                   Придумайте пароль
@@ -334,6 +337,7 @@ export default function ModalAuth(props) {
                   className={style.Password_area}
                   type="password"
                   placeholder=" "
+                  autoComplete="password-match"
                 />
                 <label className={style.placeholderLabel}>
                   Подтвердите пароль
@@ -361,13 +365,13 @@ export default function ModalAuth(props) {
                 className={
                   formValid ? style.buttonEnabled : style.buttonDisabled
                 }
-                onClick={handleRegistration}
+                type="submit"
               >
                 Зарегистрироваться
               </button>
             </div>
             <div className={style.Error_text}>{erorText}</div>
-          </div>
+          </form>
         )}
       </div>
     </div>,

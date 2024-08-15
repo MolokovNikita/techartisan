@@ -267,7 +267,40 @@ export default function AccountPage() {
     setIsPasswordChangeOpen((prev) => !prev);
   };
   const handleConfirmChangePassword = () => {
-    console.log("Fetching....");
+    axios
+      .put("http://localhost:5002/clients/password", {
+        email: userData.email,
+        pass: oldPassword,
+        newpass: newPassword,
+      })
+      .then((res) => {
+        enqueueSnackbar(`Вы успешно изменили пароль!`, {
+          variant: "success",
+          autoHideDuration: 3000,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "right",
+          },
+        });
+        setOldPassword("");
+        setNewPassword("");
+        setOldPasswordDirty(false);
+        setNewPasswordDirty(false);
+        setOldPasswordError("*Данное поле не можеть быть пустым");
+        setNewPasswordError("*Данное поле не можеть быть пустым");
+        setIsChangePassFormValid(false);
+        setPasswordMatch(false);
+      })
+      .catch((e) => {
+        enqueueSnackbar(`${e.response.data}`, {
+          variant: "error",
+          autoHideDuration: 1500,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "right",
+          },
+        });
+      });
   };
   return (
     <>

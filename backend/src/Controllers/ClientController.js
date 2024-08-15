@@ -1,5 +1,6 @@
 const pool = require("../Config/ormconfig");
-
+const bcrypt = require("bcryptjs");
+const UserRepository = require("../repositories/User.js");
 class ClientController {
   async create(req, res) {
     const { id, f_name, l_name, login, pass, email } = req.body;
@@ -80,7 +81,6 @@ class ClientController {
         .send("Error: Failed to delete all records! " + err.message);
     }
   }
-
   async deleteOne(req, res) {
     const id = req.params.id;
     try {
@@ -99,7 +99,30 @@ class ClientController {
         .send("Error: Failed to delete the record! " + err.message);
     }
   }
-
+  async updatePassword(req, res) {
+    const { email, pass, newpass } = req.body;
+    console.log(email, pass, newpass);
+    const userData = await UserRepository.getUserData(email);
+    if (!userData) {
+      return res
+        .status(400)
+        .send(`("Неудалось найти пользователя с таким email!`);
+    }
+    const isPasswordValid = bcrypt.compareSync(pass, userData.pass);
+    if (!isPasswordValid) {
+      return res.status(400).send("Указан неверный пароль");
+    }
+    const hashedPassword = bcrypt.hashSync(newpass, 8);
+    try {
+      await pool.query(`UPDATE client SET pass = $1 WHERE email = $2`, [
+        hashedPassword,
+        email,
+      ]);
+      res.send("Password updated successfully!");
+    } catch (e) {
+      return res.status(400).send(`Error: Failed to update password! ${e}`);
+    }
+  }
   async update(req, res) {
     const { f_name, l_name, email, created, deleted, phone_number, id } =
       req.body;

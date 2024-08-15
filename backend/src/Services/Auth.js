@@ -17,7 +17,6 @@ class AuthService {
     if (!userData) {
       throw new Error("Неверный email или пароль");
     }
-
     const isPasswordValid = bcrypt.compareSync(pass, userData.pass);
     if (!isPasswordValid) {
       throw new Error("Неверный email или пароль");
@@ -50,6 +49,7 @@ class AuthService {
     if (userData) {
       throw new Error("Пользователь с таким email уже существует");
     }
+
     const hashedPassword = bcrypt.hashSync(pass, 8);
     const { id } = await UserRepository.createUser({
       f_name,

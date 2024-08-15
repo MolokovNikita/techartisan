@@ -7,7 +7,7 @@ import Services from "./pages/Services.jsx";
 import AboutUs from "./pages/AboutUsPage.jsx";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
-import ModalAuth from "./components/ModalAuth";
+import ModalAuth from "./components/ModalAuth/ModalAuth.jsx";
 import { AuthContext } from "./context/AuthContext";
 import style from "./styles/app.module.css";
 import Confidencity from "./pages/Confidencity.jsx";

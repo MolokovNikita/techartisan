@@ -10,8 +10,8 @@ router.get("", ClientController.getAll);
 router.get("/:id", ClientController.getOne);
 //update client
 router.put("", ClientController.update);
-// router.put("/password", ClientController.update);
-
+//updatepassword
+router.put("/password", ClientController.updatePassword);
 //delete one client
 router.delete("/:id", ClientController.deleteOne);
 //delete all clients
