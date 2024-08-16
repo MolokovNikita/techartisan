@@ -222,7 +222,6 @@ export default function ServiceCardModal(props) {
       })
       .then((res) => {
         const CARD_ID = res.data.id;
-
         const servicePromises = selectedServices.map((item) =>
           axios.post(`http://localhost:5002/services-order/create`, {
             cardoforder_id: CARD_ID,

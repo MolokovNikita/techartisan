@@ -62,7 +62,6 @@ export default function ClientServicesPage() {
       })
       .then((res) => {
         const END_DATE = new Date();
-        // Обновление состояния после успешного изменения статуса
         setServiceCards((prevServices) =>
           prevServices.map((service) =>
             service.id === CARD_ID
@@ -86,7 +85,7 @@ export default function ClientServicesPage() {
           .then((res) => console.log(res))
           .catch((e) => console.error(e));
       })
-      .catch((e) => console.log(e));
+      .catch((e) => console.error(e));
   };
 
   return (

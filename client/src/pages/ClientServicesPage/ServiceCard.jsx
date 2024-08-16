@@ -1,10 +1,11 @@
 import styles from "../../styles/serviceCard.module.css";
-
 export default function ServiceCard(props) {
   const { service, onDelete } = props;
+
   const handleDelete = () => {
     onDelete(service);
   };
+
   const getStatusSphere = () => {
     if (!service.status || service.status.length === 0) {
       return <div className={styles.status__sphere_gray}></div>;
@@ -16,7 +17,6 @@ export default function ServiceCard(props) {
         return <div className={styles.status__sphere_green}></div>;
       case "В процессе":
       case "В обработке":
-        return <div className={styles.status__sphere_yellow}></div>;
       case "Заказ создан":
         return <div className={styles.status__sphere_yellow}></div>;
       case "Отменен":
@@ -24,6 +24,19 @@ export default function ServiceCard(props) {
       default:
         return <div className={styles.status__sphere_gray}></div>;
     }
+  };
+
+  const formatDateTime = (dateString) => {
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString("ru-RU", {
+      day: "2-digit",
+      month: "2-digit",
+    });
+    const formattedTime = date.toLocaleTimeString("ru-RU", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    return `${formattedDate}, ${formattedTime}`;
   };
 
   return (
@@ -37,13 +50,14 @@ export default function ServiceCard(props) {
               ? service.status[0].orderstatus
               : "Статус не найден"}
           </div>
-          <div>Дата создания - {service.created}</div>
+          <div>Дата создания - {formatDateTime(service.created)}</div>
           <div>
-            Дата посещения - {service?.visit ? service.visit : "Не указана"}
+            Дата посещения -{" "}
+            {service?.visit ? formatDateTime(service.visit) : "Не указана"}
           </div>
           <div>
             Дата завершения -{" "}
-            {service?.ended ? service.ended.toLocaleString() : "Не завершена"}
+            {service?.ended ? formatDateTime(service.ended) : "Не завершена"}
           </div>
           <div>
             Описание -{" "}

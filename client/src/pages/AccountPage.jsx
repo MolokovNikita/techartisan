@@ -14,7 +14,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function AccountPage() {
-  const { userData, isAuth, handleLogOut } = useContext(AuthContext);
+  const { setUserData, userData, isAuth, handleLogOut } =
+    useContext(AuthContext);
   const [userName, setUserName] = useState(userData.f_name || "");
   const [userSurname, setUserSurname] = useState(userData.l_name || "");
   const [userPhone, setUserPhone] = useState(userData.phone_number || "");
@@ -193,14 +194,20 @@ export default function AccountPage() {
   };
 
   const handleSave = () => {
-    // Проверка изменений
     if (
       userName === userData.f_name &&
       userSurname === userData.l_name &&
-      userPhone === userData.phone_number &&
+      (userPhone === userData.phone_number || !userPhone) &&
       userEmail === userData.email
     ) {
-      console.log("Никаких изменений не было внесено");
+      enqueueSnackbar(`Никаких изменений не было внесено`, {
+        variant: "warning",
+        autoHideDuration: 1500,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
       return;
     }
 
@@ -226,6 +233,15 @@ export default function AccountPage() {
         id: userData.id,
       })
       .then(() => {
+        setUserData(() => {
+          return {
+            ...userData,
+            f_name: userName,
+            l_name: userSurname,
+            email: userEmail,
+            phone_number: userPhone,
+          };
+        });
         if (userEmail !== userData.email) {
           handleLogOut();
           enqueueSnackbar(

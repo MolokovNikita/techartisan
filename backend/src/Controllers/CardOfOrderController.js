@@ -4,18 +4,9 @@ class CardOfOrderController {
   async create(req, res) {
     const { price, description, ended, client_id, comment, visit } = req.body;
     let { created } = req.body;
-    const now = new Date().toISOString(); // Преобразование текущей даты в строку в формате ISO
-    if (!created) created = now;
+    const now = new Date();
     const sql_insert = `INSERT INTO cardoforder (price, description, ended, client_id, created, comment, visit) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`;
-    const values = [
-      price,
-      description,
-      ended,
-      client_id,
-      created,
-      comment,
-      visit,
-    ];
+    const values = [price, description, ended, client_id, now, comment, visit];
     try {
       const result = await pool.query(sql_insert, values);
       const newId = result.rows[0].id;
@@ -55,30 +46,7 @@ class CardOfOrderController {
       if (result.rows.length === 0) {
         return res.status(404).json({ error: "Card of order not found" });
       }
-
-      // Опции для форматирования даты
-      const options = {
-        timeZone: "Europe/Moscow",
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-        hour12: false,
-      };
-
-      const resultArray = result.rows.map((row) => {
-        return {
-          ...row,
-          visit: new Date(row.visit).toLocaleString("ru-RU", options),
-          created: new Date(row.created).toLocaleString("ru-RU", options),
-          ended: row.ended
-            ? new Date(row.ended).toLocaleString("ru-RU", options)
-            : null,
-        };
-      });
-
-      return res.status(200).json(resultArray);
+      return res.status(200).json(result.rows);
     });
   }
 
@@ -94,14 +62,7 @@ class CardOfOrderController {
         return res.status(404).json({ error: "Card of order not found" });
       }
       // Преобразование даты и времени в нужный часовой пояс
-
-      const formattedData = {
-        ...result.rows[0],
-        created: new Date(result.rows[0].created).toLocaleString("en-US", {
-          timeZone: "Europe/Moscow",
-        }),
-      };
-      res.json(formattedData);
+      res.json(result);
     });
   }
 
@@ -145,7 +106,6 @@ class CardOfOrderController {
   }
   async update(req, res) {
     const { id, price, description, created, ended, client_id } = req.body;
-    const now = new Date().toISOString(); // Преобразование текущей даты в строку в формате ISO
     const sql_exist = `SELECT id FROM cardoforder WHERE id = $1`;
     pool.query(sql_exist, [id], (err, result) => {
       if (err) {
