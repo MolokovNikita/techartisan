@@ -19,6 +19,7 @@
     "express": "^4.19.2",
     "express-fingerprint": "^1.2.2",
     "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.14",
     "pg": "^8.11.5",
     "yup": "^1.4.0"
   },

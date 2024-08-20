@@ -23,7 +23,7 @@ export default function EnterCode({
   };
 
   useEffect(() => {
-    if (code.length === 5) {
+    if (code.length === 4) {
       if (typeof callback === "function") callback(code);
       resetCode();
     }
@@ -81,7 +81,7 @@ export default function EnterCode({
 
   const handlePaste = (e) => {
     const pastedCode = e.clipboardData.getData("text");
-    if (pastedCode.length === 6) {
+    if (pastedCode.length === 4) {
       setCode(pastedCode);
       inputRefs.forEach((inputRef, index) => {
         inputRef.current.value = pastedCode.charAt(index);

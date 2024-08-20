@@ -15,6 +15,8 @@ const positionToStaffRouter = require("../src/Routers/positionToStaffRouter");
 const serviceToCardRouter = require("../src/Routers/serviceToCardRouter");
 const staffToCardRouter = require("../src/Routers/staffToCardRouter");
 const statusOfOrderToCardRouter = require("../src/Routers/statusOfOrderToCardRouter");
+const emailVerificationRouter = require("../src/Routers/emailVerificationRouter.js");
+const phoneVerificationRouter = require("../src/Routers/phoneVerificationRouter.js");
 
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -36,11 +38,11 @@ app.use(
     parameters: [Fingerprint.useragent, Fingerprint.acceptHeaders],
   }),
 );
+//auth router
 app.use("/auth", AuthRootRouter);
-// router.post("/sign-in", AuthValidator.signIn, AuthController.signIn);
-// router.post("/sign-up", AuthValidator.signUp, AuthController.signUp);
-// router.post("/logout", AuthValidator.logOut, AuthController.logOut);
-// router.post("/refresh", AuthValidator.refresh, AuthController.refresh); routes
+// User email and phone verifications routers
+app.use("/email-verification", emailVerificationRouter);
+// app.use("/phone-verification", phoneVerificationRouter);
 
 //  CRUD ROUTERS
 app.use("/clients", clientRouter); // id, f_name, l_name, login, pass, email, created, deleted

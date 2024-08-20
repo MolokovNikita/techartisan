@@ -6,7 +6,6 @@ import { PiEye, PiEyeClosed } from "react-icons/pi";
 import { useLoginValidation } from "../../hooks/useLoginValidation";
 import { useValidation } from "../../hooks/useValidation";
 import { useLocation, useNavigate } from "react-router-dom";
-
 const ModalRootElement = document.querySelector("#ModalAuth");
 
 export default function ModalAuth(props) {
@@ -231,7 +230,14 @@ export default function ModalAuth(props) {
               <div className={style.Error_area}>{loginPasswordError}</div>
             )}
             <div className={style.FortgotPass_container}>
-              <a>Забыли пароль ?</a>
+              <a
+                onClick={() => {
+                  onClose();
+                  handleNavigation("/account/password");
+                }}
+              >
+                Забыли пароль ?
+              </a>
             </div>
             <div className={style.LoginBtn_container}>
               <button

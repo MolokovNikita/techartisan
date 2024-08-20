@@ -8,6 +8,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
+  justify-self: center;
+  align-items: center;
 }
 
 .change_password_title__container {
@@ -106,7 +108,7 @@
 .slider {
   position: absolute;
   bottom: 46px;
-  left: 42%;
+  left: 14%;
   width: 100px;
   height: 30px;
   background-color: rgb(199, 223, 195);
@@ -184,4 +186,94 @@
 .error__area {
   font-size: 10px;
   color: red;
+}
+.recover_password__container {
+  display: flex;
+  flex-direction: column;
+}
+.loader_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  margin-top: 50px;
+}
+
+.spinner {
+  width: 64px;
+  height: 64px;
+  border: 8px solid;
+  border-color: green transparent green transparent;
+  border-radius: 50%;
+  animation: spin-anim 1.2s linear infinite;
+}
+
+@keyframes spin-anim {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.new_password__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.Password_area_container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 300px;
+  font-size: 1rem;
+}
+.inputWrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+.Password_area {
+  font-family: "Inter", sans-serif;
+  font-weight: lighter;
+  font-size: 1rem;
+  border: none;
+  width: 100%;
+  padding: 10px 0;
+  transition: all 0.2s;
+  background: none;
+  border-bottom: 1px solid black;
+}
+.Password_area {
+  padding-right: 30px;
+}
+.placeholderLabel {
+  font-size: 1rem;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+  color: grey;
+  transition: all 0.2s;
+  pointer-events: none;
+}
+.Password_area:focus {
+  outline: none;
+  border-bottom: 1px solid green;
+}
+.Password_area:focus + .placeholderLabel,
+.Password_area:not(:placeholder-shown) + .placeholderLabel {
+  top: 0;
+  font-size: 0.8rem;
+  color: green;
+}
+.Password_area:focus ~ .eyeButton {
+  color: green;
+}
+.password_change__container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10vh;
 }

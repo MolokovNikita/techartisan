@@ -194,10 +194,12 @@
 }
 .save__button:hover {
   background-color: rgba(136, 226, 139, 0.8);
+  scale: 105%;
 }
 
 .save__button:active {
   background-color: rgba(136, 226, 139, 1);
+  scale: 110%;
 }
 
 .phone_desc__area {
@@ -361,10 +363,12 @@
 }
 .confirm_pass__btn:hover {
   background-color: rgba(136, 188, 226, 0.656);
+  scale: 105%;
 }
 
 .confirm_pass__btn:active {
   background-color: rgb(136, 188, 226);
+  scale: 110%;
 }
 .error_password__area {
   margin-top: 5px;
@@ -383,4 +387,5 @@
 .confirm_pass__btn:disabled:hover,
 .confirm_pass__btn:disabled:active {
   background-color: rgba(136, 188, 226, 0.4);
+  scale: 100%;
 }
