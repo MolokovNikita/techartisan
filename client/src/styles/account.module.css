@@ -113,7 +113,7 @@
 }
 
 .password_area__container {
-  margin-left: 36px;
+  margin: auto;
   margin-top: 20px;
   display: flex;
   flex-direction: row;
@@ -123,7 +123,7 @@
   transition: 0.3s all;
   border: 0;
   background-color: rgba(217, 217, 217, 0.1);
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .password_area__container:hover {
@@ -275,6 +275,12 @@
   display: flex;
   flex-direction: column;
   margin-bottom: 50px;
+  background-color: rgba(217, 217, 217, 0.1);
+  padding: 20px 0px;
+  border-radius: 15px;
+  width: 540px;
+  margin: auto;
+  margin-bottom: 10px;
 }
 .old_pass__container label,
 .new_pass__container label {
@@ -388,4 +394,8 @@
 .confirm_pass__btn:disabled:active {
   background-color: rgba(136, 188, 226, 0.4);
   scale: 100%;
+}
+.fortgot_pass__container {
+  display: flex;
+  justify-content: center;
 }

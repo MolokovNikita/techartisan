@@ -5,15 +5,21 @@ import EnterCode from "../components/EnterCode";
 import config from "../config";
 import axios from "axios";
 import { PiEye, PiEyeClosed } from "react-icons/pi";
+import { enqueueSnackbar } from "notistack";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function ChangePass() {
-  const targetRecover = useRef("");
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const [isEmailRecover, setIsEmailRecover] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isSubmit, setIsSubmit] = useState(false);
-  const [isVerified, setIsVerified] = useState(false);
+  const targetRecover = useRef(""); //почта или телефон
+  const [submitCode, setSubmitCode] = useState(""); //код подтверждения введеный пользователем
 
+  const [isEmailRecover, setIsEmailRecover] = useState(true); // переключатель, по чему будет восстановление
+  const [isLoading, setIsLoading] = useState(false); // лоадер
+  const [isSubmit, setIsSubmit] = useState(false); // отправлен ли код
+  const [isVerified, setIsVerified] = useState(false); // подтвержден ли код
+  //валидация формы для ввода почты и номера телефона
   const [email, setEmail] = useState("");
   const [emailDirty, setEmailDirty] = useState(false);
   const [emailError, setEmailError] = useState("обязательное поле");
@@ -24,18 +30,15 @@ export default function ChangePass() {
 
   const [formValid, setFormValid] = useState(false);
 
-  //password validation
+  //валидация формы для пароля
   const [isEyeOpen, setIsEyeOpen] = useState(false);
   const [password, setPassword] = useState("");
   const [passwordMatch, setPasswordMatch] = useState("");
   const [passwordDirty, setPasswordDirty] = useState(false);
-  const [passwordMatchDirty, setPasswordMatchDirty] = useState(false);
   const [passwordError, setPasswordError] = useState(
     "Пароль не может быть пустым",
   );
-  const [passwordMatchError, setPasswordMatchError] = useState(
-    "Пароль не может быть пустым",
-  );
+
   const [passwordFormValid, setPasswordFormValid] = useState(false);
 
   useEffect(() => {
@@ -92,9 +95,6 @@ export default function ChangePass() {
     }
   };
 
-  const handlePasswordContinue = () => {
-    console.log("continue");
-  };
   const blurHandler = (e) => {
     switch (e.target.name) {
       case "email":
@@ -106,29 +106,99 @@ export default function ChangePass() {
       case "password":
         setPasswordDirty(true);
         break;
-      case "passwordMatch":
-        setPasswordMatchDirty(true);
-        break;
       default:
         break;
     }
   };
-
+  const handlePasswordContinue = () => {
+    if (password === passwordMatch) {
+      if (email) {
+        axios
+          .put(`${config.API_URL}/clients/password/recover`, {
+            email: email,
+            pass: password,
+            code: submitCode,
+          })
+          .then((res) => {
+            enqueueSnackbar(`Ваш пароль был успешно изменен!`, {
+              variant: "success",
+              autoHideDuration: 3000,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "right",
+              },
+            });
+          })
+          .catch((e) => {
+            enqueueSnackbar(`Упс, что-то пошло не так -${e}!`, {
+              variant: "error",
+              autoHideDuration: 3000,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "right",
+              },
+            });
+          })
+          .finally(() => {
+            setTimeout(() => {
+              window.location.reload();
+            }, 1500);
+          });
+      } else {
+        enqueueSnackbar(
+          `Упc, что-то пошло не так, попробуйте перезагрузить страницу!`,
+          {
+            variant: "error",
+            autoHideDuration: 3000,
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "right",
+            },
+          },
+        );
+        return;
+      }
+    } else {
+      enqueueSnackbar(`Кажется, вы допустили ошибку в одном из полей!`, {
+        variant: "warning",
+        autoHideDuration: 3000,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
+      return;
+    }
+  };
   const handleCodeSubmit = async (code) => {
+    const VERIFICATION_CODE = code;
     setIsLoading(true);
     axios
       .post(`${config.API_URL}/email-verification/verify`, {
         email: email,
-        code: code,
+        code: VERIFICATION_CODE,
       })
       .then((res) => {
-        console.log(res);
-        alert("Код подтвержден!");
+        enqueueSnackbar(`Код подтвержден!`, {
+          variant: "success",
+          autoHideDuration: 3000,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "right",
+          },
+        });
         setIsVerified(true);
+        setSubmitCode(VERIFICATION_CODE);
       })
       .catch((e) => {
-        console.error(e);
-        alert("Неверный код!");
+        enqueueSnackbar(`Неверный код!`, {
+          variant: "error",
+          autoHideDuration: 3000,
+          anchorOrigin: {
+            vertical: "top",
+            horizontal: "right",
+          },
+        });
       })
       .finally(() => {
         setIsLoading(false);
@@ -141,7 +211,24 @@ export default function ChangePass() {
     targetRecover.current = "";
     setIsEmailRecover(true);
   };
-
+  const handleNavigation = (path, hash) => {
+    if (location.pathname !== path) {
+      navigate(path);
+      if (hash) {
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      }
+    } else if (hash) {
+      const element = document.getElementById(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
   const handlePhoneClick = () => {
     setEmail("");
     setEmailError("обязательное поле");
@@ -153,15 +240,39 @@ export default function ChangePass() {
     if (isEmailRecover) {
       if (!emailError) {
         targetRecover.current = email;
-        setIsSubmit(true);
+        setIsLoading(true);
         axios
           .post(`${config.API_URL}/email-verification/send`, {
             email: email,
           })
           .then((res) => {
-            console.log(res);
+            enqueueSnackbar(`Код успешно выслан!`, {
+              variant: "success",
+              autoHideDuration: 3000,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "right",
+              },
+            });
+            setIsSubmit(true);
           })
-          .catch((e) => console.error(e));
+          .catch((e) => {
+            console.log(e);
+            enqueueSnackbar(
+              `Упс, кажется что-то пошло не так - Не удалось найти пользователя с таким email!`,
+              {
+                variant: "error",
+                autoHideDuration: 3000,
+                anchorOrigin: {
+                  vertical: "top",
+                  horizontal: "right",
+                },
+              },
+            );
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
       } else return;
     } else {
       if (!phoneNumberError) {

@@ -9,8 +9,7 @@ import { FaPhoneAlt } from "react-icons/fa";
 import { IoMdMail } from "react-icons/io";
 import { PiEye, PiEyeClosed } from "react-icons/pi";
 import { enqueueSnackbar } from "notistack";
-import { useNavigate } from "react-router-dom";
-
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function AccountPage() {
@@ -20,8 +19,6 @@ export default function AccountPage() {
   const [userSurname, setUserSurname] = useState(userData.l_name || "");
   const [userPhone, setUserPhone] = useState(userData.phone_number || "");
   const [userEmail, setUserEmail] = useState(userData.email || "");
-  const navigate = useNavigate();
-
   // Изначально ошибка только если поле пустое
   const [userNameDirty, setUserNameDirty] = useState(false);
   const [userNameError, setUserNameError] = useState(
@@ -62,6 +59,27 @@ export default function AccountPage() {
   );
   const [isChangePassFormValid, setIsChangePassFormValid] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleNavigation = (path, hash) => {
+    if (location.pathname !== path) {
+      navigate(path);
+      if (hash) {
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: "smooth" });
+          }
+        }, 100);
+      }
+    } else if (hash) {
+      const element = document.getElementById(hash);
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
 
   useEffect(() => {
     if (oldPassword || newPassword) {
@@ -470,6 +488,7 @@ export default function AccountPage() {
                       </div>
                     )}
                   </div>
+
                   <div className={styles.new_pass__container}>
                     <label>Новый пароль</label>
                     <div className={styles.new_pass_inpt__container}>
@@ -504,6 +523,15 @@ export default function AccountPage() {
                       Новый пароль не должен совпадать со старым
                     </div>
                   ) : null}
+                  <div className={styles.fortgot_pass__container}>
+                    <a
+                      onClick={() => {
+                        handleNavigation("/account/password");
+                      }}
+                    >
+                      Забыли пароль ?
+                    </a>
+                  </div>
                   <div className={styles.confirm_pass__container}>
                     <button
                       className={styles.confirm_pass__btn}
