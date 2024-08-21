@@ -4,6 +4,7 @@ import { FaArrowRight } from "react-icons/fa";
 import EnterCode from "../components/EnterCode";
 import config from "../config";
 import axios from "axios";
+import { PiEye, PiEyeClosed } from "react-icons/pi";
 
 export default function ChangePass() {
   const targetRecover = useRef("");
@@ -23,6 +24,20 @@ export default function ChangePass() {
 
   const [formValid, setFormValid] = useState(false);
 
+  //password validation
+  const [isEyeOpen, setIsEyeOpen] = useState(false);
+  const [password, setPassword] = useState("");
+  const [passwordMatch, setPasswordMatch] = useState("");
+  const [passwordDirty, setPasswordDirty] = useState(false);
+  const [passwordMatchDirty, setPasswordMatchDirty] = useState(false);
+  const [passwordError, setPasswordError] = useState(
+    "Пароль не может быть пустым",
+  );
+  const [passwordMatchError, setPasswordMatchError] = useState(
+    "Пароль не может быть пустым",
+  );
+  const [passwordFormValid, setPasswordFormValid] = useState(false);
+
   useEffect(() => {
     if (isEmailRecover) {
       if (emailError) {
@@ -38,7 +53,13 @@ export default function ChangePass() {
       }
     }
   }, [emailError, phoneNumberError]);
-
+  useEffect(() => {
+    if (passwordError) {
+      setPasswordFormValid(false);
+    } else {
+      setPasswordFormValid(true);
+    }
+  }, [passwordError]);
   const emailHandler = (e) => {
     const value = e.target.value;
     setEmail(value);
@@ -59,7 +80,21 @@ export default function ChangePass() {
       setPhoneNumberError("");
     }
   };
+  const passwordHandler = (e) => {
+    const value = e.target.value;
+    setPassword(value);
+    if (!value) {
+      setPasswordError("*Данное поле не можеть быть пустым");
+    } else if (!/^[A-Za-z0-9]\w{5,30}$/.test(value)) {
+      setPasswordError("*Неккоректный формат пароля");
+    } else {
+      setPasswordError("");
+    }
+  };
 
+  const handlePasswordContinue = () => {
+    console.log("continue");
+  };
   const blurHandler = (e) => {
     switch (e.target.name) {
       case "email":
@@ -67,6 +102,12 @@ export default function ChangePass() {
         break;
       case "phoneNumber":
         setPhoneNumberDirty(true);
+        break;
+      case "password":
+        setPasswordDirty(true);
+        break;
+      case "passwordMatch":
+        setPasswordMatchDirty(true);
         break;
       default:
         break;
@@ -235,12 +276,12 @@ export default function ChangePass() {
             <div className={styles.Password_area_container}>
               <div className={styles.inputWrapper}>
                 <input
-                  // onChange={passwordHandler}
-                  // value={password}
-                  // onBlur={blurHandler}
+                  onChange={passwordHandler}
+                  value={password}
+                  onBlur={blurHandler}
                   name="password"
                   className={styles.Password_area}
-                  // type={isEyeOpen ? "text" : "password"}
+                  type={isEyeOpen ? "text" : "password"}
                   placeholder=" "
                   autoComplete="password"
                 />
@@ -250,15 +291,15 @@ export default function ChangePass() {
                 <a
                   type="button"
                   className={styles.eyeButton}
-                  // onClick={() => setIsEyeOpen(!isEyeOpen)}
+                  onClick={() => setIsEyeOpen(!isEyeOpen)}
                 >
-                  {/* {isEyeOpen ? <PiEye /> : <PiEyeClosed />} */}
+                  {isEyeOpen ? <PiEye /> : <PiEyeClosed />}
                 </a>
               </div>
             </div>
-            {/* // {passwordDirty && passwordError && ( */}
-            {/* //   <div className={style.Error_area}>{passwordError}</div>
-            // )} */}
+            {passwordDirty && passwordError && (
+              <div className={styles.Error_area}>{passwordError}</div>
+            )}
             <div
               style={{
                 display: "flex",
@@ -273,10 +314,9 @@ export default function ChangePass() {
             <div className={styles.Password_area_container}>
               <div className={styles.inputWrapper}>
                 <input
-                  // onChange={passwordMatchHandler}
-                  // value={passwordMatch}
-                  // onBlur={blurHandler}
-                  // name="passwordMatch"
+                  onChange={(e) => setPasswordMatch(e.target.value)}
+                  value={passwordMatch}
+                  name="passwordMatch"
                   className={styles.Password_area}
                   type="password"
                   placeholder=" "
@@ -287,9 +327,30 @@ export default function ChangePass() {
                 </label>
               </div>
             </div>
-            {/* // {passwordMatchDirty && passwordMatchError && (
-            //   <div className={style.Error_area}>{passwordMatchError}</div>
-            // )} */}
+            {passwordMatch === password ? null : (
+              <div className={styles.Error_area}>*Пароль не совпадает</div>
+            )}
+            <div className={styles.continue_btn__container}>
+              <button
+                disabled={
+                  !passwordFormValid ||
+                  !(password === passwordMatch) ||
+                  !password ||
+                  !passwordMatch
+                }
+                onClick={handlePasswordContinue}
+                className={
+                  !passwordFormValid ||
+                  !(password === passwordMatch) ||
+                  !password ||
+                  !passwordMatch
+                    ? styles.continue_disabled__btn
+                    : styles.continue__btn
+                }
+              >
+                <FaArrowRight size={20} />
+              </button>
+            </div>
           </div>
         )}
       </div>

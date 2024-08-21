@@ -177,7 +177,7 @@ export default function ModalAuth(props) {
               setErrorText("");
             }}
           >
-            Логин&nbsp;
+            Войти&nbsp;
           </a>
           <p> / </p>
           <a

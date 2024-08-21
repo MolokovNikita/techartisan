@@ -277,3 +277,12 @@
   flex-direction: column;
   margin-top: 10vh;
 }
+.Error_area {
+  color: red;
+  font-size: 10px;
+  margin-top: 5px;
+}
+.continue_btn__container {
+  display: flex;
+  justify-content: center;
+}
