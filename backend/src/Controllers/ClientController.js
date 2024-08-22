@@ -137,13 +137,13 @@ class ClientController {
     if (!storedCode) {
       return res
         .status(400)
-        .send(`("Неудалось найти пользователя с кодом верификации!`);
+        .send(`("Неудалось найти код верификации у данного пользователя!`);
     }
-    const hashedPassword = bcrypt.hashSync(pass, 8);
     const isCodeValid = bcrypt.compareSync(code, storedCode.code);
     if (!isCodeValid) {
       return res.status(400).send("Указан неверный код");
     }
+    const hashedPassword = bcrypt.hashSync(pass, 8);
     try {
       await pool.query(`UPDATE client SET pass = $1 WHERE email = $2`, [
         hashedPassword,

@@ -47,6 +47,9 @@ export default function ClientServicesPage() {
   }, [isAuth, userData.id]);
 
   const handleDelete = (serviceCard) => {
+    const isConfirm = confirm("Вы уверены что хотите удалить эту запись ?");
+    // тут можно будет реализовать красивый pop-up, пока что так :/
+    if (!isConfirm) return;
     const CARD_ID = serviceCard.id;
     const CARD_PRICE = serviceCard.price;
     const CARD_DESC = serviceCard.description;

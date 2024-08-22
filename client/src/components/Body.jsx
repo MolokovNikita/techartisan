@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useContext } from "react";
 
 export default function Body(props) {
-  const { setIsServiceModalOpen, setIsOpen } = props;
+  const { setIsServiceModalOpen, setIsOpen, setIsOrderCallPopUpOpen } = props;
   const { isAuth } = useContext(AuthContext);
   return (
     <>
@@ -150,7 +150,13 @@ export default function Body(props) {
                 </li>
               </ul>
               <p>Так же вы можете заказать звонок</p>
-              <button>Заказать звонок</button>
+              <button
+                onClick={() => {
+                  setIsOrderCallPopUpOpen(true);
+                }}
+              >
+                Заказать звонок
+              </button>
             </div>
           </div>
         </div>

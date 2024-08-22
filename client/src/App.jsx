@@ -18,17 +18,26 @@ import SupportPage from "./pages/SupportPage.jsx";
 import ClientServicePage from "./pages/ClientServicesPage/ClientServicePage.jsx";
 import ServiceCardModal from "./components/ServiceCardModal.jsx";
 import AdminPanel from "./pages/AdminPanel.jsx";
+import OrderCallPopUp from "./components/OrderCallPopUp.jsx";
+
 function App() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); //ModalAuth
   const { isLoading } = useContext(AuthContext);
   const location = useLocation();
   const handleModalClose = () => {
     setIsOpen(false);
   };
-  const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
+
+  const [isServiceModalOpen, setIsServiceModalOpen] = useState(false); // ServiceModal
   const handleServiceModalClose = () => {
     setIsServiceModalOpen(false);
   };
+
+  const [isOrderCallPopUpOpen, setIsOrderCallPopUpOpen] = useState(false); // OrderACallModal
+  const handleOrderCallPopUpClose = () => {
+    setIsOrderCallPopUpOpen(false);
+  };
+
   const routesWithHeaderFooter = [
     "/",
     "/services",
@@ -47,6 +56,12 @@ function App() {
       ) : (
         <>
           <ModalAuth isOpen={isOpen} onClose={handleModalClose} />
+
+          <OrderCallPopUp
+            isOpen={isOrderCallPopUpOpen}
+            onClose={handleOrderCallPopUpClose}
+          />
+
           <ServiceCardModal
             isOpen={isOpen}
             setIsOpen={setIsOpen}
@@ -64,6 +79,7 @@ function App() {
                 <MainPage
                   setIsServiceModalOpen={setIsServiceModalOpen}
                   setIsOpen={setIsOpen}
+                  setIsOrderCallPopUpOpen={setIsOrderCallPopUpOpen}
                 />
               }
             />
