@@ -17,6 +17,7 @@ const staffToCardRouter = require("../src/Routers/staffToCardRouter");
 const statusOfOrderToCardRouter = require("../src/Routers/statusOfOrderToCardRouter");
 const emailVerificationRouter = require("../src/Routers/emailVerificationRouter.js");
 const phoneVerificationRouter = require("../src/Routers/phoneVerificationRouter.js");
+const orderCallRouter = require("../src/Routers/OrderCallRouter.js");
 
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -42,7 +43,8 @@ app.use(
 app.use("/auth", AuthRootRouter);
 // User email and phone verifications routers
 app.use("/email-verification", emailVerificationRouter);
-// app.use("/phone-verification", phoneVerificationRouter);
+app.use("/phone-verification", phoneVerificationRouter);
+app.use("/order-call", orderCallRouter);
 
 //  CRUD ROUTERS
 app.use("/clients", clientRouter); // id, f_name, l_name, login, pass, email, created, deleted

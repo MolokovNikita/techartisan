@@ -1,6 +1,10 @@
 import styles from "../styles/ordercall.module.css";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
+import config from "../config";
+import axios from "axios";
+import { enqueueSnackbar } from "notistack";
+
 const ModalRootElement = document.querySelector("#OrderCallPopUp");
 
 export default function OrderCall(props) {
@@ -106,6 +110,52 @@ export default function OrderCall(props) {
   const handleCardClick = (event) => {
     event.stopPropagation();
   };
+  const handleOrderCall = () => {
+    if (name && phoneNumber) {
+      axios
+        .post(`${config.API_URL}/order-call`, {
+          name: name,
+          phone_number: phoneNumber,
+        })
+        .then((res) => {
+          enqueueSnackbar(
+            `Ваш запрос успешно был отправлен! С вами свяжется первый освободившийся оператор!`,
+            {
+              variant: "success",
+              autoHideDuration: 3000,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "right",
+              },
+            },
+          );
+          console.log(res);
+        })
+        .catch((e) => {
+          enqueueSnackbar(`Упс, кажется что-то пошло не так! - ${e}`, {
+            variant: "error",
+            autoHideDuration: 3000,
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "right",
+            },
+          });
+          console.error(e);
+        })
+        .finally(() => {
+          setName("");
+          setPhoneNumber("");
+          setNameDirty(false);
+          setPhoneNumberDirty(false);
+          setNameError("*Данное поле не можеть быть пустым");
+          setPhoneNumberError("*Данное поле не можеть быть пустым");
+          onClose();
+        });
+    } else {
+      //вывод ошибки
+      return;
+    }
+  };
   return createPortal(
     <div
       className={styles.order_call__background}
@@ -166,18 +216,7 @@ export default function OrderCall(props) {
         )}
         <div className={styles.order_btn__container}>
           <button
-            onClick={() => {
-              console.log("Fetching");
-              console.log(name);
-              console.log(phoneNumber);
-              setName("");
-              setPhoneNumber("");
-              setNameDirty(false);
-              setPhoneNumberDirty(false);
-              setNameError("*Данное поле не можеть быть пустым");
-              setPhoneNumberError("*Данное поле не можеть быть пустым");
-              onClose();
-            }}
+            onClick={handleOrderCall}
             disabled={!formValid}
             className={
               formValid ? styles.order__btn : styles.order__btnDisabled

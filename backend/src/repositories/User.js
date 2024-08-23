@@ -19,6 +19,17 @@ class UserRepository {
     }
     return response.rows[0];
   }
+  static async getUserDataByPhoneNumber(phone_number) {
+    const response = await pool.query(
+      "SELECT * FROM client WHERE phone_number = $1",
+      [phone_number],
+    );
+
+    if (!response.rows.length) {
+      return null;
+    }
+    return response.rows[0];
+  }
 }
 
 module.exports = UserRepository;

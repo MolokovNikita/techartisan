@@ -1,17 +1,17 @@
 const pool = require("../Config/ormconfig");
 class VerificationRepository {
-  static async saveVerificationCodeToDB(email, verificationCode) {
+  static async saveVerificationCodeToDB(emailOrPhone, verificationCode) {
     const response = await pool.query(
       "INSERT INTO verification (target, code) VALUES ($1, $2) RETURNING *",
-      [email, verificationCode],
+      [emailOrPhone, verificationCode],
     );
     return response.rows[0];
   }
 
-  static async getStoredVerificationCode(email) {
+  static async getStoredVerificationCode(emailOrPhone) {
     const response = await pool.query(
       "SELECT * FROM verification WHERE target = $1",
-      [email],
+      [emailOrPhone],
     );
 
     if (!response.rows.length) {
@@ -19,10 +19,10 @@ class VerificationRepository {
     }
     return response.rows[0];
   }
-  static async clearStoredVerificationCode(email) {
+  static async clearStoredVerificationCode(emailOrPhone) {
     const response = await pool.query(
       "DELETE FROM verification WHERE target = $1",
-      [email],
+      [emailOrPhone],
     );
     if (!response.rows.length) {
       return null;

@@ -173,36 +173,72 @@ export default function ChangePass() {
   const handleCodeSubmit = async (code) => {
     const VERIFICATION_CODE = code;
     setIsLoading(true);
-    axios
-      .post(`${config.API_URL}/email-verification/verify`, {
-        email: email,
-        code: VERIFICATION_CODE,
-      })
-      .then((res) => {
-        enqueueSnackbar(`Код подтвержден!`, {
-          variant: "success",
-          autoHideDuration: 3000,
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "right",
-          },
+    if (isEmailRecover) {
+      //email-verification
+      axios
+        .post(`${config.API_URL}/email-verification/verify`, {
+          email: email,
+          code: VERIFICATION_CODE,
+        })
+        .then((res) => {
+          enqueueSnackbar(`Код подтвержден!`, {
+            variant: "success",
+            autoHideDuration: 3000,
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "right",
+            },
+          });
+          setIsVerified(true);
+          setSubmitCode(VERIFICATION_CODE);
+        })
+        .catch((e) => {
+          enqueueSnackbar(`Неверный код!`, {
+            variant: "error",
+            autoHideDuration: 3000,
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "right",
+            },
+          });
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
-        setIsVerified(true);
-        setSubmitCode(VERIFICATION_CODE);
-      })
-      .catch((e) => {
-        enqueueSnackbar(`Неверный код!`, {
-          variant: "error",
-          autoHideDuration: 3000,
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "right",
-          },
+    } else {
+      //phone-verification
+      axios
+        .post(`${config.API_URL}/phone-verification/verify`, {
+          phone_number: phoneNumber,
+
+          code: VERIFICATION_CODE,
+        })
+        .then((res) => {
+          enqueueSnackbar(`Код подтвержден!`, {
+            variant: "success",
+            autoHideDuration: 3000,
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "right",
+            },
+          });
+          setIsVerified(true);
+          setSubmitCode(VERIFICATION_CODE);
+        })
+        .catch((e) => {
+          enqueueSnackbar(`Неверный код!`, {
+            variant: "error",
+            autoHideDuration: 3000,
+            anchorOrigin: {
+              vertical: "top",
+              horizontal: "right",
+            },
+          });
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    }
   };
   const handleEmailClick = () => {
     setPhoneNumber("");
@@ -277,7 +313,39 @@ export default function ChangePass() {
     } else {
       if (!phoneNumberError) {
         targetRecover.current = phoneNumber;
-        setIsSubmit(true);
+        setIsLoading(true);
+        axios
+          .post(`${config.API_URL}/phone-verification/send`, {
+            phone_number: phoneNumber,
+          })
+          .then((res) => {
+            enqueueSnackbar(`Код успешно выслан!`, {
+              variant: "success",
+              autoHideDuration: 3000,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "right",
+              },
+            });
+            setIsSubmit(true);
+          })
+          .catch((e) => {
+            console.log(e);
+            enqueueSnackbar(
+              `Упс, кажется что-то пошло не так - Не удалось найти пользователя с таким номером телефона!`,
+              {
+                variant: "error",
+                autoHideDuration: 3000,
+                anchorOrigin: {
+                  vertical: "top",
+                  horizontal: "right",
+                },
+              },
+            );
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
       } else return;
     }
   };
