@@ -20,35 +20,12 @@ export default function SearchAndSort({
   const sortValue = useRef("");
   const searchFilter = useRef("");
 
-  const parseDate = (dateString) => {
-    const [datePart, timePart] = dateString.split(", ");
-    const [day, month, year] = datePart.split(".");
-    const [hours, minutes] = timePart.split(":");
-    return new Date(year, month - 1, day, hours, minutes);
-  };
-
   const sortNewAtFirst = (a, b) => {
-    const dateA = parseDate(a.created);
-    const dateB = parseDate(b.created);
-
-    if (isNaN(dateA) || isNaN(dateB)) {
-      console.error("Invalid Date:", a.created, b.created);
-      return 0;
-    }
-
-    return dateB - dateA;
+    return new Date(b.created) - new Date(a.created);
   };
 
   const sortOldAtFirst = (a, b) => {
-    const dateA = parseDate(a.created);
-    const dateB = parseDate(b.created);
-
-    if (isNaN(dateA) || isNaN(dateB)) {
-      console.error("Invalid Date:", a.created, b.created);
-      return 0;
-    }
-
-    return dateA - dateB;
+    return new Date(a.created) - new Date(b.created);
   };
 
   const sortExpensiveAtFirst = (a, b) => b.price - a.price;
