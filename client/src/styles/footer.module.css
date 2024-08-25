@@ -26,3 +26,9 @@
   margin: 0;
   padding: 0;
 }
+
+@media (max-width : 650px){
+  .footer_container {
+    display: none;
+  }
+}

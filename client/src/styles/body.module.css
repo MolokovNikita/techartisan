@@ -67,7 +67,7 @@ a:hover {
 
 .topic_arrow {
   margin-left: 2em;
-  margin-top: 4em;
+  margin-top: 3.5em;
 }
 
 .arrow_list {
@@ -83,7 +83,9 @@ a:hover {
 .arrow_list li {
   margin-bottom: 1em;
 }
-
+.arrow_list li:first-child{
+  margin-top: 20px;
+}
 .topic_text {
   padding: 0;
   margin: 0;
@@ -134,7 +136,9 @@ a:hover {
   margin-top: -2em;
   width: 15%;
 }
-
+.topic_list li:first-child p{
+  margin:0;
+}
 .notebook_container {
   display: flex;
   flex-direction: row;
@@ -379,4 +383,136 @@ a:hover {
 
 .find_container > a > button:active {
   background-color: rgb(245, 96, 91, 1);
+}
+@media (max-width :963px){
+  .Services_card{
+    flex-direction: column;
+    align-items: center;
+  }
+}
+@media (max-width: 1022px) {
+  .topic{
+    min-width: 650px;
+    width: 300px;
+  }
+
+  .arrow_list li:first-child{
+    margin-top: 30px;
+    margin-bottom: 45px;
+  }
+  .topic_arrow{
+    margin-top: 80px;
+  }
+  .SignUpButton button {
+    width: 250px;
+  }
+  .SignUp_container li:first-child{
+    margin-right: 20px;
+  }
+  .SignUp_container li:first-child img,
+  .SignUp_container li:last-child img{
+    width: 100px;
+  }
+  .SignUpButton button{
+    margin-right: 70px !important;
+  }
+}
+@media (max-width: 730px) {
+
+.topic{
+  min-width: 550px;
+  width: 300px;
+}
+.topic_arrow{
+  margin-left: 0;
+}
+.SignUp_container li:last-child img{
+  margin-left: 30px;
+}
+.topic_text{
+  width: 500px;
+}
+.SignUpButton button{
+  margin: 0 !important;
+}
+.notebook_container {
+  width: 500px;
+}
+.notebook_container img{
+  width: 30px;
+  height: auto;
+}
+}
+@media (max-width : 645px){
+  .block_info > button{
+    width: 80%;
+    margin: auto;
+  }
+  .topic_container{
+    margin: auto;
+    margin-top: 64px;
+  }
+  .topic{
+    min-width: 90%;
+    width: 300px;
+    margin: auto;
+  }
+  .topic_text{
+    width: 90%;
+    margin-top: 0px;
+  }
+  .notebook_container {
+    display: inline;
+  }
+  .notebook_container img{
+    display: none;
+  }
+
+  .arrow_list .second_arrow {
+    margin-top: 70px;
+    margin-bottom: 45px;    
+  }
+  .SignUp_container  img{
+    display: none;
+  }
+  .Contacts_block{
+    width: 500px;
+    padding: 10px;
+  }
+  .SignUpButton{
+    margin-right: 70px;
+  }
+  .block_info{
+    width: 100%;
+  }
+  /* .Contacts_block_container{
+    margin: auto;
+  } */
+}
+@media (max-width : 510px){
+ .Services_contaiener_1 ol li, .Services_contaiener_2 ol li {
+  font-size: 20px;
+ }
+ .Services_contaiener_1, .Services_contaiener_2 {
+  width: 80%;
+
+ }
+
+.Contacts_block{
+  width: 90%;
+}
+.topic{
+  min-width: 80%;
+  width: 300px;
+  margin: auto;
+}
+.topic_list li {
+  font-size: 20px;
+}
+.topic_arrow{
+  margin-top: 55px;
+}
+.arrow_list .second_arrow {
+  margin-bottom: 25px;
+  }
 }

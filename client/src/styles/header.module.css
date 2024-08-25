@@ -275,3 +275,12 @@ a:hover {
     justify-content: center;
   }
 }
+@media (max-width : 645px){
+  .logo {
+    height: 100px;
+  }
+  .bottom_header{
+    display: flex;
+    justify-content: center;
+  }
+}
