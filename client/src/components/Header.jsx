@@ -1,4 +1,4 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import styles from "../styles/header.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
@@ -11,30 +11,8 @@ export default function Header({ setIsOpen }) {
   const navigate = useNavigate();
   const { handleLogOut, isAuth, userData } = useContext(AuthContext);
 
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      const menuBox = document.querySelector(`.${styles.menu__box}`);
-      const menuToggle = document.querySelector(`#${styles.menu__toggle}`);
-
-      if (
-        isMenuOpen &&
-        menuBox &&
-        !menuBox.contains(e.target) &&
-        !menuToggle.contains(e.target)
-      ) {
-        setIsMenuOpen(false);
-        menuToggle.checked = false;
-      }
-    };
-
-    document.addEventListener("click", handleClickOutside);
-    document.addEventListener("scroll", handleClickOutside);
-
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-      document.removeEventListener("scroll", handleClickOutside);
-    };
-  }, [isMenuOpen]);
+  const menuToggleRef = useRef(null);
+  const menuBoxRef = useRef(null);
 
   const togglePopUp = (e) => {
     e.stopPropagation();
@@ -86,22 +64,20 @@ export default function Header({ setIsOpen }) {
   return (
     <header>
       <div className={styles.top_header}>
-        <div className={styles.hamburger__menu}>
-          <input
-            id={styles.menu__toggle}
-            type="checkbox"
-            onChange={handleMenuToggle}
-          />
-          <label
-            className={styles.menu__btn}
-            onClick={() => {
-              setIsMenuOpen((prev) => !prev);
-            }}
-            htmlFor={styles.menu__toggle}
-          >
-            <span></span>
-          </label>
-          <ul className={styles.menu__box}>
+        <label
+          className={styles.menu__btn}
+          onClick={() => {
+            setIsMenuOpen((prev) => !prev);
+          }}
+        >
+          <span></span>
+        </label>
+        <div
+          className={
+            isMenuOpen ? styles.hamburger__menu : styles.hamburger__menu_closed
+          }
+        >
+          <ul ref={menuBoxRef} className={styles.menu__box}>
             <li className={styles.burger_Auth_container}>
               <AuthDropDownMenu
                 isPopUpOpen={isPopUpOpen}

@@ -149,7 +149,9 @@ export default function Body(props) {
                   <a href="">whatsApp - +7-999-999-99-99</a>
                 </li>
               </ul>
-              <p>Так же вы можете заказать звонок</p>
+              <p className={styles.order_call__title}>
+                Так же вы можете заказать звонок
+              </p>
               <button
                 onClick={() => {
                   setIsOrderCallPopUpOpen(true);
