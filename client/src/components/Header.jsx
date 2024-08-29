@@ -7,6 +7,7 @@ import AuthDropDownMenu from "./AuthDropDownMenu";
 export default function Header({ setIsOpen }) {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isExiting, setIsExiting] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { handleLogOut, isAuth, userData } = useContext(AuthContext);
@@ -33,7 +34,15 @@ export default function Header({ setIsOpen }) {
   };
 
   const handleMenuToggle = () => {
-    setIsMenuOpen((prev) => !prev);
+    if (isMenuOpen) {
+      setIsExiting(true);
+      setIsMenuOpen(false);
+      setTimeout(() => {
+        setIsExiting(false);
+      }, 300);
+    } else {
+      setIsMenuOpen(true);
+    }
   };
 
   const AuthButton = () =>
@@ -64,66 +73,103 @@ export default function Header({ setIsOpen }) {
   return (
     <header>
       <div className={styles.top_header}>
-        <label
-          className={styles.menu__btn}
-          onClick={() => {
-            setIsMenuOpen((prev) => !prev);
-          }}
-        >
-          <span></span>
-        </label>
+        {isMenuOpen || isExiting ? (
+          <div
+            className={`${styles.hamburger__menu} ${isExiting ? styles.exiting : ""}`}
+          >
+            <ul
+              ref={menuBoxRef}
+              className={`${styles.menu__box} ${isExiting ? styles.exiting : ""}`}
+            >
+              <li className={styles.burger_Auth_container}>
+                <AuthDropDownMenu
+                  isPopUpOpen={isPopUpOpen}
+                  onClose={() => setIsPopUpOpen(false)}
+                />
+                <AuthButton />
+              </li>
+              <li>
+                <a
+                  className={styles.menu__item}
+                  onClick={() => {
+                    handleMenuToggle();
+                    navigateTo("/");
+                  }}
+                >
+                  Главная
+                </a>
+              </li>
+              <li>
+                <a
+                  className={styles.menu__item}
+                  onClick={() => {
+                    handleMenuToggle();
+                    navigateTo("/services");
+                  }}
+                >
+                  Услуги
+                </a>
+              </li>
+              <li>
+                <a
+                  className={styles.menu__item}
+                  onClick={() => {
+                    handleMenuToggle();
+                    navigateTo("/", "contacts_anchor");
+                  }}
+                >
+                  Контакты
+                </a>
+              </li>
+              <li>
+                <a
+                  className={styles.menu__item}
+                  onClick={() => {
+                    handleMenuToggle();
+                    navigateTo("/aboutus");
+                  }}
+                >
+                  О нас
+                </a>
+              </li>
+            </ul>
+          </div>
+        ) : null}
+
         <div
           className={
-            isMenuOpen ? styles.hamburger__menu : styles.hamburger__menu_closed
+            isMenuOpen || isExiting
+              ? styles.header_first_item__disabled
+              : styles.header_first__item
           }
-        >
-          <ul ref={menuBoxRef} className={styles.menu__box}>
-            <li className={styles.burger_Auth_container}>
-              <AuthDropDownMenu
-                isPopUpOpen={isPopUpOpen}
-                onClose={() => setIsPopUpOpen(false)}
-              />
-              <AuthButton />
-            </li>
-            <li>
-              <a className={styles.menu__item} onClick={() => navigateTo("/")}>
-                Главная
-              </a>
-            </li>
-            <li>
-              <a
-                className={styles.menu__item}
-                onClick={() => navigateTo("/services")}
-              >
-                Услуги
-              </a>
-            </li>
-            <li>
-              <a
-                className={styles.menu__item}
-                onClick={() => navigateTo("/", "contacts_anchor")}
-              >
-                Контакты
-              </a>
-            </li>
-            <li>
-              <a
-                className={styles.menu__item}
-                onClick={() => navigateTo("/aboutus")}
-              >
-                О нас
-              </a>
-            </li>
-          </ul>
-        </div>
+        ></div>
+
         <ol className={styles.location_nav}>
           <li>
             <img className={styles.geologo} src="/geologo.png" alt="Geo logo" />{" "}
             Москва
           </li>
           <li>ул. Красноказарменая, д.17</li>
-          <li className={styles.company_name}>TECHARTISAN</li>
         </ol>
+        <div
+          onClick={() => {
+            navigateTo("/");
+          }}
+          className={styles.company_name}
+        >
+          TECHARTISAN
+        </div>
+        <div className={styles.menu__container}>
+          <label
+            className={styles.menu__btn}
+            opened={isMenuOpen ? "1" : "0"}
+            onClick={() => {
+              handleMenuToggle();
+            }}
+          >
+            <span></span>
+          </label>
+        </div>
         <ol className={styles.social_nav}>
           <li>
             <img
@@ -160,7 +206,11 @@ export default function Header({ setIsOpen }) {
       </div>
       <div className={styles.bottom_header}>
         <div className={styles.bottom_header_left}>
-          <a onClick={() => navigateTo("/")}>
+          <a
+            onClick={() => {
+              navigateTo("/");
+            }}
+          >
             <img className={styles.logo} src="/logo.png" alt="Logo" />
           </a>
           <ol className={styles.main_nav}>

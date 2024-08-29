@@ -31,17 +31,19 @@ export default function Footer() {
         <ul>
           <li>© 2024 TechArtisan. Все права защищены.</li>
           <li>
-            <a onClick={() => handleNavigation("/confidencity", "top")}>
+            <a
+              className={styles.confidecity__btn}
+              onClick={() => handleNavigation("/confidencity", "top")}
+            >
               Конфиденциальность
-            </a>{" "}
-            |{" "}
+            </a>
             <a onClick={() => handleNavigation("/politicy", "top")}>
               Публичная оферта о продаже
             </a>
           </li>
         </ul>
       </div>
-      <ul>
+      <ul className={styles.second_text__list}>
         <li>
           ©2002–2024 Компания TechArtisan. Администрация Сайта не несет
           ответственности за размещаемые Пользователями материалы (в т.ч.

@@ -33,7 +33,7 @@ a:hover {
   font-size: 1.4rem;
   padding: 2em;
   min-width: 900px;
-  min-height: 500px;
+  height: 500px;
 }
 
 .topic_list {
@@ -291,10 +291,24 @@ a:hover {
 }
 
 .social_logo_list {
-  margin-top: 45px;
-  margin-right: 5px;
+  width: 10%;
+  margin: 0;
+  text-align: end;
 }
-
+.social_logo_list ul {
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  margin-top: 45px;
+  text-align: end;
+}
+.social_logo_list li {
+  margin: 0;
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+  margin-bottom: 14px;
+}
 .block_info > ul {
   margin: 13px 0;
 }
@@ -517,6 +531,7 @@ a:hover {
   .topic {
     min-width: 80%;
     width: 300px;
+    height: 450px;
     margin: auto;
   }
   .topic_list li {
@@ -530,8 +545,15 @@ a:hover {
   }
 }
 @media (max-width: 420px) {
+  .social_logo_list ul li img {
+    width: 23px;
+  }
+  .social_logo_list ul li {
+    margin-bottom: 8px;
+  }
   .topic {
     width: 97%;
+    height: 400px;
     padding-bottom: 0;
   }
   .topic_list li {
@@ -554,20 +576,38 @@ a:hover {
   .order_call__title {
     font-size: 18px;
   }
-  .social_logo_list {
-    margin-left: 10%;
-  }
-  .social_logo_list li {
-    margin: 0;
-  }
-  .social_logo_list li img {
-    width: 23px !important;
-  }
   .block_info > button {
     width: 80%;
     font-size: 20px;
     margin: auto;
-    margin-right: 45px;
+  }
+  .telephone_number {
+    margin-right: 20%;
+  }
+}
+@media (max-width: 379px) {
+  .block_info {
+    font-size: 16px;
+  }
+  .social_logo_list ul li img {
+    width: 20px;
+  }
+  .social_logo_list ul {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .social_logo_list li {
+    margin: 0;
+    height: 20px;
+  }
+  .social_logo_list li:last-child {
+    margin-top: -4px;
+  }
+  .tg__logo {
+    margin-top: -4px !important;
+  }
+  .vk__logo {
+    margin-top: -4px !important;
   }
 }
 @media (max-width: 385px) {
@@ -575,7 +615,12 @@ a:hover {
     min-width: 0px;
     width: 88%;
     padding: 15px;
+    height: 450px;
   }
+  .topic_text {
+    height: 100%;
+  }
+
   .Services_contaiener_1 ol li,
   .Services_contaiener_2 ol li {
     font-size: 18px;
@@ -583,5 +628,22 @@ a:hover {
   .Services_contaiener_1,
   .Services_contaiener_2 {
     width: 80%;
+  }
+}
+@media (max-width: 343px) {
+  .topic_arrow {
+    margin-top: 55px;
+  }
+}
+@media (max-width: 320px) {
+  .Services_contaiener_1 ol li,
+  .Services_contaiener_2 ol li {
+    font-size: 16px;
+  }
+
+  .block_info > button {
+    width: 80%;
+    font-size: 20px;
+    margin: auto;
   }
 }

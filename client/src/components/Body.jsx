@@ -113,10 +113,10 @@ export default function Body(props) {
                 <li>
                   <img src="/maillogo.png" />
                 </li>
-                <li>
+                <li className={styles.tg__logo}>
                   <img src="/tg.png" />
                 </li>
-                <li>
+                <li className={styles.vk__logo}>
                   <img src="/vk.png" />
                 </li>
                 <li>

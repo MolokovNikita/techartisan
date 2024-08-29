@@ -128,67 +128,78 @@ a:hover {
 
 .hamburger__menu {
   display: none;
-  transition: all 0.3s;
 }
 
-.hamburger__menu_closed {
-  display: none;
-}
 @media (max-width: 1022px) {
+  .main_nav,
+  .Auth_container,
+  .social_nav,
+  .location_nav,
+  .header_first_item__disabled {
+    display: none;
+  }
+  .top_header {
+    display: flex;
+    justify-content: space-between !important;
+  }
+  .header_first__item {
+    width: 0;
+  }
+
+  .menu__container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 20px;
+  }
   .menu__btn {
-    position: absolute;
-    top: 13px;
-    right: 20px;
     width: 26px;
-    height: 26px;
+    height: 22px;
     cursor: pointer;
     z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .menu__btn:active {
+    -webkit-tap-highlight-color: transparent;
   }
 
   .menu__btn > span,
   .menu__btn > span::before,
   .menu__btn > span::after {
     display: block;
-    position: absolute;
     width: 100%;
     height: 2px;
     background-color: #616161;
     transition-duration: 0.25s;
   }
-
   /* Hamburger icon */
-  .menu__btn > span {
-    margin-top: 10px;
-  }
   .menu__btn > span::before {
     content: "";
-    top: -8px;
+    margin-top: 8px;
   }
   .menu__btn > span::after {
     content: "";
-    top: 8px;
+    margin-top: 8px;
   }
 
-  /* 
-  .menu__btn > span {
+  .menu__btn[opened="1"] {
+    margin-top: 20px;
+    height: 30px;
+  }
+  .menu__btn[opened="1"] > span {
     transform: rotate(45deg);
   }
-  
-  .menu__btn > span::before {
-    top: 0;
+
+  .menu__btn[opened="1"] > span::before {
+    display: none;
     transform: rotate(0deg);
   }
-  
-  .menu__btn > span::after {
-    top: 0;
-    transform: rotate(90deg);
-  }
-    */
 
-  .top_header {
-    display: flex;
-    width: 100%;
-    justify-content: center;
+  .menu__btn[opened="1"] > span::after {
+    margin-top: 0px;
+    transform: rotate(90deg);
   }
 
   .bottom_header {
@@ -197,37 +208,24 @@ a:hover {
     align-items: flex-start;
   }
 
+  .company_name {
+    display: flex;
+    font-family: "Roboto Mono", monospace;
+    font-weight: 450;
+    text-align: start;
+    color: rgba(1, 1, 1, 0.7);
+    margin: 0;
+    margin-left: 30px;
+  }
   .hamburger__menu {
     display: block;
     transition: all 0.3s;
+    animation: fadeIn 0.3s forwards;
+  }
+  .hamburger__menu.exiting {
+    animation: fadeOut 0.3s forwards;
   }
 
-  .social_nav {
-    display: none;
-  }
-
-  .location_nav li {
-    display: none;
-  }
-
-  .location_nav {
-    display: flex;
-    margin-left: 0;
-    justify-content: center;
-  }
-
-  .location_nav li:last-child {
-    display: flex;
-    margin: 0;
-  }
-
-  .main_nav {
-    display: none;
-  }
-
-  .Auth_container {
-    display: none;
-  }
   .menu__box {
     top: 0px;
     right: 0px;
@@ -235,17 +233,39 @@ a:hover {
     border: 1px solid #ccc;
     border-radius: 5px;
     width: 250px;
-    height: 100%;
+    height: 80%;
     padding: 80px 0;
     list-style: none;
     background-color: #eceff1;
     box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
     transition-duration: 0.3s;
-    z-index: 1;
+    z-index: 2;
     position: absolute;
-    animation: fadeIn 0.3s forwards;
+    transition: all 0.3s;
+    animation: fadeIn 0.3s alternate;
   }
-
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      right: -100%;
+    }
+    to {
+      opacity: 100;
+      right: 0;
+    }
+  }
+  @keyframes fadeOut {
+    from {
+      right: 0;
+    }
+    to {
+      opacity: 0;
+      right: -30%;
+    }
+  }
+  .menu__box.exiting {
+    animation: fadeOut 0.3s forwards;
+  }
   .menu__item {
     display: flex;
     justify-content: baseline;

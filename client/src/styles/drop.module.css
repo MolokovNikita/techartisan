@@ -1,7 +1,7 @@
 .dropDownProfile {
   position: absolute;
   top: 170px;
-  right: 10px;
+  right: 25px;
   background: white;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -54,7 +54,6 @@
     transform: translateY(-10px);
   }
 }
-
 .dropDown_block {
   display: flex;
   justify-content: start;
@@ -63,4 +62,10 @@
 }
 .logo {
   margin-right: 5px;
+}
+@media (max-width: 1022px) {
+  .dropDownProfile {
+    top: 180px;
+    right: 30px;
+  }
 }
