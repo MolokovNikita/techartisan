@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, useContext } from "react";
 import { createPortal } from "react-dom";
-import styles from "../styles/serviceCardModal.module.css";
+import styles from "../styles/service.card.modal.module.css";
 import { AuthContext } from "../context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
 import DatePicker, { registerLocale } from "react-datepicker";
@@ -9,14 +9,13 @@ import "react-datepicker/dist/react-datepicker.css";
 import ru from "date-fns/locale/ru"; // Import Russian locale from date-fns
 import makeAnimated from "react-select/animated";
 import axios from "axios";
-import config from "../config";
+import config from "../config/config";
 import { enqueueSnackbar } from "notistack";
 
 const animatedComponents = makeAnimated();
 
 const ModalRootElement = document.querySelector("#ServiceCard");
 
-// Register the locale with react-datepicker
 registerLocale("ru", ru);
 
 const getNearestAvailableTime = (now) => {
@@ -214,7 +213,7 @@ export default function ServiceCardModal(props) {
     }
     setIsLoading(true);
     axios
-      .post(`http://localhost:5002/order-card`, {
+      .post(`${config.API_URL}/order-card`, {
         price: price,
         client_id: userData.id,
         comment: commentRef.current.value,
@@ -223,14 +222,14 @@ export default function ServiceCardModal(props) {
       .then((res) => {
         const CARD_ID = res.data.id;
         const servicePromises = selectedServices.map((item) =>
-          axios.post(`http://localhost:5002/services-order/create`, {
+          axios.post(`${config.API_URL}/services-order/create`, {
             cardoforder_id: CARD_ID,
             services_id: item.value,
           }),
         );
 
         const officePromise = axios.post(
-          `http://localhost:5002/offices-order/create`,
+          `${config.API_URL}/offices-order/create`,
           {
             cardoforder_id: CARD_ID,
             offices_id: selectedOffice.value,
@@ -252,7 +251,7 @@ export default function ServiceCardModal(props) {
             onClose();
             setSelectedOffice([]);
             setSelectedServices([]);
-            return axios.post(`http://localhost:5002/status-order/create`, {
+            return axios.post(`${config.API_URL}/status-order/create`, {
               cardoforder_id: CARD_ID,
               statusoforder_id: 5,
             });

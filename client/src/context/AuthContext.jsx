@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect, useContext } from "react";
 import axios from "axios";
-import config from "../config.js";
+import config from "../config/config.js";
 import useInMemoryJWT from "../hooks/inMemoryJWT.js";
 import { enqueueSnackbar } from "notistack";
 

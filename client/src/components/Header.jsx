@@ -15,6 +15,46 @@ export default function Header({ setIsOpen }) {
   const menuToggleRef = useRef(null);
   const menuBoxRef = useRef(null);
 
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape" && isMenuOpen) {
+        handleMenuToggle();
+      }
+    };
+    const handleClickOutside = (e) => {
+      if (
+        menuBoxRef.current &&
+        !menuBoxRef.current.contains(e.target) &&
+        isMenuOpen
+      ) {
+        handleMenuToggle();
+      }
+    };
+    const handleScroll = () => {
+      if (isMenuOpen) {
+        handleMenuToggle();
+      }
+    };
+    if (isMenuOpen) {
+      document.addEventListener("keydown", handleKeyDown);
+      document.addEventListener("mousedown", handleClickOutside);
+      document.addEventListener("scroll", handleScroll);
+    } else if (isExiting) {
+      // Отсрочим удаление обработчиков до завершения анимации
+      const timeoutId = setTimeout(() => {
+        document.removeEventListener("keydown", handleKeyDown);
+        document.removeEventListener("mousedown", handleClickOutside);
+        document.removeEventListener("scroll", handleScroll);
+        setIsExiting(false); // сбрасываем состояние анимации выхода
+      }, 100); // это время должно совпадать с продолжительностью анимации
+      return () => clearTimeout(timeoutId); // Очищаем таймер при размонтировании
+    }
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("scroll", handleScroll);
+    };
+  }, [isMenuOpen, isExiting]);
   const togglePopUp = (e) => {
     e.stopPropagation();
     setIsPopUpOpen((prev) => !prev);
@@ -36,10 +76,10 @@ export default function Header({ setIsOpen }) {
   const handleMenuToggle = () => {
     if (isMenuOpen) {
       setIsExiting(true);
-      setIsMenuOpen(false);
       setTimeout(() => {
+        setIsMenuOpen(false);
         setIsExiting(false);
-      }, 300);
+      }, 100);
     } else {
       setIsMenuOpen(true);
     }
@@ -47,7 +87,14 @@ export default function Header({ setIsOpen }) {
 
   const AuthButton = () =>
     !isAuth ? (
-      <a onClick={() => setIsOpen(true)}>
+      <a
+        onClick={() => {
+          if (isMenuOpen) {
+            setIsMenuOpen(false);
+          }
+          setIsOpen(true);
+        }}
+      >
         <div className={styles.Image_wrapper}>
           <img
             className={styles.Avatar}

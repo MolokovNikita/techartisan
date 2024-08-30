@@ -87,6 +87,7 @@
 
 .services_list li {
   min-width: 500px;
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -107,6 +108,7 @@
   display: flex;
   justify-content: center;
   font-size: 2.5rem;
+  text-align: center;
 }
 
 .question {
@@ -160,6 +162,7 @@
   display: flex;
   justify-content: center;
   margin: 50px;
+  text-align: center;
 }
 
 .services_main_container {
@@ -193,5 +196,109 @@
   }
   100% {
     transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1270px) {
+  .services_container_1 {
+    min-width: 300px;
+    width: 300px;
+  }
+
+  .services_container_2 {
+    min-width: 300px;
+    width: 300px;
+  }
+  .services_list li {
+    min-width: 300px;
+    height: 70px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 0.5px solid black;
+  }
+  .services_card {
+    padding: 25px;
+  }
+  /* .services_card { */
+  /* font-size: 3rem; */
+  /* margin-bottom: 50px; */
+  /* flex-direction: row; */
+  /* background-color: rgba(217, 217, 217, 0.3); */
+  /* border-radius: 30px; */
+  /* padding: 50px; */
+  /* border: 1px solid rgb(199, 223, 195); */
+  /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
+  /* } */
+}
+@media (max-width: 803px) {
+  .services_container_1 {
+    min-width: 200px;
+    width: 200px;
+  }
+
+  .services_container_2 {
+    min-width: 200px;
+    width: 200px;
+  }
+  .services_list li {
+    min-width: 200px;
+    height: 75px;
+    text-align: center;
+  }
+}
+@media (max-width: 667px) {
+  .services_container_1 {
+    padding: 0.2rem;
+  }
+
+  .services_container_2 {
+    padding: 0.2rem;
+  }
+}
+@media (max-width: 535px) {
+  .services_container_1 {
+    padding: 0px;
+    margin: 0px;
+    margin-right: 2px;
+  }
+  .services_container_2 {
+    padding: 0px;
+    margin: 0px;
+    margin-left: 2px;
+  }
+}
+@media (max-width: 466px) {
+  .services_list li {
+    font-size: 15px;
+    border-radius: 15px;
+    width: 150px;
+    min-width: 150px;
+    min-height: 120px;
+  }
+  .services_container_1 {
+    width: 150px;
+    min-width: 150px;
+  }
+  .services_container_2 {
+    width: 150px;
+    min-width: 150px;
+  }
+}
+@media (max-width: 360px) {
+  .services_list li {
+    font-size: 13px;
+    border-radius: 15px;
+    width: 130px;
+    min-width: 130px;
+    min-height: 120px;
+  }
+  .services_container_1 {
+    width: 130px;
+    min-width: 130px;
+  }
+  .services_container_2 {
+    width: 130px;
+    min-width: 130px;
   }
 }

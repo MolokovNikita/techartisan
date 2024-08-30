@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from "react";
 import { BsEraser } from "react-icons/bs";
 import { IoIosArrowBack } from "react-icons/io";
 
-import styles from "../styles/entercode.module.css";
+import styles from "../styles/enter.code.module.css";
 
 export default function EnterCode({
   callback,

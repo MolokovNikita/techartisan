@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import config from "../config";
+import config from "../config/config";
 import { AuthClient, AuthContext } from "../context/AuthContext";
 
 const useInMemoryJWT = () => {

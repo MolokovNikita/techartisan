@@ -44,7 +44,7 @@ const inMemoryJWTService = () => {
   const deleteToken = () => {
     inMemoryJWT = null;
     abortRefreshToken();
-    localStorage.setItem(config.LOGOUT_STORAGE_KEY, Date.now()); //LOGOUT_STORAGE_KEY: "logout",
+    localStorage.setItem(config.LOGOUT_STORAGE_KEY, Date.now());
   };
 
   return {

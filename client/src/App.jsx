@@ -2,22 +2,22 @@ import { Routes, Route, useLocation } from "react-router-dom";
 import { useState, useContext } from "react";
 import MainPage from "./pages/MainPage.jsx";
 import NotFoundPage from "./pages/NotFoundPage.jsx";
-import ChangePass from "./pages/ChangePass.jsx";
-import Services from "./pages/Services.jsx";
+import ChangePass from "./pages/ForgotPassPage.jsx";
+import Services from "./pages/AllServicesPage.jsx";
 import AboutUs from "./pages/AboutUsPage.jsx";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import ModalAuth from "./components/ModalAuth/ModalAuth.jsx";
 import { AuthContext } from "./context/AuthContext";
 import style from "./styles/app.module.css";
-import Confidencity from "./pages/Confidencity.jsx";
-import Politicy from "./pages/Politicy.jsx";
+import Confidencity from "./pages/ConfidencityPage.jsx";
+import Politicy from "./pages/PoliticyPage.jsx";
 import { SnackbarProvider } from "notistack";
 import AccountPage from "./pages/AccountPage.jsx";
 import SupportPage from "./pages/SupportPage.jsx";
 import ClientServicePage from "./pages/ClientServicesPage/ClientServicePage.jsx";
 import ServiceCardModal from "./components/ServiceCardModal.jsx";
-import AdminPanel from "./pages/AdminPanel.jsx";
+import AdminPanel from "./pages/AdminPanelPage.jsx";
 import OrderCallPopUp from "./components/OrderCallPopUp.jsx";
 
 function App() {

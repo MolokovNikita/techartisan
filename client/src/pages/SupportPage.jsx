@@ -1,3 +1,4 @@
+// TO DO - WEBSOCKET SUPPORT CHAT
 import styles from "../styles/support.module.css";
 import { useContext, useRef } from "react";
 import { AuthContext } from "../context/AuthContext";

@@ -1,7 +1,7 @@
-import styles from "../styles/ordercall.module.css";
+import styles from "../styles/order.call.module.css";
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
-import config from "../config";
+import config from "../config/config";
 import axios from "axios";
 import { enqueueSnackbar } from "notistack";
 
@@ -129,7 +129,6 @@ export default function OrderCall(props) {
               },
             },
           );
-          console.log(res);
         })
         .catch((e) => {
           enqueueSnackbar(`Упс, кажется что-то пошло не так! - ${e}`, {
@@ -152,7 +151,14 @@ export default function OrderCall(props) {
           onClose();
         });
     } else {
-      //вывод ошибки
+      enqueueSnackbar(`Упс, кажется что-то пошло не так!`, {
+        variant: "error",
+        autoHideDuration: 3000,
+        anchorOrigin: {
+          vertical: "top",
+          horizontal: "right",
+        },
+      });
       return;
     }
   };

@@ -11,6 +11,7 @@ import { PiEye, PiEyeClosed } from "react-icons/pi";
 import { enqueueSnackbar } from "notistack";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import config from "../config/config.js";
 
 export default function AccountPage() {
   const { setUserData, userData, isAuth, handleLogOut } =
@@ -302,7 +303,7 @@ export default function AccountPage() {
   };
   const handleConfirmChangePassword = () => {
     axios
-      .put("http://localhost:5002/clients/password", {
+      .put(`${config.API_URL}/clients/password`, {
         email: userData.email,
         pass: oldPassword,
         newpass: newPassword,

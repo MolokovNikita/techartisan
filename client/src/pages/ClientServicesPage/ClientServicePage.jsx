@@ -1,11 +1,11 @@
-import styles from "../../styles/clientService.module.css";
+import styles from "../../styles/client.service.module.css";
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import NotFoundPage from "../NotFoundPage.jsx";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
 import axios from "axios";
-import config from "../../config.js";
+import config from "../../config/config.js";
 import {
   fetchServiceDetails,
   fetchCardDetails,

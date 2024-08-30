@@ -399,3 +399,36 @@
   display: flex;
   justify-content: center;
 }
+@media (max-width: 660px) {
+  .profile {
+    min-width: 100px;
+    width: 80%;
+    min-height: 100px;
+  }
+  .self_data_inputs {
+    flex-direction: column;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+  }
+  .security__inputs {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .phone_number_inpt__container {
+    margin: 0;
+    margin-right: 20px;
+  }
+  .self_data_inputs div {
+    margin-top: 15px;
+  }
+  .change_pass__container {
+    justify-content: center;
+    width: 100%;
+  }
+  .old_pass__inpt,
+  .new_pass__inpt {
+    width: 100%;
+  }
+}

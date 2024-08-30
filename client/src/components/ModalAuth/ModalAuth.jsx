@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState, useContext } from "react";
 import { createPortal } from "react-dom";
-import style from "../../styles/style.module.css";
+import style from "../../styles/modal.auth.module.css";
 import { AuthContext } from "../../context/AuthContext";
 import { PiEye, PiEyeClosed } from "react-icons/pi";
 import { useLoginValidation } from "../../hooks/useLoginValidation";

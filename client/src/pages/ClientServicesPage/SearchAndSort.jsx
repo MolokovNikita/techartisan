@@ -1,7 +1,7 @@
 import { useRef } from "react";
 import Select from "react-select";
 import { CiSearch } from "react-icons/ci";
-import styles from "../../styles/searchAndSort.module.css";
+import styles from "../../styles/search.and.sort.module.css";
 
 export default function SearchAndSort({
   serviceCards,

@@ -1,4 +1,4 @@
-import styles from "../../styles/serviceCard.module.css";
+import styles from "../../styles/service.card.module.css";
 export default function ServiceCard(props) {
   const { service, onDelete } = props;
 
