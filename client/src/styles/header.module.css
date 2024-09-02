@@ -6,6 +6,9 @@
 
 .location_nav {
   align-items: center;
+  margin-top: 10px;
+  position: absolute;
+  left: 10%;
 }
 
 .location_nav > li {
@@ -127,6 +130,95 @@ a:hover {
 
 .hamburger__menu {
   display: none;
+}
+.loader_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.arrow__icon {
+  display: inline-flex;
+  margin-left: 5px;
+  color: green;
+}
+.arrow__icon svg {
+  transition: all 0.3s;
+}
+.arrow__icon__rotated {
+  display: inline-flex;
+  margin-left: 5px;
+  color: green;
+}
+.arrow__icon__rotated svg {
+  transition: all 0.3s;
+  transform: rotate(180deg);
+}
+.offices_list__dropdown {
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  top: 40px;
+  left: 3%;
+  box-shadow: 0 2px 10px rgba(42, 79, 40, 0.1);
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(199, 223, 195);
+}
+
+.office__item {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+}
+.location_nav {
+  flex-direction: column;
+}
+.offices_list {
+  display: flex;
+  cursor: pointer;
+}
+.offices_list:hover {
+  color: #333333a2;
+}
+.location__item {
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: auto;
+}
+.loader_container {
+  margin-top: -20px;
+}
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid;
+  border-color: green transparent green transparent;
+  border-radius: 60%;
+  animation: spin-anim 1.2s linear infinite;
+}
+.loading__title {
+  display: flex;
+  font-family: "Inter", sans-serif;
+  font-weight: medium;
+  color: black;
+  text-align: center;
+  justify-self: center;
+  margin-top: 15px;
+  margin-left: 5px;
+}
+
+@keyframes spin-anim {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 @media (max-width: 1022px) {
@@ -315,10 +407,6 @@ a:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-  }
-  html,
-  body {
-    overflow-x: hidden;
   }
 }
 

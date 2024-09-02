@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = new Router();
-const pool = require("../Config/ormconfig");
-const StaffController = require("../Controllers/StaffController");
+const pool = require("../config/ormconfig");
+const StaffController = require("../controllers/staffController");
 //post one staff
 router.post("", StaffController.create);
 //get all staff

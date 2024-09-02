@@ -1,30 +1,51 @@
 const jwt = require("jsonwebtoken");
 const dotenv = require("dotenv");
-const Forbidden = require("../utils/Errors.js");
-const Unauthorized = require("../utils/Errors.js");
+const Forbidden = require("../utils/errors.js");
+const Unauthorized = require("../utils/errors.js");
+const tokenRepository = require("../repositories/tokenRepository.js");
 dotenv.config();
 
 class TokenService {
+  // generateTokens(payload){
+  //   const accessToken = jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
+  //     expiresIn: "30m",
+  //   });
+  //   const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
+  //     expiresIn: "30d",
+  //   });
+  //   return{
+  //     accessToken,
+  //     refreshToken
+  //   }
+  // }
+  // async saveToken(userId, refreshToken, fingerprint){
+  //   const tokenData = await tokenRepository.getRefreshSession(userId);
+  //   if(tokenData){
+  //     tokenData.refreshToken = refreshToken;
+  //     return tokenData.save();
+  //   }
+  //   const token = await tokenRepository.createRefreshSession(userId, refreshToken,fingerprint);
+  //   return token;
+  // }
   static async generateAccessToken(payload) {
-    const JWTToken = await jwt.sign(payload, "access_abracadabra", {
+    const JWTToken = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "30m",
     });
     return JWTToken;
   }
 
   static async generateRefreshToken(payload) {
-    return await jwt.sign(payload, "refresh_abracadabra", {
-      // Добавить Реализацию токенв REFRESHTOKEN и aCCES
+    return await jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET, {
       expiresIn: "15d",
     });
   }
 
   static async verifyAccessToken(accessToken) {
-    return await jwt.verify(accessToken, "access_abracadabra");
+    return await jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
   }
 
   static async verifyRefreshToken(refreshToken) {
-    return await jwt.verify(refreshToken, "refresh_abracadabra");
+    return await jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
   }
 
   static async checkAccess(req, _, next) {

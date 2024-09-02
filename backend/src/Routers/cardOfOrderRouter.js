@@ -1,6 +1,6 @@
 const { Router } = require("express");
 const router = new Router();
-const CardOfOrderController = require("../Controllers/CardOfOrderController");
+const CardOfOrderController = require("../controllers/cardOfOrderController");
 //post one Card
 router.post("", CardOfOrderController.create);
 //get all Cards

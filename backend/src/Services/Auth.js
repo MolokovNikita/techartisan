@@ -1,14 +1,14 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const TokenService = require("./Token.js");
+const TokenService = require("./token.js");
 // import {
 //   NotFound,
 //   Forbidden,
 //   Conflict,
 //   Unauthorized,
 // } from "../utils/Errors.js";
-const RefreshSessionRepository = require("../repositories/RefreshSession.js");
-const UserRepository = require("../repositories/User.js");
+const RefreshSessionRepository = require("../repositories/refreshSession.js");
+const UserRepository = require("../repositories/user.js");
 const ACCESS_TOKEN_EXPIRATION = 18e5;
 
 class AuthService {

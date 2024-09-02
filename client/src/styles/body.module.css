@@ -498,24 +498,37 @@ a:hover {
     display: none;
   }
 
+  .sign_up__list li:first-child {
+    display: none;
+  }
   .Contacts_block {
     width: 500px;
     padding: 10px;
   }
   .SignUpButton {
-    margin-right: 70px;
+    margin-right: 50px;
   }
   .block_info {
     width: 100%;
   }
 }
-@media (max-width: 565px) {
+@media (max-width: 567px) {
   .arrow_list .second_arrow {
     margin-top: 60px;
     margin-bottom: 30px;
   }
 }
 @media (max-width: 510px) {
+  .SignUpButton button {
+    width: 100% !important;
+  }
+  .SignUpButton {
+    margin-top: 10px;
+    margin-left: 35px;
+  }
+  .sign_up__list {
+    width: 100%;
+  }
   .Services_contaiener_1 ol li,
   .Services_contaiener_2 ol li {
     font-size: 20px;
@@ -542,6 +555,11 @@ a:hover {
   }
   .arrow_list .second_arrow {
     margin-bottom: 15px;
+  }
+}
+@media (max-width: 455px) {
+  .topic_arrow {
+    margin-top: 50px;
   }
 }
 @media (max-width: 420px) {
@@ -615,7 +633,7 @@ a:hover {
     min-width: 0px;
     width: 88%;
     padding: 15px;
-    height: 450px;
+    height: 380px;
   }
   .topic_text {
     height: 100%;
@@ -630,7 +648,10 @@ a:hover {
     width: 80%;
   }
 }
-@media (max-width: 343px) {
+@media (max-width: 355px) {
+  .sign_button__item {
+    font-size: 18px !important;
+  }
   .topic_arrow {
     margin-top: 55px;
   }
@@ -640,10 +661,15 @@ a:hover {
   .Services_contaiener_2 ol li {
     font-size: 16px;
   }
-
+  .SignUpButton {
+    margin: 0;
+    margin-left: 10px;
+  }
+  .sign_button__item {
+    width: 90%;
+  }
   .block_info > button {
     width: 80%;
     font-size: 20px;
-    margin: auto;
   }
 }

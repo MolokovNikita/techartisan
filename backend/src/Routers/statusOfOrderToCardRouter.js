@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = new Router();
-const pool = require("../Config/ormconfig");
-const StatusOfOrderToCardController = require("../Controllers/StatusOfOrderToCardController");
+const pool = require("../config/ormconfig");
+const StatusOfOrderToCardController = require("../controllers/statusOfOrderToCardController");
 // Создание записи
 router.post("/create", StatusOfOrderToCardController.create);
 // Получение всех записей

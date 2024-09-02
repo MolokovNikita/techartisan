@@ -38,12 +38,13 @@ export default function Body(props) {
               </li>
             </ol>
             <div className={styles.SignUp_container}>
-              <ol>
+              <ol className={styles.sign_up__list}>
                 <li>
                   <img src="/monitorlogo.png" alt="" />
                 </li>
                 <li className={styles.SignUpButton}>
                   <button
+                    className={styles.sign_button__item}
                     onClick={() => {
                       if (isAuth) {
                         setIsServiceModalOpen(true);

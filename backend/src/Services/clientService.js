@@ -1,34 +1,21 @@
 const pool = require("../config/ormconfig.js");
 const bcrypt = require("bcryptjs");
-const UserRepository = require("../repositories/user.js");
-const VerificationRepository = require("../repositories/verification.js");
-const clientService = require("../services/clientService.js");
-class ClientController {
-  async registration(req, res, next) {
-    try {
-      const { id, f_name, l_name, login, pass, email } = req.body;
-      // const clientData = await clientService.registration(id, f_name, l_name, login, pass, email);
-      // res.cookie('refreshToken', clientData.refreshToken, {maxAge: 30*24*60*60*1000, httpOnly: true})
-      //return res.json(clientData);
-      const now = new Date().toISOString();
-      const sql_insert = `INSERT INTO client (id, f_name, l_name, login, pass, email, created) VALUES
-          ($1, $2, $3, $4, $5, $6, $7)`;
-      const values = [id, f_name, l_name, login, pass, email, now];
-      pool.query(sql_insert, values, (err, result) => {
-        if (err) {
-          if (err.code === "23505") {
-            // код ошибки 23505 обозначает конфликт уникальности
-            return res.status(400).send("Conflict: Data already exists");
-          }
-          console.error(err.message);
-          return res.status(400).send("Bad request - " + err.message);
-        }
-        res.send("Data inserted successfully!");
-      });
-    } catch (e) {
-      console.log(e);
-      // next(e);
-    }
+const ClientRepository = require("../repositories/clientRepository.js");
+const TokenService = require("../services/token.js");
+const ApiError = require("../exceptions/apiError.js");
+class ClientService {
+  async registration(f_name, pass, email, fingerprint) {
+    // const candidate = ClientRepository.getClientData(email);
+    // if(candidate){
+    //   throw new ApiError.BadRequet(`Пользователь с почтовым адресом ${email} уже существует`);
+    // }
+    // const hashedPassword = bcrypt.hashSync(pass, 8);
+    // const client = ClientRepository.createClient(f_name, hashedPassword, email);
+    // const { fingerprint } = req;
+    // const payload = { id: client.id, email};
+    // const tokens = TokenService.generateTokens(payload);
+    // await TokenService.saveToken({userId:client.id, tokens.refreshToken, fingerprint})
+    // return{ ...tokens, clientData: client }
   }
 
   async login(req, res, next) {
@@ -218,4 +205,4 @@ class ClientController {
     });
   }
 }
-module.exports = new ClientController();
+module.exports = new ClientService();

@@ -1,0 +1,42 @@
+const express = require("express");
+const clientRouter = require("./clientRouter");
+const staffRouter = require("./staffRouter");
+const positionRouter = require("./positionRouter");
+const officeRouter = require("./officeRouter");
+const serviceRouter = require("./serviceRouter");
+const orderStatusRouter = require("./statusOfOrderRouter");
+const cardOfOrderRouter = require("./cardOfOrderRouter");
+const devicesRouter = require("./devicesRouter");
+const devicesToCardRouter = require("./devicesToCardRouter");
+const officesToCardRouter = require("./officesToCardRouter");
+const positionToStaffRouter = require("./positionToStaffRouter");
+const serviceToCardRouter = require("./serviceToCardRouter");
+const staffToCardRouter = require("./staffToCardRouter");
+const statusOfOrderToCardRouter = require("./statusOfOrderToCardRouter");
+const emailVerificationRouter = require("./emailVerificationRouter");
+const phoneVerificationRouter = require("./phoneVerificationRouter");
+const orderCallRouter = require("./orderCallRouter");
+const authRouter = require("./authRouter");
+
+const router = express.Router();
+
+router.use("/auth", authRouter);
+router.use("/email-verification", emailVerificationRouter);
+router.use("/phone-verification", phoneVerificationRouter);
+router.use("/order-call", orderCallRouter);
+router.use("/clients", clientRouter);
+router.use("/staff", staffRouter);
+router.use("/positions", positionRouter);
+router.use("/offices", officeRouter);
+router.use("/services", serviceRouter);
+router.use("/statuses", orderStatusRouter);
+router.use("/devices", devicesRouter);
+router.use("/order-card", cardOfOrderRouter);
+router.use("/positions-staff", positionToStaffRouter);
+router.use("/devices-order", devicesToCardRouter);
+router.use("/services-order", serviceToCardRouter);
+router.use("/offices-order", officesToCardRouter);
+router.use("/staff-order", staffToCardRouter);
+router.use("/status-order", statusOfOrderToCardRouter);
+
+module.exports = router;

@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = new Router();
-const pool = require("../Config/ormconfig");
-const OfficesController = require("../Controllers/OfficesController");
+const pool = require("../config/ormconfig");
+const OfficesController = require("../controllers/officesController");
 //post one office
 router.post("", OfficesController.create);
 //get all offices

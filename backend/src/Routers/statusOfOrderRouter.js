@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = new Router();
-const pool = require("../Config/ormconfig");
-const StatusOfOrderController = require("../Controllers/StatusOfOrderController");
+const pool = require("../config/ormconfig");
+const StatusOfOrderController = require("../controllers/statusOfOrderController");
 //post one statuses
 router.post("", StatusOfOrderController.create);
 //get all statuses

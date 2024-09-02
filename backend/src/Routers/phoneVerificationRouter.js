@@ -2,9 +2,9 @@ const { Router } = require("express");
 const router = new Router();
 const bcrypt = require("bcryptjs");
 
-const VerificationRepository = require("../repositories/Verification.js");
+const VerificationRepository = require("../repositories/verification.js");
 const nodemailer = require("nodemailer");
-const UserRepository = require("../repositories/User.js");
+const UserRepository = require("../repositories/user.js");
 
 // const twilio = require('twilio');
 // const client = new twilio('ACCOUNT_SID', 'AUTH_TOKEN');

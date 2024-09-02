@@ -1,5 +1,5 @@
 const Yup = require("yup");
-const validateRequest = require("../utils/ValidateRequest.js");
+const validateRequest = require("../utils/validateRequest.js");
 module.exports = signInSchema = Yup.object({
   body: Yup.object({
     email: Yup.string()

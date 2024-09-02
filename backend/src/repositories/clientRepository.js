@@ -1,7 +1,7 @@
 const pool = require("../config/ormconfig");
-class UserRepository {
-  static async createUser({ f_name, hashedPassword, email }) {
-    const now = new Date().toISOString(); // Преобразование даты в строку в формате ISO
+class ClientRepository {
+  static async createClient({ f_name, hashedPassword, email }) {
+    const now = new Date().toISOString();
     const response = await pool.query(
       "INSERT INTO client (f_name, pass, email, created) VALUES ($1, $2, $3, $4) RETURNING *",
       [f_name, hashedPassword, email, now],
@@ -9,7 +9,7 @@ class UserRepository {
     return response.rows[0];
   }
 
-  static async getUserData(email) {
+  static async getClientData(email) {
     const response = await pool.query("SELECT * FROM client WHERE email = $1", [
       email,
     ]);
@@ -19,7 +19,7 @@ class UserRepository {
     }
     return response.rows[0];
   }
-  static async getUserDataByPhoneNumber(phone_number) {
+  static async getClientDataByPhoneNumber(phone_number) {
     const response = await pool.query(
       "SELECT * FROM client WHERE phone_number = $1",
       [phone_number],
@@ -32,4 +32,4 @@ class UserRepository {
   }
 }
 
-module.exports = UserRepository;
+module.exports = ClientRepository;

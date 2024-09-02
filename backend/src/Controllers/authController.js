@@ -1,7 +1,7 @@
 // const { COOKIE_SETTINGS } = require('../constants.js');
 
 //const ErrorsUtils = require("../utils/Errors.js");
-const AuthService = require("../Services/Auth.js");
+const AuthService = require("../services/auth.js");
 const COOKIE_SETTINGS = {
   REFRESH_TOKEN: {
     httpOnly: true,

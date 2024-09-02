@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = new Router();
-const pool = require("../Config/ormconfig");
-const OrderCallController = require("../Controllers/OrderCallController");
+const pool = require("../config/ormconfig");
+const OrderCallController = require("../controllers/orderCallController");
 
 router.post("", OrderCallController.create);
 router.get("", OrderCallController.getAll);

@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = new Router();
-const pool = require("../Config/ormconfig");
-const PositionController = require("../Controllers/PositionsController");
+const pool = require("../config/ormconfig");
+const PositionController = require("../controllers/positionsController");
 //post one position
 router.post("", PositionController.create);
 //get all positions

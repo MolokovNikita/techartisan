@@ -1,9 +1,9 @@
 const { Router } = require("express");
 const router = new Router();
-const pool = require("../Config/ormconfig");
-const ClientController = require("../Controllers/ClientController");
+const pool = require("../config/ormconfig");
+const ClientController = require("../controllers/clientController");
 //post one client
-router.post("", ClientController.create);
+router.post("", ClientController.registration);
 //get all clients
 router.get("", ClientController.getAll);
 //get one client by id

@@ -1,4 +1,4 @@
-const pool = require("../Config/ormconfig");
+const pool = require("../config/ormconfig");
 
 class RefreshSessionRepository {
   static async getRefreshSession(refreshToken) {

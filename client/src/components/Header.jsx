@@ -3,18 +3,40 @@ import styles from "../styles/header.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
 import AuthDropDownMenu from "./AuthDropDownMenu";
+import axios from "axios";
+import config from "../config/config.js";
+import { IoIosArrowDown } from "react-icons/io";
 
 export default function Header({ setIsOpen }) {
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [offices, setOffices] = useState([]);
+  const [isOfficeListOpen, setIsOfficeListOpen] = useState(false);
+  const [selectedOffice, setSelectedOffice] = useState("");
+
   const location = useLocation();
   const navigate = useNavigate();
-  const { handleLogOut, isAuth, userData } = useContext(AuthContext);
 
+  const { handleLogOut, isAuth, userData } = useContext(AuthContext);
   const menuToggleRef = useRef(null);
   const menuBoxRef = useRef(null);
-
+  useEffect(() => {
+    setIsLoading(true);
+    axios
+      .get(`${config.API_URL}/offices`)
+      .then((res) => {
+        setOffices(res.data);
+      })
+      .catch((e) => {
+        console.error(e);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape" && isMenuOpen) {
@@ -40,14 +62,13 @@ export default function Header({ setIsOpen }) {
       document.addEventListener("mousedown", handleClickOutside);
       document.addEventListener("scroll", handleScroll);
     } else if (isExiting) {
-      // Отсрочим удаление обработчиков до завершения анимации
       const timeoutId = setTimeout(() => {
         document.removeEventListener("keydown", handleKeyDown);
         document.removeEventListener("mousedown", handleClickOutside);
         document.removeEventListener("scroll", handleScroll);
-        setIsExiting(false); // сбрасываем состояние анимации выхода
-      }, 100); // это время должно совпадать с продолжительностью анимации
-      return () => clearTimeout(timeoutId); // Очищаем таймер при размонтировании
+        setIsExiting(false);
+      }, 100);
+      return () => clearTimeout(timeoutId);
     }
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
@@ -192,11 +213,52 @@ export default function Header({ setIsOpen }) {
         ></div>
 
         <ol className={styles.location_nav}>
-          <li>
-            <img className={styles.geologo} src="/geologo.png" alt="Geo logo" />{" "}
-            Москва
+          <li className={styles.location__item}>
+            {isLoading ? (
+              <div className={styles.loader_container}>
+                <div className={styles.spinner}></div>
+                <p className={styles.loading__title}>
+                  Загрузка актуальных офисов
+                </p>
+              </div>
+            ) : (
+              <div
+                className={styles.offices_list}
+                onClick={() => {
+                  setIsOfficeListOpen((prev) => !prev);
+                }}
+              >
+                <img
+                  className={styles.geologo}
+                  src="/geologo.png"
+                  alt="Geo logo"
+                />
+                {selectedOffice ? selectedOffice : offices[0]?.adress}
+                <div
+                  className={
+                    isOfficeListOpen
+                      ? styles.arrow__icon__rotated
+                      : styles.arrow__icon
+                  }
+                >
+                  <IoIosArrowDown size={20} />
+                </div>
+              </div>
+            )}
           </li>
-          <li>ул. Красноказарменая, д.17</li>
+          <li>
+            {isOfficeListOpen && offices.length > 0 ? (
+              <div className={styles.offices_list__dropdown}>
+                {offices.map((item, index) => {
+                  return (
+                    <div key={index} className={styles.office__item}>
+                      <a>{item.adress}</a>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : null}
+          </li>
         </ol>
         <div
           onClick={() => {

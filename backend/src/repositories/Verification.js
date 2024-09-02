@@ -1,4 +1,4 @@
-const pool = require("../Config/ormconfig");
+const pool = require("../config/ormconfig");
 class VerificationRepository {
   static async saveVerificationCodeToDB(emailOrPhone, verificationCode) {
     const response = await pool.query(

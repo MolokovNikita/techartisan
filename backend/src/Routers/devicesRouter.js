@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const router = new Router();
-const pool = require("../Config/ormconfig");
-const DevicesController = require("../Controllers/DevicesController");
+const pool = require("../config/ormconfig");
+const DevicesController = require("../controllers/devicesController");
 //post one Card
 router.post("", DevicesController.create);
 //get all Cards
