@@ -2,8 +2,16 @@ const { Router } = require("express");
 const router = new Router();
 const pool = require("../config/ormconfig");
 const ClientController = require("../controllers/clientController");
+const {body} = require('express-validator');
+
 //post one client
 router.post("", ClientController.registration);
+// router.post("/registration",
+//     body('email').isEmail(),
+//     body('pass').isLength({min:3,max:32}),
+//     ClientController.registration
+// );
+
 //get all clients
 router.get("", ClientController.getAll);
 //get one client by id

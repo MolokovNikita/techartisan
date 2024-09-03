@@ -3,11 +3,18 @@ const bcrypt = require("bcryptjs");
 const UserRepository = require("../repositories/user.js");
 const VerificationRepository = require("../repositories/verification.js");
 const clientService = require("../services/clientService.js");
+const validateResult = require("express-validator");
+const ApiError = require('../exceptions/apiError.js')
 class ClientController {
   async registration(req, res, next) {
     try {
+      // const errors = validateResult(req);
+      // if (!errors.isEmpty()){
+      //   return next(ApiError.BadRequest('Ошибка при валидации',errors.array()))
+      // }
+      // const { fingerprint } = req;
       const { id, f_name, l_name, login, pass, email } = req.body;
-      // const clientData = await clientService.registration(id, f_name, l_name, login, pass, email);
+      // const clientData = await clientService.registration(id, f_name, l_name, login, pass, email, fingerprint);
       // res.cookie('refreshToken', clientData.refreshToken, {maxAge: 30*24*60*60*1000, httpOnly: true})
       //return res.json(clientData);
       const now = new Date().toISOString();
@@ -26,28 +33,41 @@ class ClientController {
         res.send("Data inserted successfully!");
       });
     } catch (e) {
-      console.log(e);
-      // next(e);
+      next(e);
     }
   }
 
-  async login(req, res, next) {
-    try {
-    } catch (e) {}
-  }
-  async logout(req, res, next) {
-    try {
-    } catch (e) {}
-  }
-  async refresh(req, res, next) {
-    try {
-    } catch (e) {}
-  }
-  async getUers(req, res, next) {
-    try {
-    } catch (e) {}
-  }
+  // async login(req, res, next) {
+  //   try {
+  //     const { email, password } = req.body;
+  //     const { fingerprint } = req;
+  //     const clientData = await clientService.login(email, password, fingerprint);
+  //     res.cookie('refreshToken', clientData.refreshToken, {maxAge: 30*24*60*60*1000, httpOnly: true})
+  //     return res.json(clientData);
+  //   } catch (e) {
+  //     next(e);
+  //   }
+  // }
+  // async logout(req, res, next) {
+  //   try {
+  //     const {refreshToken} = req.cookies;
+  //     const token = await userService.logout(refreshToken);
+  //     res.clearCookie('refreshToken');
+  //     return res.json(token);
+  //   } catch (e) {}
+  // }
 
+  // async refresh(req, res, next) {
+  //   try {
+  //     const {refreshToken} = req.cookies;
+  //     const { fingerprint } = req;
+  //     const clientData = await clientService.refresh(refreshToken, fingerprint);
+  //     res.cookie('refreshToken', clientData.refreshToken, {maxAge: 30*24*60*60*1000, httpOnly: true})
+  //     return res.json(clientData);
+  //   } catch (e) {
+  //     next(e);
+  //   }
+  // }
   async getAll(req, res) {
     const sql = "SELECT * FROM client";
     pool.query(sql, [], (err, result) => {

@@ -3,106 +3,85 @@ const bcrypt = require("bcryptjs");
 const ClientRepository = require("../repositories/clientRepository.js");
 const TokenService = require("../services/token.js");
 const ApiError = require("../exceptions/apiError.js");
+const UserRepository = require("../repositories/user.js");
 class ClientService {
   async registration(f_name, pass, email, fingerprint) {
-    // const candidate = ClientRepository.getClientData(email);
-    // if(candidate){
-    //   throw new ApiError.BadRequet(`Пользователь с почтовым адресом ${email} уже существует`);
-    // }
-    // const hashedPassword = bcrypt.hashSync(pass, 8);
-    // const client = ClientRepository.createClient(f_name, hashedPassword, email);
-    // const { fingerprint } = req;
-    // const payload = { id: client.id, email};
-    // const tokens = TokenService.generateTokens(payload);
-    // await TokenService.saveToken({userId:client.id, tokens.refreshToken, fingerprint})
-    // return{ ...tokens, clientData: client }
+    const candidate = ClientRepository.getClientData(email);
+    if(candidate){
+      throw new ApiError.BadRequet(`Пользователь с почтовым адресом ${email} уже существует`);
+    }
+    const hashedPassword = bcrypt.hashSync(pass, 8);
+    const client = ClientRepository.createClient(f_name, hashedPassword, email);
+    const payload = { id: client.id, email};
+    const tokens = TokenService.generateTokens(payload);
+    await TokenService.saveToken({userId:client.id, refreshToken: tokens.refreshToken, fingerprint})
+    return{ ...tokens, clientData: client }
   }
 
-  async login(req, res, next) {
-    try {
-    } catch (e) {}
-  }
-  async logout(req, res, next) {
-    try {
-    } catch (e) {}
-  }
-  async refresh(req, res, next) {
-    try {
-    } catch (e) {}
-  }
-  async getUers(req, res, next) {
-    try {
-    } catch (e) {}
-  }
-
-  async getAll(req, res) {
-    const sql = "SELECT * FROM client";
-    pool.query(sql, [], (err, result) => {
-      if (err) {
-        return console.error(err.message);
+  async login(email, password, fingerprint) {
+      const client = await ClientRepository.getClientData(email);
+      if(!client){
+        throw ApiError.BadRequest(`Пользователь с почтовым адреcom ${email} не найден`)
       }
-      // Преобразование даты и времени в нужный часовой пояс
-      const formattedData = result.rows.map((row) => ({
-        ...row,
-        created: row.created
-          ? new Date(row.created).toLocaleString("en-US", {
-              timeZone: "Europe/Moscow",
-            })
-          : null, // Замените 'Europe/Moscow' на ваш часовой пояс
-      }));
-
-      res.json(formattedData);
-    });
-  }
-  async getOne(req, res) {
-    const id = req.params.id;
-    const sql = "SELECT * FROM client WHERE id = $1";
-    pool.query(sql, [id], (err, result) => {
-      if (err) {
-        console.error(err.message);
-        return res.status(400).json({ error: "Invalid syntax" }); // Ошибка базы данных
-      }
-      if (result.rows.length === 0) {
-        return res.status(404).json({ error: "User not found" }); // Пользователь не найден
-      }
-      res.json(result.rows[0]);
-    });
+    const isPasswordValid = bcrypt.compareSync(password, client.password);
+    if(!isPasswordValid){
+      throw new ApiError.BadRequest('Неверный пароль')
+    }
+    const payload = { id: client.id, email };
+    const tokens = TokenService.generateTokens(payload);
+    await TokenService.saveToken(client.id, tokens.refreshToken, fingerprint);
+    return {...tokens, client: client}
   }
 
-  // async deleteAll(req, res) {
+  async logout(refreshToken) {
+      const token = await TokenService.removeToken(refreshToken);
+      return token;
+  }
+  async refresh(refreshToken, fingerprint) {
+    if(!refreshToken){
+      throw ApiError.UnauthorizedError()
+    }
+    const clientData = TokenService.validateRefreshToken(refreshToken);
+    const tokenFromBd = await TokenService.findToken(refreshToken);
+    if(!clientData || !tokenFromBd){
+      throw  ApiError.UnauthorizedError();
+    }
+    if (tokenFromBd.finger_print !== fingerprint.hash) 
+    {
+      console.log("Попытка несанкционированного обновления токенов");
+      throw ApiError.BadRequest("Попытка несанкционированного обновления токенов");
+    }
+
+    const client = await UserRepository.getUserData(clientData.email);
+    const payload = { id: client.id, email: client.email };
+    const tokens = TokenService.generateTokens(payload);
+    await TokenService.saveToken(payload.id, tokens.refreshToken);
+    return  {...tokens, client: client}
+  }
+
+  async getAllClients(req, res, next) {
+      const clients = await UserRepository.getAll();
+      return clients;
+  }
+
+  // async deleteOne(req, res) {
+  //   const id = req.params.id;
   //   try {
-  //     const result = await pool.query("SELECT COUNT(*) FROM client");
-  //     const rowCount = result.rows[0].count;
-  //     if (rowCount === "0") {
-  //       return res.status(400).send("Error: Table is empty!");
+  //     const result = await pool.query(`SELECT id FROM client WHERE id = $1`, [
+  //       id,
+  //     ]);
+  //     if (result.rows.length === 0) {
+  //       return res.status(400).send("Error: Client not found!");
   //     }
-  //     await pool.query("DELETE FROM client");
-  //     res.send("All records deleted successfully!");
+  //     await pool.query(`DELETE FROM client WHERE id = $1`, [id]);
+  //     res.send("Your record was deleted successfully!");
   //   } catch (err) {
   //     console.error(err.message);
   //     return res
   //       .status(400)
-  //       .send("Error: Failed to delete all records! " + err.message);
+  //       .send("Error: Failed to delete the record! " + err.message);
   //   }
   // }
-  async deleteOne(req, res) {
-    const id = req.params.id;
-    try {
-      const result = await pool.query(`SELECT id FROM client WHERE id = $1`, [
-        id,
-      ]);
-      if (result.rows.length === 0) {
-        return res.status(400).send("Error: Client not found!");
-      }
-      await pool.query(`DELETE FROM client WHERE id = $1`, [id]);
-      res.send("Your record was deleted successfully!");
-    } catch (err) {
-      console.error(err.message);
-      return res
-        .status(400)
-        .send("Error: Failed to delete the record! " + err.message);
-    }
-  }
   async updatePassword(req, res) {
     const { email, pass, newpass } = req.body;
     const userData = await UserRepository.getUserData(email);

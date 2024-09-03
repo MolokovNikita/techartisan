@@ -3,7 +3,7 @@ class UserRepository {
   static async createUser({ f_name, hashedPassword, email }) {
     const now = new Date().toISOString(); // Преобразование даты в строку в формате ISO
     const response = await pool.query(
-      "INSERT INTO client (f_name, pass, email, created) VALUES ($1, $2, $3, $4) RETURNING *",
+      "INSERT INTO client (f_name, password, email, created) VALUES ($1, $2, $3, $4) RETURNING *",
       [f_name, hashedPassword, email, now],
     );
     return response.rows[0];
@@ -14,6 +14,13 @@ class UserRepository {
       email,
     ]);
 
+    if (!response.rows.length) {
+      return null;
+    }
+    return response.rows[0];
+  }
+  static async getAll() {
+    const response = await pool.query("SELECT * FROM client");
     if (!response.rows.length) {
       return null;
     }
