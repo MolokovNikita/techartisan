@@ -27,33 +27,37 @@ class TokenService {
   //   const token = await tokenRepository.createRefreshSession(userId, refreshToken,fingerprint);
   //   return token;
   // }
-    // async removeToken(refreshToken){
-    //   const tokenData = await tokenRepository.deleteRefreshSession(refreshToken);
-    //   return tokenData;
-    // }
-    // async findToken(refreshToken){
-    //   const tokenData = tokenRepository.getRefreshSession(refreshToken);
-    //   return tokenData;
-    // }
-    
-    async validateRefreshToken(refreshToken) {
-      try{
-        const ClientData = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-        return ClientData;
-        }
-        catch(e){
-          return null;
-        }
-    }
-    async validateAccessToken(accessToken) {
-    try{
-      const ClientData = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+  // async removeToken(refreshToken){
+  //   const tokenData = await tokenRepository.deleteRefreshSession(refreshToken);
+  //   return tokenData;
+  // }
+  // async findToken(refreshToken){
+  //   const tokenData = tokenRepository.getRefreshSession(refreshToken);
+  //   return tokenData;
+  // }
+
+  async validateRefreshToken(refreshToken) {
+    try {
+      const ClientData = jwt.verify(
+        refreshToken,
+        process.env.REFRESH_TOKEN_SECRET,
+      );
       return ClientData;
-      }
-      catch(e){
-        return null;
-      }
+    } catch (e) {
+      return null;
     }
+  }
+  async validateAccessToken(accessToken) {
+    try {
+      const ClientData = jwt.verify(
+        accessToken,
+        process.env.ACCESS_TOKEN_SECRET,
+      );
+      return ClientData;
+    } catch (e) {
+      return null;
+    }
+  }
   static async generateAccessToken(payload) {
     const JWTToken = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "30m",

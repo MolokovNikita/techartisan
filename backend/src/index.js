@@ -16,7 +16,14 @@ const CLIENT_URL = process.env.CLIENT_URL || "http://localhost:5173";
 
 app.use(cookieParser());
 app.use(express.json());
-app.use(cors({ credentials: true, origin: CLIENT_URL }));
+app.use(
+  cors({
+    credentials: true,
+    origin: CLIENT_URL,
+    allowedHeaders: ["Authorization", "Content-Type", "x-token"],
+  }),
+);
+
 app.use(
   Fingerprint({
     parameters: [Fingerprint.useragent, Fingerprint.acceptHeaders],

@@ -7,61 +7,70 @@ const UserRepository = require("../repositories/user.js");
 class ClientService {
   async registration(f_name, pass, email, fingerprint) {
     const candidate = ClientRepository.getClientData(email);
-    if(candidate){
-      throw new ApiError.BadRequet(`Пользователь с почтовым адресом ${email} уже существует`);
+    if (candidate) {
+      throw new ApiError.BadRequet(
+        `Пользователь с почтовым адресом ${email} уже существует`,
+      );
     }
     const hashedPassword = bcrypt.hashSync(pass, 8);
     const client = ClientRepository.createClient(f_name, hashedPassword, email);
-    const payload = { id: client.id, email};
+    const payload = { id: client.id, email };
     const tokens = TokenService.generateTokens(payload);
-    await TokenService.saveToken({userId:client.id, refreshToken: tokens.refreshToken, fingerprint})
-    return{ ...tokens, clientData: client }
+    await TokenService.saveToken({
+      userId: client.id,
+      refreshToken: tokens.refreshToken,
+      fingerprint,
+    });
+    return { ...tokens, clientData: client };
   }
 
   async login(email, password, fingerprint) {
-      const client = await ClientRepository.getClientData(email);
-      if(!client){
-        throw ApiError.BadRequest(`Пользователь с почтовым адреcom ${email} не найден`)
-      }
+    const client = await ClientRepository.getClientData(email);
+    if (!client) {
+      throw ApiError.BadRequest(
+        `Пользователь с почтовым адреcom ${email} не найден`,
+      );
+    }
     const isPasswordValid = bcrypt.compareSync(password, client.password);
-    if(!isPasswordValid){
-      throw new ApiError.BadRequest('Неверный пароль')
+    if (!isPasswordValid) {
+      throw new ApiError.BadRequest("Неверный пароль");
     }
     const payload = { id: client.id, email };
     const tokens = TokenService.generateTokens(payload);
     await TokenService.saveToken(client.id, tokens.refreshToken, fingerprint);
-    return {...tokens, client: client}
+    return { ...tokens, client: client };
   }
 
   async logout(refreshToken) {
-      const token = await TokenService.removeToken(refreshToken);
-      return token;
+    const token = await TokenService.removeToken(refreshToken);
+    return token;
   }
   async refresh(refreshToken, fingerprint) {
-    if(!refreshToken){
-      throw ApiError.UnauthorizedError()
+    if (!refreshToken) {
+      throw ApiError.UnauthorizedError();
     }
     const clientData = TokenService.validateRefreshToken(refreshToken);
     const tokenFromBd = await TokenService.findToken(refreshToken);
-    if(!clientData || !tokenFromBd){
-      throw  ApiError.UnauthorizedError();
+    if (!clientData || !tokenFromBd) {
+      throw ApiError.UnauthorizedError();
     }
-    if (tokenFromBd.finger_print !== fingerprint.hash) 
-    {
+    if (tokenFromBd.finger_print !== fingerprint.hash) {
       console.log("Попытка несанкционированного обновления токенов");
-      throw ApiError.BadRequest("Попытка несанкционированного обновления токенов");
+      throw ApiError.BadRequest(
+        "Попытка несанкционированного обновления токенов",
+      );
     }
 
     const client = await UserRepository.getUserData(clientData.email);
     const payload = { id: client.id, email: client.email };
     const tokens = TokenService.generateTokens(payload);
     await TokenService.saveToken(payload.id, tokens.refreshToken);
-    return  {...tokens, client: client}
+    return { ...tokens, client: client };
   }
 
   async getAllClients(req, res, next) {
-      const clients = await UserRepository.getAll();
-      return clients;
+    const clients = await UserRepository.getAll();
+    return clients;
   }
 
   // async deleteOne(req, res) {

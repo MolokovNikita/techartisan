@@ -2,7 +2,7 @@ const { Router } = require("express");
 const router = new Router();
 const pool = require("../config/ormconfig");
 const ClientController = require("../controllers/clientController");
-const {body} = require('express-validator');
+const { body } = require("express-validator");
 
 //post one client
 router.post("", ClientController.registration);

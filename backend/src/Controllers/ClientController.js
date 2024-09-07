@@ -4,7 +4,7 @@ const UserRepository = require("../repositories/user.js");
 const VerificationRepository = require("../repositories/verification.js");
 const clientService = require("../services/clientService.js");
 const validateResult = require("express-validator");
-const ApiError = require('../exceptions/apiError.js')
+const ApiError = require("../exceptions/apiError.js");
 class ClientController {
   async registration(req, res, next) {
     try {

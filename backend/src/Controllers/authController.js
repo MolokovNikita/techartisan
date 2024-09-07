@@ -29,7 +29,6 @@ class AuthController {
         fingerprint,
       });
       res.cookie("refreshToken", refreshToken, COOKIE_SETTINGS.REFRESH_TOKEN);
-
       return res.status(200).json({
         accessToken,
         accessTokenExpiration,

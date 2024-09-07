@@ -19,7 +19,7 @@ import ClientServicePage from "./pages/ClientServicesPage/ClientServicePage.jsx"
 import ServiceCardModal from "./components/ServiceCardModal.jsx";
 import AdminPanel from "./pages/AdminPanelPage.jsx";
 import OrderCallPopUp from "./components/OrderCallPopUp.jsx";
-
+import axios from "axios";
 function App() {
   const [isOpen, setIsOpen] = useState(false); //ModalAuth
   const { isLoading } = useContext(AuthContext);
@@ -46,6 +46,7 @@ function App() {
     "/politicy",
     "/account/password",
   ];
+
   return (
     <>
       <SnackbarProvider />

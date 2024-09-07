@@ -17,7 +17,7 @@ const emailVerificationRouter = require("./emailVerificationRouter");
 const phoneVerificationRouter = require("./phoneVerificationRouter");
 const orderCallRouter = require("./orderCallRouter");
 const authRouter = require("./authRouter");
-
+const authMiddleware = require("../middlewares/authMiddleware");
 const router = express.Router();
 
 router.use("/auth", authRouter);

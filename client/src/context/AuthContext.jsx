@@ -3,20 +3,14 @@ import axios from "axios";
 import config from "../config/config.js";
 import useInMemoryJWT from "../hooks/inMemoryJWT.js";
 import { enqueueSnackbar } from "notistack";
+import http from "../http/instance.js";
 
-export const AuthClient = axios.create({
-  baseURL: `${config.API_URL}/auth`,
-  withCredentials: true,
-});
-
-const ResourceClient = axios.create({
-  baseURL: `${config.API_URL}/clients`,
-});
+export const AuthClient = http;
+export const ResourceClient = http;
 
 export const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
-  const { getToken, setToken, deleteToken } = useInMemoryJWT();
   const [isAuth, setisAuth] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [erorText, setErrorText] = useState("");
@@ -39,7 +33,6 @@ const AuthProvider = ({ children }) => {
   };
 
   const handleFetchProtected = () => {
-    //to do authirization
     ResourceClient.get("/clients")
       .then((res) => {
         console.log(res);
@@ -50,10 +43,14 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    AuthClient.post("/refresh")
+    AuthClient.post("auth/refresh")
       .then((res) => {
         const { accessToken, accessTokenExpiration } = res.data;
-        setToken(accessToken, accessTokenExpiration);
+        window.localStorage.setItem("accessToken", accessToken);
+        window.localStorage.setItem(
+          "accessTokenExpiration",
+          accessTokenExpiration,
+        );
         setUserData({
           ...userData,
           id: res.data.id,
@@ -76,12 +73,11 @@ const AuthProvider = ({ children }) => {
   }, []);
 
   const handleLogOut = () => {
-    AuthClient.post("/logout")
+    AuthClient.post("auth/logout")
       .then(() => {
         setisAuth(false);
         sessionStorage.clear();
         localStorage.clear();
-        deleteToken();
         setUserData({
           id: "",
           f_name: "",
@@ -98,10 +94,14 @@ const AuthProvider = ({ children }) => {
   };
 
   const handleSignUp = (data) => {
-    AuthClient.post("/sign-up", data[0])
+    AuthClient.post("auth/sign-up", data[0])
       .then((res) => {
         const { accessToken, accessTokenExpiration } = res.data;
-        setToken(accessToken, accessTokenExpiration);
+        window.localStorage.setItem("accessToken", accessToken);
+        window.localStorage.setItem(
+          "accessTokenExpiration",
+          accessTokenExpiration,
+        );
         setUserData({
           ...userData,
           id: res.data.id,
@@ -134,10 +134,14 @@ const AuthProvider = ({ children }) => {
   };
 
   const handleSignIn = (data) => {
-    AuthClient.post("/sign-in", data[0])
+    AuthClient.post("auth/sign-in", data[0])
       .then((res) => {
         const { accessToken, accessTokenExpiration } = res.data;
-        setToken(accessToken, accessTokenExpiration);
+        window.localStorage.setItem("accessToken", accessToken);
+        window.localStorage.setItem(
+          "accessTokenExpiration",
+          accessTokenExpiration,
+        );
         setUserData({
           ...userData,
           id: res.data.id,
