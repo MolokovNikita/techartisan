@@ -1,9 +1,40 @@
+const { user } = require("pg/lib/defaults");
 const pool = require("../config/ormconfig");
+const UserRepository = require("../repositories/user");
+const TokenService = require("../services/token.js");
+const ApiError = require("../exceptions/apiError");
 
+const checkAccess = async (authorizationHeader) => {
+  if (!authorizationHeader) {
+    return null;
+  }
+  const accessToken = authorizationHeader.split(" ")[1];
+  if (!accessToken) {
+    return null;
+  }
+  const userData = await TokenService.validateAccessToken(accessToken);
+  if (!userData) {
+    return null;
+  }
+  const client = await UserRepository.getClientData(userData.email);
+  if (!client) {
+    const employee = await UserRepository.getStaffData(userData.email);
+    if (!employee) {
+      return new ApiError.BadRequest("Ошибка, пользователь не найден");
+    }
+    return {
+      access: "staff",
+      employee,
+    };
+  }
+  return {
+    acces: "client",
+    client,
+  };
+};
 class CardOfOrderController {
   async create(req, res) {
     const { price, description, ended, client_id, comment, visit } = req.body;
-    let { created } = req.body;
     const now = new Date();
     const sql_insert = `INSERT INTO cardoforder (price, description, ended, client_id, created, comment, visit) VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`;
     const values = [price, description, ended, client_id, now, comment, visit];
@@ -21,6 +52,8 @@ class CardOfOrderController {
     }
   }
   async getAll(req, res) {
+    const authorizationHeader = req.headers.authorization;
+    const userInfo = checkAccess(authorizationHeader);
     const sql = "SELECT * FROM cardoforder";
     pool.query(sql, [], (err, result) => {
       if (err) {
@@ -37,6 +70,11 @@ class CardOfOrderController {
   }
   async getOneByClientId(req, res) {
     const { id } = req.params;
+    const authorizationHeader = req.headers.authorization;
+    const userInfo = await checkAccess(authorizationHeader);
+    if (!req.client.id === id && !userInfo.acces === "staff") {
+      return res.status(400).json({ error: "Ошибка прав доступа!" });
+    }
     const sql = "SELECT * FROM cardoforder WHERE client_id = $1";
     pool.query(sql, [id], (err, result) => {
       if (err) {
@@ -52,6 +90,11 @@ class CardOfOrderController {
 
   async getOne(req, res) {
     const id = req.params.id;
+    const authorizationHeader = req.headers.authorization;
+    const userInfo = await checkAccess(authorizationHeader);
+    if (!userInfo.acces === "staff") {
+      return res.status(400).json({ error: "Ошибка прав доступа!" });
+    }
     const sql = "SELECT * FROM cardoforder WHERE id = $1";
     pool.query(sql, [id], (err, result) => {
       if (err) {
@@ -86,7 +129,7 @@ class CardOfOrderController {
   // }
   async deleteOne(req, res) {
     const id = req.params.id;
-    console.log(id);
+
     try {
       const result = await pool.query(
         `SELECT id FROM cardoforder WHERE id = $1`,
@@ -106,6 +149,11 @@ class CardOfOrderController {
   }
   async update(req, res) {
     const { id, price, description, created, ended, client_id } = req.body;
+    const authorizationHeader = req.headers.authorization;
+    const userInfo = await checkAccess(authorizationHeader);
+    if (!req.client.id === client_id) {
+      return res.status(400).json({ error: "Ошибка прав доступа!" });
+    }
     const sql_exist = `SELECT id FROM cardoforder WHERE id = $1`;
     pool.query(sql_exist, [id], (err, result) => {
       if (err) {

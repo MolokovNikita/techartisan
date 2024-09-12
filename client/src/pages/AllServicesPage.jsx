@@ -4,7 +4,7 @@ import { useState, useEffect, useContext } from "react";
 import { AuthContext } from "../context/AuthContext.jsx";
 import { IoIosArrowForward } from "react-icons/io";
 import config from "../config/config.js";
-
+import http from "../http/instance.js";
 function Services(props) {
   const { isAuth } = useContext(AuthContext);
   const { setIsServiceModalOpen, setIsOpen } = props;
@@ -12,7 +12,7 @@ function Services(props) {
   const [openQuestions, setOpenQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
-    axios
+    http
       .get(`${config.API_URL}/services`)
       .then((res) => {
         setServices(res.data);

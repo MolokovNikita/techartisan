@@ -5,6 +5,9 @@ const VerificationRepository = require("../repositories/verification.js");
 const clientService = require("../services/clientService.js");
 const validateResult = require("express-validator");
 const ApiError = require("../exceptions/apiError.js");
+
+const checkAccess = require("../utils/checkAcces");
+
 class ClientController {
   async registration(req, res, next) {
     try {
@@ -89,6 +92,14 @@ class ClientController {
   }
   async getOne(req, res) {
     const id = req.params.id;
+    const authorizationHeader = req.headers.authorization;
+    if (!authorizationHeader) {
+      return res.status(400).json({ error: "Пользователь не авторизован" });
+    }
+    const userInfo = await checkAccess(authorizationHeader);
+    if (!userInfo || !userInfo.acces === "staff") {
+      return res.status(400).json({ error: "Ошибка прав доступа!" });
+    }
     const sql = "SELECT * FROM client WHERE id = $1";
     pool.query(sql, [id], (err, result) => {
       if (err) {

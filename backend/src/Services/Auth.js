@@ -7,7 +7,7 @@ const ACCESS_TOKEN_EXPIRATION = 18e5;
 
 class AuthService {
   static async signIn({ email, pass, fingerprint }) {
-    const userData = await UserRepository.getUserData(email);
+    const userData = await UserRepository.getClientData(email);
     if (!userData) {
       throw new Error("Неверный email или пароль");
     }
@@ -39,13 +39,13 @@ class AuthService {
   }
 
   static async signUp({ f_name, pass, email, fingerprint }) {
-    const userData = await UserRepository.getUserData(email);
+    const userData = await UserRepository.getClientData(email);
     if (userData) {
       throw new Error("Пользователь с таким email уже существует");
     }
 
     const hashedPassword = bcrypt.hashSync(pass, 8);
-    const { id } = await UserRepository.createUser({
+    const { id } = await UserRepository.createClient({
       f_name,
       hashedPassword,
       email,
@@ -97,7 +97,7 @@ class AuthService {
     }
 
     const { id, f_name, l_name, email, created, deleted, phone_number } =
-      await UserRepository.getUserData(payload.email);
+      await UserRepository.getClientData(payload.email);
 
     const actualPayload = { email, id };
 

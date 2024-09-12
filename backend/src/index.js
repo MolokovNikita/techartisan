@@ -36,7 +36,7 @@ app.use((err, req, res, next) => {
 app.set("view engine", "ejs");
 app.use("", router);
 
-// app.use(errorMiddleware);
+app.use(errorMiddleware);
 
 async function startApp() {
   try {

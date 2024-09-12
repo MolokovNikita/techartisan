@@ -36,28 +36,34 @@ class TokenService {
   //   return tokenData;
   // }
 
-  async validateRefreshToken(refreshToken) {
+  static async validateRefreshToken(refreshToken) {
     try {
-      const ClientData = jwt.verify(
+      const UserData = jwt.verify(
         refreshToken,
         process.env.REFRESH_TOKEN_SECRET,
       );
-      return ClientData;
+      return UserData;
     } catch (e) {
       return null;
     }
   }
-  async validateAccessToken(accessToken) {
+  static async validateAccessToken(accessToken) {
     try {
-      const ClientData = jwt.verify(
-        accessToken,
-        process.env.ACCESS_TOKEN_SECRET,
-      );
-      return ClientData;
+      const UserData = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+      return UserData;
     } catch (e) {
       return null;
     }
   }
+  static async validateAccessTokenForStaff(accessToken) {
+    try {
+      const UserData = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+      return UserData;
+    } catch (e) {
+      return null;
+    }
+  }
+
   static async generateAccessToken(payload) {
     const JWTToken = await jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, {
       expiresIn: "30m",

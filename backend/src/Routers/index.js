@@ -17,7 +17,7 @@ const emailVerificationRouter = require("./emailVerificationRouter");
 const phoneVerificationRouter = require("./phoneVerificationRouter");
 const orderCallRouter = require("./orderCallRouter");
 const authRouter = require("./authRouter");
-const authMiddleware = require("../middlewares/authMiddleware");
+const authMiddleware = require("../middlewares/authMiddleware.js");
 const router = express.Router();
 
 router.use("/auth", authRouter);
@@ -31,12 +31,12 @@ router.use("/offices", officeRouter);
 router.use("/services", serviceRouter);
 router.use("/statuses", orderStatusRouter);
 router.use("/devices", devicesRouter);
-router.use("/order-card", cardOfOrderRouter);
 router.use("/positions-staff", positionToStaffRouter);
-router.use("/devices-order", devicesToCardRouter);
-router.use("/services-order", serviceToCardRouter);
-router.use("/offices-order", officesToCardRouter);
-router.use("/staff-order", staffToCardRouter);
-router.use("/status-order", statusOfOrderToCardRouter);
+router.use("/order-card", authMiddleware, cardOfOrderRouter);
+router.use("/devices-order", authMiddleware, devicesToCardRouter);
+router.use("/services-order", authMiddleware, serviceToCardRouter);
+router.use("/offices-order", authMiddleware, officesToCardRouter);
+router.use("/staff-order", authMiddleware, staffToCardRouter);
+router.use("/status-order", authMiddleware, statusOfOrderToCardRouter);
 
 module.exports = router;

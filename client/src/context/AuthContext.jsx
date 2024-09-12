@@ -12,7 +12,7 @@ export const AuthContext = createContext({});
 
 const AuthProvider = ({ children }) => {
   const [isAuth, setisAuth] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [erorText, setErrorText] = useState("");
   const [isAdmin, setIsAdmin] = useState(true);
   const [userData, setUserData] = useState({
@@ -43,33 +43,37 @@ const AuthProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    AuthClient.post("auth/refresh")
-      .then((res) => {
-        const { accessToken, accessTokenExpiration } = res.data;
-        window.localStorage.setItem("accessToken", accessToken);
-        window.localStorage.setItem(
-          "accessTokenExpiration",
-          accessTokenExpiration,
-        );
-        setUserData({
-          ...userData,
-          id: res.data.id,
-          f_name: res.data.f_name,
-          l_name: res.data.l_name,
-          email: res.data.email,
-          created: res.data.created,
-          deleted: res.data.deleted,
-          phone_number: res.data.phone_number,
+    if (localStorage.getItem("accessToken")) {
+      setIsLoading(true);
+      axios
+        .post(`${config.API_URL}/auth/refresh`, null, { withCredentials: true })
+        .then((res) => {
+          const { accessToken, accessTokenExpiration } = res.data;
+          window.localStorage.setItem("accessToken", accessToken);
+          window.localStorage.setItem(
+            "accessTokenExpiration",
+            accessTokenExpiration,
+          );
+          setUserData({
+            ...userData,
+            id: res.data.id,
+            f_name: res.data.f_name,
+            l_name: res.data.l_name,
+            email: res.data.email,
+            created: res.data.created,
+            deleted: res.data.deleted,
+            phone_number: res.data.phone_number,
+          });
+          setisAuth(true);
+        })
+        .catch((e) => {
+          console.log(e.response.data);
+          setisAuth(false);
+        })
+        .finally(() => {
+          setIsLoading(false);
         });
-        setisAuth(true);
-      })
-      .catch((e) => {
-        console.log(e.response.data);
-        setisAuth(false);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    }
   }, []);
 
   const handleLogOut = () => {
@@ -90,6 +94,9 @@ const AuthProvider = ({ children }) => {
       })
       .catch((e) => {
         console.log(e);
+      })
+      .finally(() => {
+        window.location.href = "/";
       });
   };
 
@@ -132,7 +139,6 @@ const AuthProvider = ({ children }) => {
         });
       });
   };
-
   const handleSignIn = (data) => {
     AuthClient.post("auth/sign-in", data[0])
       .then((res) => {

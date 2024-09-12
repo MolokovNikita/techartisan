@@ -13,7 +13,7 @@ const instance = axios.create({
 });
 instance.interceptors.request.use(
   (config) => {
-    const accesToken = window.localStorage.getItem("accessToken") || "";
+    const accesToken = window.localStorage.getItem("accessToken");
     config.headers = {
       ...config.headers,
       Authorization: `Bearer ${accesToken}`,
@@ -25,24 +25,36 @@ instance.interceptors.request.use(
 
 instance.interceptors.response.use(
   (response) => {
-    if (response.status === 200) {
-      return response;
-    } else {
-      if (messages) {
-        if (messages instanceof Array) {
-          return Promise.reject({ messages });
-        }
-        return Promise.reject({ messages: [messages] });
-      }
-      return Promise.reject({ messages: ["got errors"] });
-    }
+    return response;
   },
-  (error) => {
-    if (error.response && error.response.status === 401) {
-      localStorage.removeItem("accessToken");
-    } else if (error.response && error.response.status === 500) {
-      return Promise.reject(error.response);
-    } else return Promise.reject(error);
+  async (error) => {
+    const originalRequest = error.config;
+    if (
+      error.response &&
+      error.response.status === 401 &&
+      error.config &&
+      !error.config._isRetry
+    ) {
+      originalRequest._isRetry = true;
+      try {
+        const response = await axios.post(
+          `${config.API_URL}/auth/refresh`,
+          null,
+          { withCredentials: true },
+        );
+        if (response.data.accesToken)
+          localStorage.setItem("accessToken", response.data.accesToken);
+        if (response.data.accessTokenExpiration)
+          localStorage.setItem(
+            "accessTokenExpiration",
+            response.data.accessTokenExpiration,
+          );
+        return instance.request(originalRequest);
+      } catch (e) {
+        console.log("Unauthorized");
+      }
+    }
+    throw error;
   },
 );
 
