@@ -36,7 +36,7 @@ router.use("/order-card", authMiddleware, cardOfOrderRouter);
 router.use("/devices-order", authMiddleware, devicesToCardRouter);
 router.use("/services-order", authMiddleware, serviceToCardRouter);
 router.use("/offices-order", authMiddleware, officesToCardRouter);
-router.use("/staff-order", authMiddleware, staffToCardRouter);
+router.use("/staff-order", staffToCardRouter);
 router.use("/status-order", authMiddleware, statusOfOrderToCardRouter);
 
 module.exports = router;

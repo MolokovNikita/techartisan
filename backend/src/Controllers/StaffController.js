@@ -1,5 +1,6 @@
 const pool = require("../config/ormconfig");
 const checkAccess = require("../utils/checkAcces");
+const CardRepository = require("../repositories/cardRepository");
 
 class StaffController {
   async create(req, res) {
@@ -55,16 +56,47 @@ class StaffController {
   }
 
   async getOne(req, res) {
-    //allow to staff
+    //if trusted client allow id, name and last name
+    //if staff allow all info
+    const STAFF_ID = req.params.id; // staff_id
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
-        return res.status(403).json({ message: "Access denied" });
+      if (!userInfo) {
+        return res.status(400).send("Acces denied");
       }
-      const id = req.params.id;
+      if (userInfo.acces === "client") {
+        const CLIENT_ID = userInfo.client.id;
+        //get all cardoforder of client
+        const allClientCards = await CardRepository.getAlClientCards(CLIENT_ID);
+        if (!allClientCards) return res.status(400).send("Acces denied");
+        const cardsIDs = allClientCards.map((card) => {
+          return card.id;
+        });
+        // [ '92', '93', '94', '95', '96', '97' ]
+        const response = await pool.query(
+          "SELECT * FROM stafftocard WHERE staff_id = $1",
+          [STAFF_ID],
+        );
+        if (!response.rows.length) {
+          return res.status(400).send("Acces denied");
+        }
+        const staffToCardDetails = response.rows;
+        // [
+        //   { cardoforder_id: '3', staff_id: '2' },
+        //   { cardoforder_id: '94', staff_id: '2' }
+        // ]
+        const filtredStafftocardDetails = [];
+        staffToCardDetails.forEach((item) => {
+          if (cardsIDs.includes(item.cardoforder_id)) {
+            filtredStafftocardDetails.push(item);
+          }
+        });
+        if (filtredStafftocardDetails.length === 0)
+          return res.status(400).send("Acces denied");
+      }
       const sql = "SELECT * FROM staff WHERE id = $1";
-      pool.query(sql, [id], (err, result) => {
+      pool.query(sql, [STAFF_ID], (err, result) => {
         if (err) {
           console.error(err.message);
           return res.status(400).send("Error: Database error!");
@@ -72,7 +104,15 @@ class StaffController {
         if (result.rows.length === 0) {
           return res.status(404).send("Error: Staff member not found!");
         }
-        res.json(result.rows[0]);
+        if (userInfo.acces === "staff") res.json(result.rows[0]);
+        else {
+          const employee = {
+            id: result.rows[0].id,
+            f_name: result.rows[0].f_name,
+            l_name: result.rows[0].l_name,
+          };
+          res.json(employee);
+        }
       });
     } catch (e) {
       return res

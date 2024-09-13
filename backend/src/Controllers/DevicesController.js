@@ -11,7 +11,6 @@ class DevicesController {
         return res.status(403).json({ message: "Access denied" });
       }
       const { id, name } = req.body;
-      const now = new Date().toISOString(); // Преобразование текущей даты в строку в формате ISO
       const sql_insert = `INSERT INTO devices (id, name) VALUES ($1, $2)`;
       const values = [id, name];
       try {
@@ -63,7 +62,6 @@ class DevicesController {
         if (result.rows.length === 0) {
           return res.status(404).json({ error: "Device not found" });
         }
-        // Преобразование даты и времени в нужный часовой пояс
         res.json(result.rows[0]);
       });
     } catch (e) {

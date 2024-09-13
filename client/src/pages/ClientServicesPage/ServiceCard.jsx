@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import styles from "../../styles/service.card.module.css";
 export default function ServiceCard(props) {
   const { service, onDelete } = props;
@@ -10,7 +11,6 @@ export default function ServiceCard(props) {
     if (!service.status || service.status.length === 0) {
       return <div className={styles.status__sphere_gray}></div>;
     }
-
     switch (service.status[0].orderstatus) {
       case "Уже у вас":
       case "Готов к выдаче":
@@ -100,7 +100,7 @@ export default function ServiceCard(props) {
               <li>
                 Мастер:{" "}
                 {service.staff && service.staff[0]
-                  ? service.staff[0].f_name
+                  ? service.staff[0].l_name + " " + service.staff[0].f_name
                   : "Не назначен"}
               </li>
             </ul>

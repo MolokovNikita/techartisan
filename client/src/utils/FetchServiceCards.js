@@ -33,7 +33,7 @@ export const fetchCardDetails = async (cardId) => {
       officeOrders,
     ] = await Promise.all([
       fetchData(`/services-order/getOne/${cardId}`),
-      fetchData(`/staff-order/getOne/${cardId}`),
+      fetchData(`/staff-order/${cardId}`),
       fetchData(`/devices-order/getOne/${cardId}`),
       fetchData(`/status-order/getOne/${cardId}`),
       fetchData(`/offices-order/getOne/${cardId}`),
