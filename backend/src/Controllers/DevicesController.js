@@ -2,6 +2,7 @@ const pool = require("../config/ormconfig");
 const checkAccess = require("../utils/checkAcces");
 
 class DevicesController {
+  //secured
   async create(req, res) {
     //allow only for staff
     try {

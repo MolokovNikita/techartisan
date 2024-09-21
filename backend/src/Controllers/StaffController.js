@@ -4,6 +4,7 @@ const CardRepository = require("../repositories/cardRepository");
 
 class StaffController {
   async create(req, res) {
+    //secured
     //allow only for staff
     try {
       const authorizationHeader = req.headers.authorization;

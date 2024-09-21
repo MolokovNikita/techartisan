@@ -4,8 +4,8 @@ import { AuthContext } from "../../context/AuthContext";
 import NotFoundPage from "../NotFoundPage.jsx";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
-import axios from "axios";
 import config from "../../config/config.js";
+import http from "../../http/instance.js";
 import {
   fetchServiceDetails,
   fetchCardDetails,
@@ -56,11 +56,12 @@ export default function ClientServicesPage() {
     const CARD_CREATED = serviceCard.created;
     const CARD_CLIENT_ID = serviceCard.client_id;
     const API_URL = config.API_URL;
-    axios
+    http
       .put(`${API_URL}/status-order/update`, {
         cardoforder_id: CARD_ID,
-        statusoforder_id: serviceCards.find((card) => card.id === CARD_ID)
-          .status[0].id,
+        statusoforder_id: parseInt(
+          serviceCards.find((card) => card.id === CARD_ID).status[0].id,
+        ),
         new_statusoforder_id: 6,
       })
       .then((res) => {
@@ -76,7 +77,7 @@ export default function ClientServicesPage() {
               : service,
           ),
         );
-        axios
+        http
           .put(`${API_URL}/order-card`, {
             id: CARD_ID,
             price: CARD_PRICE,

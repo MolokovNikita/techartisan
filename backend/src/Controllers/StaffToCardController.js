@@ -3,6 +3,7 @@ const checkAccess = require("../utils/checkAcces");
 const CardRepository = require("../repositories/cardRepository");
 
 class StaffToCardController {
+  //secured
   async create(req, res) {
     //allow only for staff
     try {
@@ -62,7 +63,10 @@ class StaffToCardController {
       }
       if (userInfo.acces === "client") {
         const CLIENT_ID = userInfo.client.id;
-        const cardDetails = await CardRepository.getClientData(cardoforder_id); // получаем из карточки заказа клиент id
+        const cardDetails = await CardRepository.getClientData(cardoforder_id);
+        if (!cardDetails) {
+          return res.status(400).send("Card not found");
+        } // получаем из карточки заказа клиент id
         const expectedClientData = cardDetails.client_id;
         if (CLIENT_ID !== expectedClientData)
           return res.status(400).send("Acces denied");

@@ -9,6 +9,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import ru from "date-fns/locale/ru"; // Import Russian locale from date-fns
 import makeAnimated from "react-select/animated";
 import axios from "axios";
+import http from "../http/instance";
 import config from "../config/config";
 import { enqueueSnackbar } from "notistack";
 
@@ -212,7 +213,7 @@ export default function ServiceCardModal(props) {
       });
     }
     setIsLoading(true);
-    axios
+    http
       .post(`${config.API_URL}/order-card`, {
         price: price,
         client_id: userData.id,
@@ -222,13 +223,13 @@ export default function ServiceCardModal(props) {
       .then((res) => {
         const CARD_ID = res.data.id;
         const servicePromises = selectedServices.map((item) =>
-          axios.post(`${config.API_URL}/services-order/create`, {
+          http.post(`${config.API_URL}/services-order/create`, {
             cardoforder_id: CARD_ID,
             services_id: item.value,
           }),
         );
 
-        const officePromise = axios.post(
+        const officePromise = http.post(
           `${config.API_URL}/offices-order/create`,
           {
             cardoforder_id: CARD_ID,
@@ -239,7 +240,6 @@ export default function ServiceCardModal(props) {
         // Выполнение всех промисов параллельно
         Promise.all([...servicePromises, officePromise])
           .then((res) => {
-            console.log(res);
             enqueueSnackbar(`Вы успешно оформили заказ`, {
               variant: "success",
               autoHideDuration: 2000,
@@ -251,7 +251,7 @@ export default function ServiceCardModal(props) {
             onClose();
             setSelectedOffice([]);
             setSelectedServices([]);
-            return axios.post(`${config.API_URL}/status-order/create`, {
+            return http.post(`${config.API_URL}/status-order/create`, {
               cardoforder_id: CARD_ID,
               statusoforder_id: 5,
             });

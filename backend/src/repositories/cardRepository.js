@@ -11,6 +11,16 @@ class CardRepository {
     }
     return response.rows[0];
   }
+  static async getCardStatus(cardId) {
+    const response = await pool.query(
+      "SELECT * FROM statusofordertocard where cardoforder_id = $1",
+      [cardId],
+    );
+    if (!response.rows.length) {
+      return null;
+    }
+    return response.rows[0];
+  }
   static async getAlClientCards(clientId) {
     const response = await pool.query(
       "SELECT * FROM cardoforder WHERE client_id = $1",
