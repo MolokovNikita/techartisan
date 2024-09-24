@@ -2,13 +2,14 @@ const pool = require("../config/ormconfig");
 const checkAccess = require("../utils/checkAcces");
 
 class OfficeController {
+  //
   //secured
   async create(req, res) {
     //allow only for staff
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const { id, adress } = req.body;
@@ -76,7 +77,7 @@ class OfficeController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const result = await pool.query("SELECT COUNT(*) FROM offices");
@@ -99,7 +100,7 @@ class OfficeController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const id = req.params.id;
@@ -123,7 +124,7 @@ class OfficeController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const { id, adress } = req.body;

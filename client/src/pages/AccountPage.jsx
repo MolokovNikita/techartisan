@@ -11,6 +11,7 @@ import { PiEye, PiEyeClosed } from "react-icons/pi";
 import { enqueueSnackbar } from "notistack";
 import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
+import http from "../http/instance.js";
 import config from "../config/config.js";
 
 export default function AccountPage() {
@@ -243,7 +244,7 @@ export default function AccountPage() {
       return;
     }
 
-    axios
+    http
       .put("http://localhost:5002/clients", {
         f_name: userName,
         l_name: userSurname,
@@ -287,14 +288,34 @@ export default function AccountPage() {
         }
       })
       .catch((e) => {
-        enqueueSnackbar(`${e.response.data}`, {
-          variant: "error",
-          autoHideDuration: 1500,
-          anchorOrigin: {
-            vertical: "top",
-            horizontal: "right",
-          },
-        });
+        if (
+          e.response.data ==
+          'Error: Failed to update client record! duplicate key value violates unique constraint "client_phone_number_key"'
+        ) {
+          enqueueSnackbar(
+            `Упс... Кажется ввденный вами номер телефона уже используется`,
+            {
+              variant: "error",
+              autoHideDuration: 1500,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "right",
+              },
+            },
+          );
+        } else {
+          enqueueSnackbar(
+            `Упс.. Кажется что-то пошло не так - ${e.response.data}`,
+            {
+              variant: "error",
+              autoHideDuration: 1500,
+              anchorOrigin: {
+                vertical: "top",
+                horizontal: "right",
+              },
+            },
+          );
+        }
       });
   };
 
@@ -302,7 +323,7 @@ export default function AccountPage() {
     setIsPasswordChangeOpen((prev) => !prev);
   };
   const handleConfirmChangePassword = () => {
-    axios
+    http
       .put(`${config.API_URL}/clients/password`, {
         email: userData.email,
         pass: oldPassword,

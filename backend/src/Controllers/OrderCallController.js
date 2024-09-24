@@ -25,7 +25,7 @@ class ClientController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const sql = "SELECT * FROM order_calls";
@@ -45,7 +45,7 @@ class ClientController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const phone_number = req.params.phone_number;
@@ -69,7 +69,7 @@ class ClientController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const result = await pool.query("SELECT COUNT(*) FROM order_calls");
@@ -80,7 +80,6 @@ class ClientController {
       await pool.query("DELETE FROM order_calls");
       res.send("All records deleted successfully!");
     } catch (err) {
-      console.error(err.message);
       return res
         .status(400)
         .send("Error: Failed to delete all records! " + err.message);
@@ -91,7 +90,7 @@ class ClientController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const phone_number = req.params.phone_number;
@@ -107,11 +106,13 @@ class ClientController {
       ]);
       res.send("Record was deleted successfully!");
     } catch (err) {
-      console.error(err.message);
       return res
         .status(400)
         .send("Error: Failed to delete the record! " + err.message);
     }
+  }
+  async update(req, res) {
+    res.status(500).send("Update is unavaliable");
   }
 }
 module.exports = new ClientController();

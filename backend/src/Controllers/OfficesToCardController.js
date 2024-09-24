@@ -3,6 +3,7 @@ const CardRepository = require("../repositories/cardRepository");
 const checkAccess = require("../utils/checkAcces");
 
 class OfficesToCardController {
+  //
   //secured
   async create(req, res) {
     //allow only for trusted user and staff
@@ -14,7 +15,7 @@ class OfficesToCardController {
       if (!userInfo) {
         return res.status(400).send("Acces denied");
       }
-      if (userInfo.acces === "client") {
+      if (userInfo.access === "client") {
         const CLIENT_ID = userInfo.client.id;
         const cardDetails = await CardRepository.getClientData(cardoforder_id);
         if (!cardDetails) {
@@ -49,7 +50,7 @@ class OfficesToCardController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const sql = "SELECT * FROM officestocard";
@@ -72,7 +73,7 @@ class OfficesToCardController {
       if (!userInfo) {
         return res.status(400).send("Acces denied");
       }
-      if (userInfo.acces === "client") {
+      if (userInfo.access === "client") {
         const CLIENT_ID = userInfo.client.id;
         const cardDetails = await CardRepository.getClientData(cardoforder_id);
         if (!cardDetails) {
@@ -102,7 +103,7 @@ class OfficesToCardController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const sql_count = "SELECT COUNT(*) FROM officestocard"; // Подсчитать количество записей в таблице client
@@ -134,7 +135,7 @@ class OfficesToCardController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const card_id = req.params.id;
@@ -163,7 +164,7 @@ class OfficesToCardController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const { cardoforder_id, offices_id } = req.body;
@@ -202,7 +203,7 @@ class OfficesToCardController {
       if (!userInfo) {
         return res.status(400).send("Acces denied");
       }
-      if (userInfo.acces === "client") {
+      if (userInfo.access === "client") {
         const CLIENT_ID = userInfo.client.id;
         const cardDetails = await CardRepository.getClientData(cardoforder_id);
         if (!cardDetails) {

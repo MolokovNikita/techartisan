@@ -13,8 +13,17 @@ module.exports = async function checkAccess(authorizationHeader) {
   if (!userData) {
     return null;
   }
-  const client = await UserRepository.getClientData(userData.email);
-  if (!client) {
+  if (userData.access === "client") {
+    const client = await UserRepository.getClientData(userData.email);
+    if (!client) {
+      return new ApiError.BadRequest("Ошибка, пользователь не найден");
+    }
+    return {
+      access: "client",
+      client,
+    };
+  }
+  if (userData.access === "staff") {
     const employee = await UserRepository.getStaffData(userData.email);
     if (!employee) {
       return new ApiError.BadRequest("Ошибка, пользователь не найден");
@@ -24,8 +33,4 @@ module.exports = async function checkAccess(authorizationHeader) {
       employee,
     };
   }
-  return {
-    acces: "client",
-    client,
-  };
 };

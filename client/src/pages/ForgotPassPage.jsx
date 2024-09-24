@@ -4,6 +4,7 @@ import { FaArrowRight } from "react-icons/fa";
 import EnterCode from "../components/EnterCode";
 import config from "../config/config";
 import axios from "axios";
+import http from "../http/instance";
 import { PiEye, PiEyeClosed } from "react-icons/pi";
 import { enqueueSnackbar } from "notistack";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -113,7 +114,7 @@ export default function ChangePass() {
   const handlePasswordContinue = () => {
     if (password === passwordMatch) {
       if (email) {
-        axios
+        http
           .put(`${config.API_URL}/clients/password/recover`, {
             email: email,
             pass: password,
@@ -175,7 +176,7 @@ export default function ChangePass() {
     setIsLoading(true);
     if (isEmailRecover) {
       //email-verification
-      axios
+      http
         .post(`${config.API_URL}/email-verification/verify`, {
           email: email,
           code: VERIFICATION_CODE,
@@ -207,7 +208,7 @@ export default function ChangePass() {
         });
     } else {
       //phone-verification
-      axios
+      http
         .post(`${config.API_URL}/phone-verification/verify`, {
           phone_number: phoneNumber,
 
@@ -279,7 +280,7 @@ export default function ChangePass() {
       if (!emailError) {
         targetRecover.current = email;
         setIsLoading(true);
-        axios
+        http
           .post(`${config.API_URL}/email-verification/send`, {
             email: email,
           })
@@ -295,7 +296,6 @@ export default function ChangePass() {
             setIsSubmit(true);
           })
           .catch((e) => {
-            console.error(e);
             enqueueSnackbar(
               `Упс, кажется что-то пошло не так - Не удалось найти пользователя с таким email!`,
               {
@@ -316,7 +316,7 @@ export default function ChangePass() {
       if (!phoneNumberError) {
         targetRecover.current = phoneNumber;
         setIsLoading(true);
-        axios
+        http
           .post(`${config.API_URL}/phone-verification/send`, {
             phone_number: phoneNumber,
           })
@@ -332,7 +332,6 @@ export default function ChangePass() {
             setIsSubmit(true);
           })
           .catch((e) => {
-            console.log(e);
             enqueueSnackbar(
               `Упс, кажется что-то пошло не так - Не удалось найти пользователя с таким номером телефона!`,
               {

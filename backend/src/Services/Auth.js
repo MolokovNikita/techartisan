@@ -15,7 +15,7 @@ class AuthService {
     if (!isPasswordValid) {
       throw new Error("Неверный email или пароль");
     }
-    const payload = { id: userData.id, email };
+    const payload = { access: "client", id: userData.id, email };
     const accessToken = await TokenService.generateAccessToken(payload);
     const refreshToken = await TokenService.generateRefreshToken(payload);
 
@@ -50,7 +50,7 @@ class AuthService {
       hashedPassword,
       email,
     });
-    const payload = { email, id };
+    const payload = { access: "client", email, id };
     const accessToken = await TokenService.generateAccessToken(payload);
     const refreshToken = await TokenService.generateRefreshToken(payload);
     await RefreshSessionRepository.createRefreshSession({
@@ -99,7 +99,7 @@ class AuthService {
     const { id, f_name, l_name, email, created, deleted, phone_number } =
       await UserRepository.getClientData(payload.email);
 
-    const actualPayload = { email, id };
+    const actualPayload = { access: "client", email, id };
 
     const accessToken = await TokenService.generateAccessToken(actualPayload);
     const refreshToken = await TokenService.generateRefreshToken(actualPayload);

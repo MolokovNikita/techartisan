@@ -4,6 +4,7 @@ const CardRepository = require("../repositories/cardRepository");
 
 class StatusOfOrderToCardController {
   async create(req, res) {
+    //
     //secured
     try {
       //клиент может только задать статус "Создан" менять как либо по другому не может
@@ -14,8 +15,8 @@ class StatusOfOrderToCardController {
       if (!userInfo) {
         return res.status(400).send("Acces denied");
       }
-      if (userInfo.acces === "client") {
-        if (statusoforder_id !== 5) {
+      if (userInfo.access === "client") {
+        if (statusoforder_id != 5) {
           return res.status(400).send("You can only set status to 'Created'");
         }
         const CLIENT_ID = userInfo.client.id; // user ID from acces token
@@ -50,7 +51,7 @@ class StatusOfOrderToCardController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const sql = "SELECT * FROM statusofordertocard";
@@ -75,7 +76,7 @@ class StatusOfOrderToCardController {
       if (!userInfo) {
         return res.status(400).send("Acces denied");
       }
-      if (userInfo.acces === "client") {
+      if (userInfo.access === "client") {
         const CLIENT_ID = userInfo.client.id; // user ID from acces token
         const cardDetails = await CardRepository.getClientData(cardoforder_id); // получаем из карточки заказа клиент id
         if (!cardDetails) {
@@ -105,7 +106,7 @@ class StatusOfOrderToCardController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const result = await pool.query(
@@ -130,7 +131,7 @@ class StatusOfOrderToCardController {
       const cardoforder_id = req.params.id;
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const result = await pool.query(
@@ -157,7 +158,7 @@ class StatusOfOrderToCardController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const { cardoforder_id, statusoforder_id } = req.body;
@@ -203,7 +204,7 @@ class StatusOfOrderToCardController {
       if (!userInfo) {
         return res.status(400).send("Acces denied");
       }
-      if (userInfo.acces === "client") {
+      if (userInfo.access === "client") {
         if (new_statusoforder_id !== 6) {
           return res
             .status(400)

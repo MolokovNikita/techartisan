@@ -1,16 +1,16 @@
 const pool = require("../config/ormconfig");
 const checkAccess = require("../utils/checkAcces");
 class ServiceController {
+  //secured
   async create(req, res) {
     //allow only for staff
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const { id, price, name } = req.body;
-      const now = new Date().toISOString(); // Преобразование даты в строку в формате ISO
       const sql_insert = `INSERT INTO services (id, price, name) VALUES
         ($1, $2, $3)`;
       const values = [id, price, name];
@@ -20,7 +20,6 @@ class ServiceController {
             // код ошибки 23505 обозначает конфликт уникальности
             return res.status(400).send("Conflict: Data already exists");
           }
-          console.error(err.message);
           return res.status(400).send("Bad request - " + err.message);
         }
         res.send("Data inserted successfully!");
@@ -74,7 +73,7 @@ class ServiceController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const result = await pool.query("SELECT COUNT(*) FROM services");
@@ -96,7 +95,7 @@ class ServiceController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const id = req.params.id;
@@ -119,7 +118,7 @@ class ServiceController {
       //allow only for staff
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const { id, price, name } = req.body;

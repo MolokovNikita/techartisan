@@ -105,7 +105,7 @@ export default function ServiceCard(props) {
               </li>
             </ul>
           </div>
-          {service.status[0].orderstatus !== "Отменен" ? (
+          {service.status[0]?.orderstatus !== "Отменен" ? (
             <div className={styles.cancel_button__container}>
               <a onClick={handleDelete} className={styles.cancel__button}>
                 Отменить запись

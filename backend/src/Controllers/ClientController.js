@@ -7,6 +7,7 @@ const validateResult = require("express-validator");
 const ApiError = require("../exceptions/apiError.js");
 
 const checkAccess = require("../utils/checkAcces");
+const { user } = require("pg/lib/defaults.js");
 
 class ClientController {
   async registration(req, res, next) {
@@ -149,19 +150,19 @@ class ClientController {
   }
   async updatePassword(req, res) {
     const { email, pass, newpass } = req.body;
-    const userData = await UserRepository.getUserData(email);
+    const userData = await UserRepository.getClientData(email);
     if (!userData) {
       return res
         .status(400)
         .send(`("Неудалось найти пользователя с таким email!`);
     }
-    const isPasswordValid = bcrypt.compareSync(pass, userData.pass);
+    const isPasswordValid = bcrypt.compareSync(pass, userData.password);
     if (!isPasswordValid) {
       return res.status(400).send("Указан неверный пароль");
     }
     const hashedPassword = bcrypt.hashSync(newpass, 8);
     try {
-      await pool.query(`UPDATE client SET pass = $1 WHERE email = $2`, [
+      await pool.query(`UPDATE client SET password = $1 WHERE email = $2`, [
         hashedPassword,
         email,
       ]);
@@ -172,7 +173,7 @@ class ClientController {
   }
   async recoverPassword(req, res) {
     const { email, pass, code } = req.body;
-    const userData = await UserRepository.getUserData(email);
+    const userData = await UserRepository.getClientData(email);
     if (!userData) {
       return res
         .status(400)
@@ -191,7 +192,7 @@ class ClientController {
     }
     const hashedPassword = bcrypt.hashSync(pass, 8);
     try {
-      await pool.query(`UPDATE client SET pass = $1 WHERE email = $2`, [
+      await pool.query(`UPDATE client SET password = $1 WHERE email = $2`, [
         hashedPassword,
         email,
       ]);

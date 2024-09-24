@@ -4,13 +4,14 @@ const checkAccess = require("../utils/checkAcces");
 
 class DevicesToCardController {
   async create(req, res) {
+    //
     //secured
-    //allow only for staf
+    //allow only for staff
     //добавлять девайсе к карточке заказов может добавлять только сотрудник
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const { cardoforder_id, devices_id } = req.body;
@@ -38,7 +39,7 @@ class DevicesToCardController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const sql = "SELECT * FROM devicestocard";
@@ -62,7 +63,7 @@ class DevicesToCardController {
       if (!userInfo) {
         return res.status(400).send("Acces denied");
       }
-      if (userInfo.acces === "client") {
+      if (userInfo.access === "client") {
         const CLIENT_ID = userInfo.client.id;
         const cardDetails = await CardRepository.getClientData(cardoforder_id);
         if (!cardDetails) {
@@ -90,6 +91,11 @@ class DevicesToCardController {
   async deleteAll(req, res) {
     //allow only for staff
     try {
+      const authorizationHeader = req.headers.authorization;
+      const userInfo = await checkAccess(authorizationHeader);
+      if (!userInfo || userInfo.access !== "staff") {
+        return res.status(403).json({ message: "Access denied" });
+      }
       const sql_count = "SELECT COUNT(*) FROM devicestocard"; // Подсчитать количество записей в таблице client
       pool.query(sql_count, (err, result) => {
         if (err) {
@@ -116,6 +122,11 @@ class DevicesToCardController {
   async deleteOne(req, res) {
     //allow only for staff
     try {
+      const authorizationHeader = req.headers.authorization;
+      const userInfo = await checkAccess(authorizationHeader);
+      if (!userInfo || userInfo.access !== "staff") {
+        return res.status(403).json({ message: "Access denied" });
+      }
       const cardoforder_id = req.params.id;
       const sql_exist = `SELECT cardoforder_id FROM devicestocard WHERE cardoforder_id = $1`;
       pool.query(sql_exist, [cardoforder_id], (err, result) => {
@@ -141,6 +152,11 @@ class DevicesToCardController {
     //allow only for staff
     //в дальнейшем можно будет реализовать изменение карточки
     try {
+      const authorizationHeader = req.headers.authorization;
+      const userInfo = await checkAccess(authorizationHeader);
+      if (!userInfo || userInfo.access !== "staff") {
+        return res.status(403).json({ message: "Access denied" });
+      }
       const { cardoforder_id, devices_id } = req.body;
       const sql_exist = `SELECT * FROM devicestocard WHERE cardoforder_id = $1 AND devices_id = $2`;
       pool.query(sql_exist, [cardoforder_id, devices_id], (err, result) => {
@@ -168,6 +184,11 @@ class DevicesToCardController {
   async update(req, res) {
     //allow only for staff
     try {
+      const authorizationHeader = req.headers.authorization;
+      const userInfo = await checkAccess(authorizationHeader);
+      if (!userInfo || userInfo.access !== "staff") {
+        return res.status(403).json({ message: "Access denied" });
+      }
       const { cardoforder_id, devices_id, new_devices_id } = req.body;
       // Проверяем, существует ли запись с указанным cardoforder_id и devices_id
       const sql_exist = `SELECT * FROM devicestocard WHERE cardoforder_id = $1 AND devices_id = $2`;

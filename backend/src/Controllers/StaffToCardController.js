@@ -5,11 +5,12 @@ const CardRepository = require("../repositories/cardRepository");
 class StaffToCardController {
   //secured
   async create(req, res) {
+    //
     //allow only for staff
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const { cardoforder_id, staff_id } = req.body;
@@ -36,7 +37,7 @@ class StaffToCardController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const sql = "SELECT * FROM stafftocard";
@@ -61,7 +62,7 @@ class StaffToCardController {
       if (!userInfo) {
         return res.status(400).send("Acces denied");
       }
-      if (userInfo.acces === "client") {
+      if (userInfo.access === "client") {
         const CLIENT_ID = userInfo.client.id;
         const cardDetails = await CardRepository.getClientData(cardoforder_id);
         if (!cardDetails) {
@@ -91,7 +92,7 @@ class StaffToCardController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const sql_count = "SELECT COUNT(*) FROM stafftocard";
@@ -120,7 +121,7 @@ class StaffToCardController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const cardoforder_id = req.params.id;
@@ -149,7 +150,7 @@ class StaffToCardController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const { cardoforder_id, staff_id } = req.body;
@@ -180,14 +181,13 @@ class StaffToCardController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const { cardoforder_id, staff_id, new_staff_id } = req.body;
       const sql_exist = `SELECT * FROM stafftocard WHERE cardoforder_id = $1 AND staff_id = $2`;
       pool.query(sql_exist, [cardoforder_id, staff_id], (err, result) => {
         if (err) {
-          console.error(err.message);
           return res.status(400).send("Error: Database error! " + err.message);
         }
         if (result.rows.length === 0) {
@@ -200,7 +200,6 @@ class StaffToCardController {
           [cardoforder_id, staff_id, new_staff_id],
           (err, result) => {
             if (err) {
-              console.error(err.message);
               return res
                 .status(400)
                 .send("Error: Failed to update record! " + err.message);

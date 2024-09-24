@@ -4,15 +4,15 @@ const checkAccess = require("../utils/checkAcces");
 class StatusOfOrderController {
   //secured
   async create(req, res) {
+    //
     //allow only for staff
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const { id, orderstatus } = req.body;
-      const now = new Date().toISOString(); // Преобразование даты в строку в формате ISO
       const sql_insert = `INSERT INTO statusoforder (id, orderstatus) VALUES
         ($1, $2)`;
       const values = [id, orderstatus];
@@ -70,7 +70,7 @@ class StatusOfOrderController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const result = await pool.query("SELECT COUNT(*) FROM statusoforder");
@@ -93,7 +93,7 @@ class StatusOfOrderController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const id = req.params.id;
@@ -107,7 +107,6 @@ class StatusOfOrderController {
       await pool.query(`DELETE FROM statusoforder WHERE id = $1`, [id]);
       res.send("Your record was deleted successfully!");
     } catch (err) {
-      console.error(err.message);
       return res
         .status(400)
         .send("Error: Failed to delete the record! " + err.message);
@@ -119,7 +118,7 @@ class StatusOfOrderController {
     try {
       const authorizationHeader = req.headers.authorization;
       const userInfo = await checkAccess(authorizationHeader);
-      if (!userInfo || userInfo.acces !== "staff") {
+      if (!userInfo || userInfo.access !== "staff") {
         return res.status(403).json({ message: "Access denied" });
       }
       const { id, orderstatus } = req.body;
@@ -137,7 +136,6 @@ class StatusOfOrderController {
         const sql_update = `UPDATE statusoforder SET orderstatus = $2 WHERE id = $1`;
         pool.query(sql_update, [id, orderstatus], (err, result) => {
           if (err) {
-            console.error(err.message);
             return res
               .status(400)
               .send(

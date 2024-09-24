@@ -30,7 +30,7 @@ function generateVerificationCode() {
 router.post("/send", async (req, res) => {
   const { email } = req.body;
   try {
-    const userData = await UserRepository.getUserData(email);
+    const userData = await UserRepository.getClientData(email);
     if (!userData) {
       return res
         .status(400)
