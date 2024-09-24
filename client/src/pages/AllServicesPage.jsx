@@ -5,17 +5,24 @@ import { AuthContext } from "../context/AuthContext.jsx";
 import { IoIosArrowForward } from "react-icons/io";
 import config from "../config/config.js";
 import http from "../http/instance.js";
+
 function Services(props) {
   const { isAuth } = useContext(AuthContext);
   const { setIsServiceModalOpen, setIsOpen } = props;
   const [services, setServices] = useState([]);
   const [openQuestions, setOpenQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [shownServices, setShownServices] = useState([]);
+  const [visibleCount, setVisibleCount] = useState(10); // Количество видимых услуг
+
+
   useEffect(() => {
     http
       .get(`${config.API_URL}/services`)
       .then((res) => {
-        setServices(res.data);
+        const resultArray = res.data;
+        setServices(resultArray);
+        setShownServices(resultArray.slice(0, 10));
       })
       .catch((e) => {
         console.log(e);
@@ -23,7 +30,13 @@ function Services(props) {
       .finally(() => {
         setIsLoading(false);
       });
-  }, []);
+  },[]);
+
+  useEffect(()=>{
+    if(visibleCount > services.length) return;
+      setShownServices(services.slice(0, visibleCount));
+  },[visibleCount])
+  
 
   const toggleQuestion = (index) => {
     setOpenQuestions((prev) =>
@@ -31,8 +44,13 @@ function Services(props) {
     );
   };
 
+  const handleShowMore = () => {
+    const maxLen = services.length;
+    if(visibleCount >= maxLen) return;
+    setVisibleCount((prevCount) => prevCount + 10); // Увеличить количество видимых элементов
+  };
+
   const questionsAndAnswers = [
-    // todo вынести логику в бд
     {
       id: 1,
       question: "Сколько времени занимает ремонт?",
@@ -69,20 +87,28 @@ function Services(props) {
           </div>
         ) : (
           <div className={styles.services_card}>
-            <div className={styles.services_container_1}>
-              <ol className={styles.services_list}>
-                {services.map((item) => (
-                  <li key={item.id}> {item.name} </li>
-                ))}
-              </ol>
+            <div className={styles.services_card__container}>
+              <div className={styles.services_container_1}>
+                <ol className={styles.services_list}>
+                  {shownServices.map((item) => (
+                    <li key={item.id}>{item.name}</li>
+                  ))}
+                </ol>
+              </div>
+              <div className={styles.services_container_2}>
+                <ol className={styles.services_list}>
+                  {shownServices.map((item) => (
+                    <li key={item.id}>{item.price}р.</li>
+                  ))}
+                </ol>
+              </div>
             </div>
-            <div className={styles.services_container_2}>
-              <ol className={styles.services_list}>
-                {services.map((item) => (
-                  <li key={item.id}> {item.price}р.</li>
-                ))}
-              </ol>
-            </div>
+
+            {visibleCount < services.length && (
+              <div className={styles.show_more_btn__container}>
+                <button onClick={handleShowMore}>Показать еще</button>
+              </div>
+            )}
           </div>
         )}
         <div className={styles.button_container}>
@@ -115,7 +141,9 @@ function Services(props) {
                     <div className={styles.question_text}>
                       {qa.question}
                       <div
-                        className={`${styles.arrowIcon} ${openQuestions.includes(index) ? styles.rotate : ""}`}
+                        className={`${styles.arrowIcon} ${
+                          openQuestions.includes(index) ? styles.rotate : ""
+                        }`}
                       >
                         <IoIosArrowForward />
                       </div>
@@ -135,3 +163,4 @@ function Services(props) {
 }
 
 export default Services;
+  

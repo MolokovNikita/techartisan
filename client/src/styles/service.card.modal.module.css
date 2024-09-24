@@ -13,6 +13,14 @@
   align-items: center;
 }
 
+.select__office div:last-child{
+  max-height: 200px; 
+  overflow-y: auto; 
+}
+.select__office div:first-child{
+  max-height: 200px; 
+  overflow-y: auto; 
+}
 .modalContainer {
   display: flex;
   flex-direction: column;
